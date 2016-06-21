@@ -58,15 +58,6 @@
 			<version>2.1.0-b03</version>
 		</dependency>
 
-		<!-- Import the ejb project so that the JSF managed bean can use the EJB -->
-		<dependency>
-			<groupId>com.petstore</groupId>
-			<artifactId>petstoreEJB</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<type>ejb</type>
-			<scope>provided</scope>
-		</dependency>
-
 		<!-- Import the CDI API, we use provided scope as the API is included in 
 			WildFly -->
 		<dependency>

@@ -5,11 +5,13 @@
                                  http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
 	version="1.0">
 
-	<persistence-unit name="Petstore-PU"
-		transaction-type="RESOURCE_LOCAL">
-		
+	<persistence-unit name="Petstore-PU" transaction-type="RESOURCE_LOCAL">
+
 		<!-- <jta-data-source>java:/datasources/PetstoreDS</jta-data-source> -->
 		<!-- <jar-file>lib/eccl-common.jar</jar-file> -->
+		<class>org.petstore.common.model.User</class>
+		<class>org.petstore.common.model.Product</class>
+		<class>org.petstore.common.model.Order</class>
 
 		<properties>
 			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />

@@ -1,8 +1,8 @@
 package org.petstore.ejb.service.impl;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 
 import org.petstore.common.model.Order;
 import org.petstore.ejb.dao.OrderDAO;
@@ -12,7 +12,7 @@ import org.petstore.ejb.service.OrderService;
 
 @Stateless
 public class OrderServiceImpl extends GenericServiceImpl<Integer, Order> implements OrderService{
-	@Inject
+	@EJB
 	private OrderDAO orderDAO;
 
 	@PostConstruct
