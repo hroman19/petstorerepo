@@ -1,0 +1,30 @@
+  @import "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.0.8/semantic.min.css";
+          
+            .agenda-item {
+                margin-left: 10px;
+                line-height: 1.4em !important;
+            }
+            
+         
+            
+            .pusher {
+                
+            }
+            
+           
+            
+            .save-button {
+                position: fixed;
+                right: 10px;
+                bottom: 12px;
+            }
+            
+            .pusher {
+                margin-bottom: 80px;
+            }
+            
+           
+            
+           
+            
+           
