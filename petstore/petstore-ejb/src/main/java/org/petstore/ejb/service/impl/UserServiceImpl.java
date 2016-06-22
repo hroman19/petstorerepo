@@ -12,6 +12,7 @@ import org.petstore.ejb.service.UserService;
 
 @Stateless
 public class UserServiceImpl extends GenericServiceImpl<Integer, User> implements UserService {
+	
 	@EJB
 	private UserDAO userDAO;
 
@@ -26,5 +27,10 @@ public class UserServiceImpl extends GenericServiceImpl<Integer, User> implement
 
 	public void setUserDAO(UserDAO userDAO) {
 		this.userDAO = userDAO;
+	}
+
+	@Override
+	public User getByEmail(String email) {
+		return userDAO.getByEmail(email);
 	}
 }

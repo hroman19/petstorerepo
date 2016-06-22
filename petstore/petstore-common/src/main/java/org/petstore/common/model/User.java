@@ -39,8 +39,6 @@ public class User implements Serializable {
 		super();
 	}
 	
-	
-	
 	public Integer getId() {
 		return id;
 	}

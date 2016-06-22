@@ -4,4 +4,6 @@ import org.petstore.common.model.User;
 
 public interface UserDAO extends GenericDAO<Integer, User>{
 	
+	public User getByEmail(String email);
+	
 }
