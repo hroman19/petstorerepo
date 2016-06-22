@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+	<div>
+		<div class="ui menu inverted navbar page grid"
+			style="margin-bottom: 0px; min-height: 60px;">
+			<div class="logo-wrap-div">
+				<h:graphicImage value="resources/images/logo.jpg" class="logo-img" />
+			</div>
+			<div class="right menu">
+				<div class="item">
+					<div class="ui left icon input">
+						<i class="mail outline icon"></i>
+						<h:inputText p:placeholder="Email" />
+					</div>
+				</div>
+				<div class="item">
+					<div class="ui left icon input">
+						<i class="lock icon"></i>
+						<h:inputSecret p:placeholder="Password" />
+					</div>
+				</div>
+				<div class="item">
+					<h:commandButton class="ui green button" value="Sign in"/>
+				</div>
+				<div class="item">
+					<h:commandButton class="ui blue button" value="Sign up" />
+				</div>
+			</div>
+		</div>
+	</div>
+</ui:composition>
