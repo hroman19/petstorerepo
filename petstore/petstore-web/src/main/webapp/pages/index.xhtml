@@ -2,7 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 <h:head>
 	<title>Jumbotron</title>
@@ -24,7 +26,6 @@
 				<div class="ui basic segment">
 					<h1 class="ui header">Available Activities</h1>
 
-
 					<div class="ui icon top left pointing dropdown button blue">
 						<i class="filter icon"></i> <span class="text">All Dates</span>
 						<div class="menu">
@@ -35,8 +36,6 @@
 							<div class="item">Jan 26 - Tuesday</div>
 						</div>
 					</div>
-
-
 
 					<div class="ui icon top left pointing dropdown button blue">
 						<i class="sort content descending icon"></i> <span class="text">Sort
@@ -219,8 +218,6 @@
 			</div>
 		</div>
 
-
-
 		<div class="ui modal activity-modal">
 			<i class="close icon"></i>
 			<div class="header">Profile Picture</div>
@@ -285,10 +282,16 @@
 			</div>
 		</div>
 	</div>
+
 	<!--  footer  -->
 	<ui:include src="footer.xhtml" />
 	<!--  end of footer  -->
+
 	<script>
+		function showSignUpModal() {
+			$('.sign-up-modal').modal('show');
+		}
+
 		$('.ui.dropdown').dropdown();
 
 		$('.add-button,.agenda-item').click(function() {
