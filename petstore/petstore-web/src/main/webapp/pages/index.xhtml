@@ -22,8 +22,7 @@
 		<div class="pusher">
 			<div class="ui container">
 				<div class="ui basic segment">
-					<h1 class="ui header">Available Activities</h1>
-
+					<h1 class="ui header">Available Products</h1>
 
 					<div class="ui icon top left pointing dropdown button blue">
 						<i class="filter icon"></i> <span class="text">All Dates</span>
@@ -36,8 +35,6 @@
 						</div>
 					</div>
 
-
-
 					<div class="ui icon top left pointing dropdown button blue">
 						<i class="sort content descending icon"></i> <span class="text">Sort
 							Activities</span>
@@ -48,172 +45,36 @@
 						</div>
 					</div>
 
+
+					<!-- PRODUCTS -->
+
 					<div class="ui divided items">
 						<h3 class="ui header">Saturday January 23</h3>
-						<div class="item">
-							<div class="image">
-								<h:graphicImage
-									value="http://icons.indats.com/sewlong/skiing.jpg" />
-							</div>
-							<div class="content">
-								<a class="header">Skiing</a>
-								<div class="meta">
-									<b>Saturday January 23</b> 9:00 am - 10:30 am
+
+						<ui:repeat value="#{productController.getProducts()}"
+							var="product">
+							<div class="item">
+								<div class="image">
+									<h:graphicImage
+										value="http://icons.indats.com/sewlong/skiing.jpg" />
 								</div>
-								<div class="description">
-									<p>Lorem ipsum dolor sit amet, pri ei sale sonet ornatus.
-										Usu dicunt omnium cu. In vix dicam fuisset adipiscing, cibo
-										delenit ius id, eu regione fuisset vix. Ne modo eruditi vim.
-										Mea nostro mentitum conceptam in. Ei cum quaestio eleifend
-										oportere.</p>
-								</div>
-
-
-
-								<div class="extra">
-									<div class="ui right floated positive button add-button">
-										Added <i class="right checkmark icon"></i>
+								<div class="content">
+									<a class="header">#{product.name}</a>
+									<div class="meta">
+										<b>Price:</b> #{product.price}
 									</div>
-									<div class="ui label">Intermediate Skill</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="item">
-							<div class="image">
-								<h:graphicImage
-									value="http://icons.indats.com/sewlong/massage.jpg" />
-							</div>
-							<div class="content">
-								<a class="header">Massage</a>
-								<div class="meta">
-									<b>Saturday January 23</b> 9:30 am - 10:20 am
-								</div>
-								<div class="description">
-									<p>Lorem ipsum dolor sit amet, pri ei sale sonet ornatus.
-										Usu dicunt omnium cu. In vix dicam fuisset adipiscing, cibo
-										delenit ius id, eu regione fuisset vix. Ne modo eruditi vim.
-										Mea nostro mentitum conceptam in. Ei cum quaestio eleifend
-										oportere.</p>
-								</div>
-								<div class="extra">
-									<div class="ui right floated primary button add-button">
-										Add Activity <i class="right chevron icon"></i>
+									<div class="description">
+										<p>#{product.description}</p>
 									</div>
-									<div class="ui label">Relaxing</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="item">
-							<div class="image">
-								<h:graphicImage
-									value="http://icons.indats.com/sewlong/illseeyouinmydreams2.jpg" />
-							</div>
-							<div class="content">
-								<a class="header">I'll See You In My Dreams</a>
-								<div class="meta">
-									<b>Saturday January 23</b> 2:30 pm - 4:30 pm
-								</div>
-								<div class="description">
-									<p>Lorem ipsum dolor sit amet, pri ei sale sonet ornatus.
-										Usu dicunt omnium cu. In vix dicam fuisset adipiscing, cibo
-										delenit ius id, eu regione fuisset vix. Ne modo eruditi vim.
-										Mea nostro mentitum conceptam in. Ei cum quaestio eleifend
-										oportere.</p>
-								</div>
-								<div class="extra">
-									<div class="ui right floated primary button add-button">
-										Add Activity <i class="right chevron icon"></i>
+									<div class="extra">
+										<div class="ui right floated positive button add-button">
+											Added <i class="right checkmark icon"></i>
+										</div>
+										<div class="ui label">#{product.type}</div>
 									</div>
-									<div class="ui label">2 Hours</div>
-									<div class="ui label">Drama</div>
-									<div class="ui label">Rated R</div>
 								</div>
 							</div>
-						</div>
-
-						<div class="item">
-							<div class="image">
-								<h:graphicImage
-									value="http://icons.indats.com/sewlong/dogsled.jpg" />
-							</div>
-							<div class="content">
-								<a class="header">Dog Sledding</a>
-								<div class="meta">
-									<b>Saturday January 23</b> 3:30 pm - 5:00 pm
-								</div>
-								<div class="description">
-									<p>Lorem ipsum dolor sit amet, pri ei sale sonet ornatus.
-										Usu dicunt omnium cu. In vix dicam fuisset adipiscing, cibo
-										delenit ius id, eu regione fuisset vix. Ne modo eruditi vim.
-										Mea nostro mentitum conceptam in. Ei cum quaestio eleifend
-										oportere.</p>
-								</div>
-								<div class="extra">
-									<div class="ui right floated primary button add-button">
-										Add Activity <i class="right chevron icon"></i>
-									</div>
-									<div class="ui label">21 and Over</div>
-								</div>
-							</div>
-						</div>
-
-
-						<div class="item">
-							<div class="image">
-								<h:graphicImage
-									value="http://icons.indats.com/sewlong/crosscountry.jpg" />
-							</div>
-							<div class="content">
-								<a class="header">Cross Country Skiing</a>
-								<div class="meta">
-									<b>Saturday January 23</b> 12:00 pm - 1:00 pm
-								</div>
-								<div class="description">
-									<p>Lorem ipsum dolor sit amet, pri ei sale sonet ornatus.
-										Usu dicunt omnium cu. In vix dicam fuisset adipiscing, cibo
-										delenit ius id, eu regione fuisset vix. Ne modo eruditi vim.
-										Mea nostro mentitum conceptam in. Ei cum quaestio eleifend
-										oportere.</p>
-								</div>
-								<div class="extra">
-									<div class="ui right floated primary button add-button">
-										Add Activity <i class="right chevron icon"></i>
-									</div>
-									<div class="ui label">Limited</div>
-								</div>
-							</div>
-						</div>
-
-						<h3 class="ui header">Sunday January 24</h3>
-
-						<div class="item">
-							<div class="image">
-								<h:graphicImage
-									value="http://icons.indats.com/sewlong/skiing.jpg" />
-							</div>
-							<div class="content">
-								<a class="header">Skiing</a>
-								<div class="meta">
-									<b>Sunday January 24</b> 9:00 am - 10:30 am
-								</div>
-								<div class="description">
-									<p>Lorem ipsum dolor sit amet, pri ei sale sonet ornatus.
-										Usu dicunt omnium cu. In vix dicam fuisset adipiscing, cibo
-										delenit ius id, eu regione fuisset vix. Ne modo eruditi vim.
-										Mea nostro mentitum conceptam in. Ei cum quaestio eleifend
-										oportere.</p>
-								</div>
-								<div class="extra">
-									<div class="ui right floated primary button add-button">
-										Add Activity <i class="right chevron icon"></i>
-									</div>
-									<div class="ui label">Limited</div>
-								</div>
-							</div>
-						</div>
-
+						</ui:repeat>
 					</div>
 				</div>
 			</div>
