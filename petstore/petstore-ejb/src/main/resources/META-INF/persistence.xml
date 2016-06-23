@@ -15,9 +15,9 @@
 
 		<properties>
 			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
-			<property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5433/petstore" />
-			<property name="hibernate.connection.username" value="postgres" />
-			<property name="hibernate.connection.password" value="Password1111" />
+			<property name="hibernate.connection.url" value="jdbc:postgresql://localhost:10.25.10.17/petstore" />
+			<property name="hibernate.connection.username" value="admin" />
+			<property name="hibernate.connection.password" value="adminadmin" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
