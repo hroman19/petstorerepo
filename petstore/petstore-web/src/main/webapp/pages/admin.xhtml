@@ -2,18 +2,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:b="http://butterfaces.org/components">
 
 <h:head>
 	<title>Jumbotron</title>
 	<h:outputStylesheet library="css" name="style.css" />
-	<h:outputScript library="js" name="jquery.js" />
-	<h:outputScript library="js" name="semantic.min.js" />
+	<!-- 	<h:outputScript library="js" name="jquery.js" /> -->
+	<!-- <h:outputScript library="js" name="semantic.min.js" /> -->
 	<h:outputStylesheet library="css" name="semantic.min.css" />
 	<h:outputStylesheet library="css" name="main.css" />
 </h:head>
 
-<h:body>
+<f:view>
 	<!--  header  -->
 	<ui:include src="header.xhtml" />
 	<!--  end of header  -->
@@ -47,11 +50,11 @@
 							<div class="item">Categories</div>
 						</div>
 					</div>
-					
+
 					<div class="ui right internal rail">
-					<div class="circular ui icon button">
-					<i class="icon settings"></i>
-					</div>
+						<div id="openModalBtn" class="circular ui icon button">
+							<i class="icon plus"></i>
+						</div>
 					</div>
 
 
@@ -89,23 +92,90 @@
 			</div>
 		</div>
 
-		<div class="ui basic save-modal modal">
-			<div class="ui active">
-				<div class="ui large text loader">Just one sec, we're updating
-					your agenda!</div>
+		<div id="newProductModal" class="ui modal">
+			<i class="close icon"></i>
+			<div class="header">New product</div>
+			<div class="content">
+				<h:form styleClass="" class="ui form">
+					<div class="field">
+						<label>Name</label>
+						<h:inputText type="text" name="first-name"
+							a:placeholder="Enter name" />
+					</div>
+					<div class="field">
+						<label>Price</label>
+						<h:inputText type="text" name="last-name"
+							a:placeholder="Enter price, $" />
+					</div>
+
+					<div class="field">
+						<label>Category</label>
+						<p:autoComplete
+							value="#{autoComplete.selectedCategory}"
+							completeMethod="#{autoComplete.complete}"
+							var="category"
+							itemLabel="#{category}" itemValue="#{category}"
+							converter="categoryConverter" minQueryLength="0" size="30"
+							queryDelay="0" scrollHeight="400" />
+					</div>
+
+
+
+
+				</h:form>
+			</div>
+			<div class="actions">
+				<h:commandButton styleClass="ui button" value="Submit"
+					action="#{adminController.addProduct}" onclick="return check();" />
 			</div>
 		</div>
+
 	</div>
+	
+	<h:form styleClass="" class="ui form">
+					<div class="field">
+						<label>Name</label>
+						<h:inputText type="text" name="first-name"
+							a:placeholder="Enter name" />
+					</div>
+					<div class="field">
+						<label>Price</label>
+						<h:inputText type="text" name="last-name"
+							a:placeholder="Enter price, $" />
+					</div>
+
+					<div class="field">
+						<label>Category</label>
+						<p:autoComplete
+							value="#{autoComplete.selectedCategory}"
+							completeMethod="#{autoComplete.complete}"
+							var="category"
+							itemLabel="#{category}" itemValue="#{category}"
+							converter="categoryConverter" minQueryLength="0" size="30"
+							queryDelay="0" scrollHeight="400" />
+					</div>
+
+
+
+
+				</h:form>
+				
 	<!--  footer  -->
 	<ui:include src="footer.xhtml" />
 	<!--  end of footer  -->
 	<script>
+		$('.ui.modal').modal();
+		$('#openModalBtn').click(function() {
+			$('#newProductModal').modal('show');
+			;
+		});
+
 		$('.ui.dropdown').dropdown();
 
 		$('.add-button,.agenda-item').click(function() {
 			$('.activity-modal').modal('show');
 		});
 	</script>
-</h:body>
+</f:view>
 
 </html>

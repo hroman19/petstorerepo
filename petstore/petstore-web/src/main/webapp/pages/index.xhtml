@@ -3,10 +3,11 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 <h:head>
-	<title>products</title>
+	<title>Petstore</title>
 	<h:outputStylesheet library="css" name="style.css" />
 	<h:outputScript library="js" name="jquery.js" />
 	<h:outputScript library="js" name="semantic.min.js" />
@@ -85,28 +86,39 @@
 										<h:panelGroup
 											rendered="#{empty productController.getAllOrdersByUserIdAndProductId(2,product.id)}">
 											<h:form>
-												<h:commandLink class="ui right floated positive button add-button"
+												<h:commandLink
+													class="ui right floated positive button add-button"
 													action="#{productController.addToBucket(2,product.id)}">
-													Add to Bucket  <h:outputText value="&#160;" /><h:outputText value="&#160;" /><i class="bitbucket icon" />
+													Add to Bucket  <h:outputText value="&#160;" />
+													<h:outputText value="&#160;" />
+													<i class="bitbucket icon" />
 												</h:commandLink>
 											</h:form>
-											
+
 											<h:form>
-    <p:growl id="growl" life="2000" />
-     
-    <p:commandButton value="Ajax Submit" id="ajax" update="growl" actionListener="#{buttonView.buttonAction}" styleClass="ui-priority-primary" />
- 
-    <p:commandButton value="Non-Ajax Submit" id="nonAjax" actionListener="#{buttonView.buttonAction}" ajax="false" />
- 
-    <p:commandButton value="With Icon" id="withIcon" actionListener="#{buttonView.buttonAction}" update="growl" icon="ui-icon-disk" />
- 
-    <p:commandButton actionListener="#{buttonView.buttonAction}" id="iconOnly" update="growl" icon="ui-icon-disk" title="Icon Only" />
- 
-    <p:commandButton value="Disabled" id="disabled" disabled="true" />
-</h:form>
-											
-											
-											
+												<p:growl id="growl" life="2000" />
+
+												<p:commandButton value="Ajax Submit" id="ajax"
+													update="growl" actionListener="#{buttonView.buttonAction}"
+													styleClass="ui-priority-primary" />
+
+												<p:commandButton value="Non-Ajax Submit" id="nonAjax"
+													actionListener="#{buttonView.buttonAction}" ajax="false" />
+
+												<p:commandButton value="With Icon" id="withIcon"
+													actionListener="#{buttonView.buttonAction}" update="growl"
+													icon="ui-icon-disk" />
+
+												<p:commandButton actionListener="#{buttonView.buttonAction}"
+													id="iconOnly" update="growl" icon="ui-icon-disk"
+													title="Icon Only" />
+
+												<p:commandButton value="Disabled" id="disabled"
+													disabled="true" />
+											</h:form>
+
+
+
 										</h:panelGroup>
 
 										<div class="ui teal tag label">#{product.type}</div>
@@ -125,8 +137,6 @@
 
 
 
-
-
 		<div class="ui basic save-modal modal">
 			<div class="ui active">
 				<div class="ui large text loader">Just one sec, we're updating
@@ -138,6 +148,10 @@
 	<ui:include src="footer.xhtml" />
 	<!--  end of footer  -->
 	<script>
+		function showSignUpModal() {
+			$('.sign-up-modal').modal('show');
+		}
+
 		$('.ui.dropdown').dropdown();
 
 		$('.add-button,.agenda-item').click(function() {

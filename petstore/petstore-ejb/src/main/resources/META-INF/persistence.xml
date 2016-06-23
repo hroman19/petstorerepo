@@ -18,7 +18,7 @@
 			<property name="hibernate.connection.url" value="jdbc:postgresql://10.25.10.17:5432/petstore" />
 			<property name="hibernate.connection.username" value="admin" />
 			<property name="hibernate.connection.password" value="adminadmin" />
-			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 		</properties>
