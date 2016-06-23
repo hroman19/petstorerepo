@@ -8,9 +8,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 @Entity
 @Table(name="order_ps")
+@NamedQueries({ 
+	 
+	 @NamedQuery(name = "Order.getAllOrdersByUserId", query = "SELECT o FROM Order o WHERE o.userId = :userId"),
+	 
+	})
 public class Order implements Serializable {
 
 	@Id
@@ -19,18 +28,16 @@ public class Order implements Serializable {
 
 	@Column (name="user_id")
 	private Integer userId;
-	
-	@Column (name="product_id")
-	private Integer productId;
+
+	@ManyToOne
+    @JoinColumn(name="product_id", nullable=false, updatable=false)
+	private Product product;
 	
 	@Column(name="time")
 	private Date timeOfPurchase;
 	
 	@Column(name="status")
 	private String status;
-	
-	@Column(name ="is_deleted")
-	private Boolean isDeleted;
 
 	public Order() {
 		super();
@@ -52,12 +59,12 @@ public class Order implements Serializable {
 		this.userId = userId;
 	}
 
-	public Integer getProductId() {
-		return productId;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setProductId(Integer productId) {
-		this.productId = productId;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	public Date getTimeOfPurchase() {
@@ -76,18 +83,10 @@ public class Order implements Serializable {
 		this.status = status;
 	}
 
-	public Boolean getIsDeleted() {
-		return isDeleted;
-	}
-
-	public void setIsDeleted(Boolean isDeleted) {
-		this.isDeleted = isDeleted;
-	}
-
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", userId=" + userId + ", productId=" + productId + ", timeOfPurchase="
-				+ timeOfPurchase + ", status=" + status + ", isDeleted=" + isDeleted + "]";
+		return "Order [id=" + id + ", userId=" + userId + ", productId=" + product.getId() + ", timeOfPurchase="
+				+ timeOfPurchase + ", status=" + status + "]";
 	}
 
 }

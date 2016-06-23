@@ -1,18 +1,27 @@
 package org.petstore.ejb.dao.impl;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
 
 import org.petstore.common.model.Order;
 import org.petstore.ejb.dao.OrderDAO;
-
 
 @Stateless
 public class OrderDAOImpl extends GenericDAOImpl<Integer, Order> implements OrderDAO, Serializable {
 
 	public OrderDAOImpl() {
 		super(Order.class);
+	}
+
+	@Override
+	public List<Order> getByUserId(Integer userId) {
+		Query query = entityManager.createNamedQuery("Order.getAllOrdersByUserId");
+		query.setParameter("userId", 2);
+		return query.getResultList();
 	}
 
 }

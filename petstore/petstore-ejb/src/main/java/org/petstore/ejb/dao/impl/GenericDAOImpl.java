@@ -41,16 +41,23 @@ public class GenericDAOImpl<PK, E extends Serializable> implements GenericDAO<PK
 
 	@Override
 	public void add(E entity) {
+		entityManager.getTransaction().begin();
 		entityManager.persist(entity);
+		entityManager.getTransaction().commit();
 	}
 	
 	@Override
 	public E update(E entity) {
-		return entityManager.merge(entity);
+		entityManager.getTransaction().begin();
+		E e = entityManager.merge(entity);
+		entityManager.getTransaction().commit();
+		return e;
 	}
 
 	@Override
 	public void delete(E entity) {
-		entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
+		entityManager.getTransaction().begin();
+		entityManager.remove(entity);
+		entityManager.getTransaction().commit();
 	}
 }
