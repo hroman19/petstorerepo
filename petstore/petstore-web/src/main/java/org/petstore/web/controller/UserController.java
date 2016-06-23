@@ -25,40 +25,8 @@ public class UserController {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-	public String getUserFirstName() {
-		return user.getFirstName();
-	}
-
-	public void setUserFirstName(String firstName) {
-		user.setFirstName(firstName);
-	}
-
-	public String getUserLastName() {
-		return user.getFirstName();
-	}
-
-	public void setUserLastName(String lastName) {
-		user.setLastName(lastName);
-	}
-
-	public String getUserEmail() {
-		return user.getEmail();
-	}
-
-	public void setUserEmail(String email) {
-		user.setEmail(email);
-	}
-
-	public void setUserPassword(String password) {
-		user.setPassword(password);
-	}
-
-	public String getUserPassword() {
-		return user.getPassword();
-	}
 	
-	public void printUser(){
-		System.out.println(user.toString());
+	public void signUp(){
+		userService.add(user);
 	}
 }

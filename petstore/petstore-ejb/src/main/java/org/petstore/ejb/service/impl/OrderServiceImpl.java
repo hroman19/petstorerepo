@@ -1,5 +1,7 @@
 package org.petstore.ejb.service.impl;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -26,6 +28,11 @@ public class OrderServiceImpl extends GenericServiceImpl<Integer, Order> impleme
 
 	public void setOrderDAO(OrderDAO orderDAO) {
 		this.orderDAO = orderDAO;
+	}
+
+	@Override
+	public List<Order> getAllOrdersByUserIdAndProductId(Integer userID, Integer productID) {		
+		return orderDAO.getAllOrdersByUserIdAndProductId(userID, productID);
 	}
 	
 	
