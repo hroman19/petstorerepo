@@ -4,3 +4,4 @@
 /WebContent
 /.settings
 /bin/
+*.tern-project

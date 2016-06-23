@@ -6,5 +6,4 @@
 		<pattern value="/admin" />
 		<view-id value="/faces/pages/admin.xhtml" />
 	</url-mapping>
-
 </pretty-config>

@@ -46,12 +46,16 @@
 					</div>
 
 
+				
+
+
 					<!-- PRODUCTS -->
 
 					<div class="ui divided items">
 						<h3 class="ui header">Saturday January 23</h3>
 
-						<ui:repeat value="#{productController.getProducts()}" var="product">
+						<ui:repeat value="#{productController.getProducts()}"
+							var="product">
 							<div class="item">
 								<div class="image">
 									<h:graphicImage
@@ -60,20 +64,32 @@
 								<div class="content">
 									<a class="header">#{product.name}</a>
 									<div class="meta">
-										<b>Saturday January 23</b> 9:00 am - 10:30 am
+										<b>Price:</b> #{product.price}
 									</div>
+
 									<div class="description">
-										<p>Lorem ipsum dolor sit amet, pri ei sale sonet ornatus.
-											Usu dicunt omnium cu. In vix dicam fuisset adipiscing, cibo
-											delenit ius id, eu regione fuisset vix. Ne modo eruditi vim.
-											Mea nostro mentitum conceptam in. Ei cum quaestio eleifend
-											oportere.</p>
+										<p>#{product.description}</p>
 									</div>
+
 									<div class="extra">
-										<div class="ui right floated positive button add-button">
-											Added <i class="right checkmark icon"></i>
-										</div>
-										<div class="ui label">Intermediate Skill</div>
+
+										<!-- If product is added to bucket -->
+										<h:panelGroup
+											rendered="#{not empty productController.getAllOrdersByUserIdAndProductId(2,product.id)}">
+													<div class="ui right floated positive button add-button">
+														Added <i class="right checkmark icon"></i>
+													</div>
+										</h:panelGroup>
+										<!-- If product is NOT added to bucket -->
+										<h:panelGroup
+											rendered="#{empty productController.getAllOrdersByUserIdAndProductId(2,product.id)}">
+											<div class="ui right floated  orange button add-button">
+												Add to bucket <i class="right bitbucket  icon"></i>
+											</div>
+										</h:panelGroup>
+
+
+										<div class="ui label">#{product.type}</div>
 									</div>
 								</div>
 							</div>
@@ -85,58 +101,7 @@
 
 
 
-		<div class="ui modal activity-modal">
-			<i class="close icon"></i>
-			<div class="header">Profile Picture</div>
-			<div class="image content">
-				<div class="ui medium image">
-					<h:graphicImage
-						value="http://icons.indats.com/sewlong/skiing-modal.jpg" />
-				</div>
-				<div class="description">
-					<div class="ui header">Skiing</div>
-					<p>
-						<b>Sunday January 23</b> 9:00 am to 10:00 am
-					</p>
-					<p>Lorem ipsum dolor sit amet, pri ei sale sonet ornatus. Usu
-						dicunt omnium cu. In vix dicam fuisset adipiscing, cibo delenit
-						ius id, eu regione fuisset vix. Ne modo eruditi vim. Mea nostro
-						mentitum conceptam in. Ei cum quaestio eleifend oportere.</p>
 
-					<h3>Select People</h3>
-
-					<div class="ui relaxed list">
-						<div class="item">
-							<div class="ui master checkbox">
-								<h:selectBooleanCheckbox />
-								<label>All</label>
-							</div>
-							<div class="list">
-								<div class="item">
-									<div class="ui child checkbox">
-										<h:selectBooleanCheckbox />
-										<label>Justin Jones</label>
-									</div>
-								</div>
-								<div class="item">
-									<div class="ui child checkbox">
-										<h:selectBooleanCheckbox />
-										<label>Hollie Jones</label>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
-			<div class="actions">
-				<div class="ui black deny button">Cancel</div>
-				<div class="ui positive right labeled icon button">
-					Save <i class="checkmark icon"></i>
-				</div>
-			</div>
-		</div>
 
 
 

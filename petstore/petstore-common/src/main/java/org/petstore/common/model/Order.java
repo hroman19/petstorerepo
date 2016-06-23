@@ -13,30 +13,30 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
 @Entity
-@Table(name="order_ps")
-@NamedQueries({ 
-	 
-	 @NamedQuery(name = "Order.getAllOrdersByUserId", query = "SELECT o FROM Order o WHERE o.userId = :userId"),
-	 
-	})
+@Table(name = "order_ps")
+@NamedQueries({
+		@NamedQuery(name = "Order.getAllOrdersByUserId", query = "SELECT o FROM Order o WHERE o.userId = :userId"),
+		@NamedQuery(name = "Order.getAllOrdersByUserIdAndProductId", query = "SELECT o FROM Order o WHERE o.userId = :userID AND o.product.id = :productID"),
+})
 public class Order implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	@Column (name="user_id")
+	@Column(name = "user_id")
 	private Integer userId;
 
 	@ManyToOne
-    @JoinColumn(name="product_id", nullable=false, updatable=false)
+	@JoinColumn(name = "product_id", nullable = false, updatable = false)
 	private Product product;
-	
-	@Column(name="time")
+
+	@Column(name = "time")
 	private Date timeOfPurchase;
-	
-	@Column(name="status")
+
+	@Column(name = "status")
 	private String status;
 
 	public Order() {
@@ -82,11 +82,4 @@ public class Order implements Serializable {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-	@Override
-	public String toString() {
-		return "Order [id=" + id + ", userId=" + userId + ", productId=" + product.getId() + ", timeOfPurchase="
-				+ timeOfPurchase + ", status=" + status + "]";
-	}
-
 }

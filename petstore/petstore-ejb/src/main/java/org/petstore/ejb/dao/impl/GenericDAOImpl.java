@@ -60,4 +60,10 @@ public class GenericDAOImpl<PK, E extends Serializable> implements GenericDAO<PK
 		entityManager.remove(entity);
 		entityManager.getTransaction().commit();
 	}
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	
 }

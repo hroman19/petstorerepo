@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
 
 import org.petstore.common.model.Order;
 import org.petstore.ejb.dao.OrderDAO;
@@ -22,6 +21,19 @@ public class OrderDAOImpl extends GenericDAOImpl<Integer, Order> implements Orde
 		Query query = entityManager.createNamedQuery("Order.getAllOrdersByUserId");
 		query.setParameter("userId", 2);
 		return query.getResultList();
+	}
+	@Override
+	public List<Order> getAllOrdersByUserIdAndProductId(Integer userID, Integer productID) {
+		Query query = getEntityManager().createNamedQuery("Order.getAllOrdersByUserIdAndProductId");
+		query.setParameter("userID", userID);
+		query.setParameter("productID", productID);
+		List<Order> results = query.getResultList();
+		
+		for (Order order : results) {
+			System.out.println(order);
+		}
+				
+		return results;
 	}
 
 }

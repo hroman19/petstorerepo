@@ -32,5 +32,10 @@ public class OrderServiceImpl extends GenericServiceImpl<Integer, Order> impleme
 	public List<Order> getByUserId(Integer userId) {
 		return orderDAO.getByUserId(userId);
 	}
+
+	@Override
+	public List<Order> getAllOrdersByUserIdAndProductId(Integer userID, Integer productID) {		
+		return orderDAO.getAllOrdersByUserIdAndProductId(userID, productID);
+	}
 	
 }
