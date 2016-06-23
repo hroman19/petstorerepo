@@ -7,7 +7,9 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import org.petstore.common.model.Order;
 import org.petstore.common.model.Product;
+import org.petstore.ejb.service.OrderService;
 import org.petstore.ejb.service.ProductService;
 
 @ManagedBean(name = "productController")
@@ -16,6 +18,8 @@ public class ProductController implements Serializable {
 
 	@EJB
 	private ProductService productService;
+	@EJB
+	private OrderService orderService;
 
 	public List<Product> getProducts() {
 		return productService.getAll();
@@ -29,6 +33,10 @@ public class ProductController implements Serializable {
 	public void restoreProduct(Product product) {
 		product.setIsDeleted(false);
 		productService.update(product);
+	}
+
+	public List<Order> 	getAllOrdersByUserIdAndProductId(Integer userID, Integer productID) {
+		return orderService.getAllOrdersByUserIdAndProductId(userID, productID);
 	}
 
 }

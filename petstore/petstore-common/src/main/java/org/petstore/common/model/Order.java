@@ -8,28 +8,36 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
 @Entity
-@Table(name="order_ps")
+@Table(name = "order_ps")
+@NamedQueries({ 
+	
+	@NamedQuery(name = "Order.getAllOrdersByUserIdAndProductId", query = "SELECT o FROM Order o WHERE o.userId = :userID AND o.productId = :productID "),
+	
+})
 public class Order implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	@Column (name="user_id")
+	@Column(name = "user_id")
 	private Integer userId;
-	
-	@Column (name="product_id")
+
+	@Column(name = "product_id")
 	private Integer productId;
-	
-	@Column(name="time")
+
+	@Column(name = "time")
 	private Date timeOfPurchase;
-	
-	@Column(name="status")
+
+	@Column(name = "status")
 	private String status;
-	
-	@Column(name ="is_deleted")
+
+	@Column(name = "is_deleted")
 	private Boolean isDeleted;
 
 	public Order() {
