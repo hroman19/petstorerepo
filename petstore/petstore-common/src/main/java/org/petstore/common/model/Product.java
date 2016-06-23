@@ -32,6 +32,9 @@ public class Product implements Serializable {
 	@Column(name="is_deleted")
 	private Boolean isDeleted;
 
+	@Column(name="img_url")
+	private String imgUrl;
+
 	public Product() {
 		super();
 	}
@@ -88,6 +91,14 @@ public class Product implements Serializable {
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", type=" + type + ", description=" + description + ", price="
 				+ price + ", isDeleted=" + isDeleted + "]";
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
 
 }
