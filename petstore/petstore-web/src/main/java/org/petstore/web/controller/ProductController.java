@@ -22,4 +22,7 @@ public class ProductController implements Serializable {
 		return productService.getAll();
 	}
 	
+	
+	
+	
 }
