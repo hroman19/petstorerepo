@@ -34,6 +34,9 @@ public class Product implements Serializable {
 
 	@Column(name="img_url")
 	private String imgUrl;
+	
+	
+	
 
 	public Product() {
 		super();

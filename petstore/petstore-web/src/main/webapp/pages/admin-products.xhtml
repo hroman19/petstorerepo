@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<title>Jumbotron</title>
+	<h:outputStylesheet library="css" name="style.css" />
+	<h:outputScript library="js" name="jquery.js" />
+	<h:outputScript library="js" name="semantic.min.js" />
+	<h:outputStylesheet library="css" name="semantic.min.css" />
+	<h:outputStylesheet library="css" name="main.css" />
+</h:head>
+
+<h:body>
+	<!--  header  -->
+	<ui:include src="header.xhtml" />
+	<!--  end of header  -->
+	<div class="custom-body">
+		<div class="ui hidden divider"></div>
+		<div class="pusher">
+			<div class="ui container">
+				<div class="ui basic segment">
+					<h1 class="ui header">Available Products</h1>
+
+					<div class="ui icon top left pointing dropdown button blue">
+						<i class="filter icon"></i> <span class="text">All Dates</span>
+						<div class="menu">
+							<div class="header">Available Days</div>
+							<div class="item">Jan 23 - Saturday</div>
+							<div class="item">Jan 24 - Sunday</div>
+							<div class="item">Jan 25 - Monday</div>
+							<div class="item">Jan 26 - Tuesday</div>
+						</div>
+					</div>
+
+					<div class="ui icon top left pointing dropdown button blue">
+						<i class="sort content descending icon"></i> <span class="text">Sort
+							Activities</span>
+						<div class="menu">
+							<div class="header">Sort By</div>
+							<div class="item">Date</div>
+							<div class="item">Categories</div>
+						</div>
+					</div>
+
+
+					<!-- PRODUCTS -->
+
+					<div class="ui divided items">
+						<h3 class="ui header">Saturday January 23</h3>
+
+						<ui:repeat value="#{productController.products}" var="product"
+							varStatus="status">
+							<div class="item">
+								<div class="image">
+									<h:graphicImage
+										value="http://icons.indats.com/sewlong/skiing.jpg" />
+								</div>
+								<div class="content">
+									<a class="header">#{product.name}</a>
+									<div class="meta">
+										<b>Price:</b> #{product.price}
+									</div>
+									<div class="description">
+										<p>#{product.description}</p>
+									</div>
+									<div class="extra">
+										<h:form>
+											<h:commandButton rendered="#{product.isDeleted}"
+												action="#{productController.restoreProduct(product)}"
+												class="ui right floated red button" value="Restore">
+											</h:commandButton>
+											<h:commandButton rendered="#{not product.isDeleted}"
+												action="#{productController.deleteProduct(product)}"
+												class="ui right floated yellow button" value="Delete">
+											</h:commandButton>
+											<div class="ui label">#{product.type}</div>
+										</h:form>
+									</div>
+								</div>
+							</div>
+						</ui:repeat>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!--  footer  -->
+	<ui:include src="footer.xhtml" />
+	<!--  end of footer  -->
+	<script>
+		$('.ui.dropdown').dropdown();
+
+		$('.add-button,.agenda-item').click(function() {
+			$('.activity-modal').modal('show');
+		});
+
+		$('.list .master.checkbox').checkbox(
+				{
+					// check all children
+					onChecked : function() {
+						var $childCheckbox = $(this).closest('.checkbox')
+								.siblings('.list').find('.checkbox');
+						$childCheckbox.checkbox('check');
+					}, // uncheck all children
+					onUnchecked : function() {
+						var $childCheckbox = $(this).closest('.checkbox')
+								.siblings('.list').find('.checkbox');
+						$childCheckbox.checkbox('uncheck');
+					}
+				});
+
+		$('.show-all').click(function() {
+			$("#activity-filter").dropdown('clear');
+		});
+
+		$(".save-button").click(function() {
+			$('.save-modal').modal('show');
+			var URL = 'http://codepen.io/voltron2112/debug/JdQMWa';
+			setTimeout(function() {
+				window.location = URL;
+			}, 1500);
+		});
+
+		$('.user').popup({
+			inline : true,
+			hoverable : true,
+			position : 'top right',
+			delay : {
+				show : 100,
+				hide : 100
+			}
+		});
+	</script>
+</h:body>
+
+</html>

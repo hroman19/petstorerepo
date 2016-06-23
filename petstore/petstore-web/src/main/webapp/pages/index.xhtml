@@ -2,10 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 <h:head>
-	<title>Jumbotron</title>
+	<title>Petstore</title>
 	<h:outputStylesheet library="css" name="style.css" />
 	<h:outputScript library="js" name="jquery.js" />
 	<h:outputScript library="js" name="semantic.min.js" />
@@ -46,6 +48,9 @@
 					</div>
 
 
+
+
+
 					<!-- PRODUCTS -->
 
 					<div class="ui divided items">
@@ -63,13 +68,29 @@
 									<div class="meta">
 										<b>Price:</b> #{product.price}
 									</div>
+
 									<div class="description">
 										<p>#{product.description}</p>
 									</div>
+
 									<div class="extra">
-										<div class="ui right floated positive button add-button">
-											Added <i class="right checkmark icon"></i>
-										</div>
+
+										<!-- If product is added to bucket -->
+										<h:panelGroup
+											rendered="#{not empty productController.getAllOrdersByUserIdAndProductId(2,product.id)}">
+											<div class="ui right floated positive button add-button">
+												Added <i class="right checkmark icon"></i>
+											</div>
+										</h:panelGroup>
+										<!-- If product is NOT added to bucket -->
+										<h:panelGroup
+											rendered="#{empty productController.getAllOrdersByUserIdAndProductId(2,product.id)}">
+											<div class="ui right floated  orange button add-button">
+												Add to bucket <i class="right bitbucket  icon"></i>
+											</div>
+										</h:panelGroup>
+
+
 										<div class="ui label">#{product.type}</div>
 									</div>
 								</div>
@@ -82,58 +103,7 @@
 
 
 
-		<div class="ui modal activity-modal">
-			<i class="close icon"></i>
-			<div class="header">Profile Picture</div>
-			<div class="image content">
-				<div class="ui medium image">
-					<h:graphicImage
-						value="http://icons.indats.com/sewlong/skiing-modal.jpg" />
-				</div>
-				<div class="description">
-					<div class="ui header">Skiing</div>
-					<p>
-						<b>Sunday January 23</b> 9:00 am to 10:00 am
-					</p>
-					<p>Lorem ipsum dolor sit amet, pri ei sale sonet ornatus. Usu
-						dicunt omnium cu. In vix dicam fuisset adipiscing, cibo delenit
-						ius id, eu regione fuisset vix. Ne modo eruditi vim. Mea nostro
-						mentitum conceptam in. Ei cum quaestio eleifend oportere.</p>
 
-					<h3>Select People</h3>
-
-					<div class="ui relaxed list">
-						<div class="item">
-							<div class="ui master checkbox">
-								<h:selectBooleanCheckbox />
-								<label>All</label>
-							</div>
-							<div class="list">
-								<div class="item">
-									<div class="ui child checkbox">
-										<h:selectBooleanCheckbox />
-										<label>Justin Jones</label>
-									</div>
-								</div>
-								<div class="item">
-									<div class="ui child checkbox">
-										<h:selectBooleanCheckbox />
-										<label>Hollie Jones</label>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
-			<div class="actions">
-				<div class="ui black deny button">Cancel</div>
-				<div class="ui positive right labeled icon button">
-					Save <i class="checkmark icon"></i>
-				</div>
-			</div>
-		</div>
 
 
 
@@ -150,6 +120,10 @@
 	<ui:include src="footer.xhtml" />
 	<!--  end of footer  -->
 	<script>
+		function showSignUpModal() {
+			$('.sign-up-modal').modal('show');
+		}
+
 		$('.ui.dropdown').dropdown();
 
 		$('.add-button,.agenda-item').click(function() {
