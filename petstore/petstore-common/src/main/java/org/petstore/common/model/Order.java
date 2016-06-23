@@ -37,8 +37,6 @@ public class Order implements Serializable {
 	@Column(name = "status")
 	private String status;
 
-	@Column(name = "is_deleted")
-	private Boolean isDeleted;
 
 	public Order() {
 		super();
@@ -84,18 +82,12 @@ public class Order implements Serializable {
 		this.status = status;
 	}
 
-	public Boolean getIsDeleted() {
-		return isDeleted;
-	}
 
-	public void setIsDeleted(Boolean isDeleted) {
-		this.isDeleted = isDeleted;
-	}
 
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", userId=" + userId + ", productId=" + productId + ", timeOfPurchase="
-				+ timeOfPurchase + ", status=" + status + ", isDeleted=" + isDeleted + "]";
+				+ timeOfPurchase + ", status=" + status + "]";
 	}
 
 }

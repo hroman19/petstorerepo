@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
+
 
 import org.petstore.common.model.Order;
 import org.petstore.ejb.dao.OrderDAO;
@@ -18,13 +19,13 @@ public class OrderDAOImpl extends GenericDAOImpl<Integer, Order> implements Orde
 
 	@Override
 	public List<Order> getAllOrdersByUserIdAndProductId(Integer userID, Integer productID) {
-		TypedQuery<Order> query = getEntityManager().createNamedQuery("Order.getAllOrdersByUserIdAndProductId", Order.class);
+		Query query = getEntityManager().createNamedQuery("Order.getAllOrdersByUserIdAndProductId");
 		query.setParameter("userID", userID);
 		query.setParameter("productID", productID);
 		List<Order> results = query.getResultList();
 		
 		for (Order order : results) {
-			System.err.println(order);
+			System.out.println(order);
 		}
 				
 		return results;
