@@ -12,27 +12,31 @@ import org.petstore.common.model.Product;
 import org.petstore.ejb.service.OrderService;
 import org.petstore.ejb.service.ProductService;
 
-
-@ManagedBean(name="productController")
+@ManagedBean(name = "productController")
 @SessionScoped
 public class ProductController implements Serializable {
-	
+
 	@EJB
 	private ProductService productService;
-	
 	@EJB
 	private OrderService orderService;
-	
-	public List<Product> getProducts(){
+
+	public List<Product> getProducts() {
 		return productService.getAll();
 	}
-	
+
+	public void deleteProduct(Product product) {
+		product.setIsDeleted(true);
+		productService.update(product);
+	}
+
+	public void restoreProduct(Product product) {
+		product.setIsDeleted(false);
+		productService.update(product);
+	}
+
 	public List<Order> 	getAllOrdersByUserIdAndProductId(Integer userID, Integer productID) {
 		return orderService.getAllOrdersByUserIdAndProductId(userID, productID);
 	}
-	
-	
-	
-	
-	
+
 }
