@@ -40,7 +40,7 @@ public class GenericServiceImpl<PK, E extends Serializable> implements GenericSe
 
 	@Override
 	public void add(E entity) {
-		
+		genericDAO.add(entity);
 	}
 
 	@Override

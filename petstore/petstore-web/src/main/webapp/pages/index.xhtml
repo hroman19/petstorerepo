@@ -2,10 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>Jumbotron</title>
+	<title>products</title>
 	<h:outputStylesheet library="css" name="style.css" />
 	<h:outputScript library="js" name="jquery.js" />
 	<h:outputScript library="js" name="semantic.min.js" />
@@ -46,7 +47,7 @@
 					</div>
 
 
-				
+
 
 
 					<!-- PRODUCTS -->
@@ -64,7 +65,7 @@
 								<div class="content">
 									<a class="header">#{product.name}</a>
 									<div class="meta">
-										<b>Price:</b> #{product.price}
+										<b>Price:</b> #{product.price} ₴ UAH
 									</div>
 
 									<div class="description">
@@ -76,20 +77,39 @@
 										<!-- If product is added to bucket -->
 										<h:panelGroup
 											rendered="#{not empty productController.getAllOrdersByUserIdAndProductId(2,product.id)}">
-													<div class="ui right floated positive button add-button">
-														Added <i class="right checkmark icon"></i>
-													</div>
+											<a class="ui blue tag label right floated">Added</a>
 										</h:panelGroup>
+
+
 										<!-- If product is NOT added to bucket -->
 										<h:panelGroup
 											rendered="#{empty productController.getAllOrdersByUserIdAndProductId(2,product.id)}">
-											<div class="ui right floated  orange button add-button">
-												Add to bucket <i class="right bitbucket  icon"></i>
-											</div>
+											<h:form>
+												<h:commandLink class="ui right floated positive button add-button"
+													action="#{productController.addToBucket(2,product.id)}">
+													Add to Bucket  <h:outputText value="&#160;" /><h:outputText value="&#160;" /><i class="bitbucket icon" />
+												</h:commandLink>
+											</h:form>
+											
+											<h:form>
+    <p:growl id="growl" life="2000" />
+     
+    <p:commandButton value="Ajax Submit" id="ajax" update="growl" actionListener="#{buttonView.buttonAction}" styleClass="ui-priority-primary" />
+ 
+    <p:commandButton value="Non-Ajax Submit" id="nonAjax" actionListener="#{buttonView.buttonAction}" ajax="false" />
+ 
+    <p:commandButton value="With Icon" id="withIcon" actionListener="#{buttonView.buttonAction}" update="growl" icon="ui-icon-disk" />
+ 
+    <p:commandButton actionListener="#{buttonView.buttonAction}" id="iconOnly" update="growl" icon="ui-icon-disk" title="Icon Only" />
+ 
+    <p:commandButton value="Disabled" id="disabled" disabled="true" />
+</h:form>
+											
+											
+											
 										</h:panelGroup>
 
-
-										<div class="ui label">#{product.type}</div>
+										<div class="ui teal tag label">#{product.type}</div>
 									</div>
 								</div>
 							</div>
