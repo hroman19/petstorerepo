@@ -3,6 +3,7 @@ package org.petstore.web.controller;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
@@ -35,28 +36,20 @@ public class UserController {
 	}
 
 	public String signIn() {
-		
 		boolean valid;
-		System.out.println("user : " + user.toString());
 		User dbUser = userService.getByEmail(user.getEmail());
 		if (dbUser == null) {
 			valid = false;
 		} else {
-			System.out.println("dbUser : " + dbUser.toString());
 			valid = user.getPassword().equals(dbUser.getPassword());
 		}
-		System.out.println("valid : " + valid);
+		
 		if (valid) {
-			System.out.println("in valid block");
 			HttpSession session = SessionUtils.getSession(); 
 			dbUser.setPassword(null);
 			session.setAttribute("user", dbUser);
-
-			System.out.println("dbUser.getIsAdmin( : " + dbUser.getIsAdmin());
 			return dbUser.getIsAdmin() ? "admin" : "index";
 		} else {
-			System.out.println("in invalid block");
-			System.out.println(FacesContext.getCurrentInstance());
 			FacesContext.getCurrentInstance().addMessage(
 					null, 
 					new FacesMessage(FacesMessage.SEVERITY_WARN,

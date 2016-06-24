@@ -68,7 +68,9 @@
 
 							<h:commandButton value="Sign Up"
 								action="#{userController.signUp()}"
-								class="ui fluid large green submit button" />
+								class="ui fluid large green submit button">
+								<f:ajax event="sumbit" execute="@form" />
+							</h:commandButton>
 						</div>
 					</div>
 				</h:form>
