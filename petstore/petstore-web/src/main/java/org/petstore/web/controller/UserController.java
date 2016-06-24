@@ -69,6 +69,6 @@ public class UserController {
 	public String logout() {
 		HttpSession session = SessionUtils.getSession();
 		session.invalidate();
-		return "index";
+		return "index?faces-redirect=true";
 	}
 }
