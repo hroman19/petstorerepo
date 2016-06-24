@@ -69,8 +69,25 @@
 							<h:commandButton value="Sign Up"
 								action="#{userController.signUp()}"
 								class="ui fluid large green submit button">
-								<f:ajax event="sumbit" execute="@form" />
+								<f:ajax execute="@form" render="@form closeModalPanelScriplet"
+									onevent="closeIfNoValidationErrorOccured" />
+
 							</h:commandButton>
+
+							<h:panelGroup id="closeModalPanelScriplet">
+								<script type="text/javascript">
+									//<![CDATA[
+									function closeIfNoValidationErrorOccured(
+											data) {
+										// custom validation (mostly check faces context)
+										
+										if (data.status == 'success') {
+											butter.modal.close('sign-up-modal');
+										}
+									}
+									//]]>
+								</script>
+							</h:panelGroup>
 						</div>
 					</div>
 				</h:form>
