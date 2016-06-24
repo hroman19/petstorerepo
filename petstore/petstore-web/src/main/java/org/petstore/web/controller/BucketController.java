@@ -4,14 +4,15 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 
 import org.petstore.common.model.Order;
+import org.petstore.common.model.OrderStatus;
 import org.petstore.ejb.service.OrderService;
 
 @ManagedBean(name="bucketController")
-@SessionScoped
+@RequestScoped
 public class BucketController implements Serializable {
 	
 	@EJB
@@ -23,6 +24,11 @@ public class BucketController implements Serializable {
 	
 	public void removeOrder(Order order){
 		orderService.delete(order);
+	}
+	
+	public void buyOrder(Order order){
+		order.setStatus(OrderStatus.BOUGHT.toString());
+		orderService.update(order);
 	}
 	
 }
