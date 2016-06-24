@@ -27,12 +27,7 @@ public class OrderDAOImpl extends GenericDAOImpl<Integer, Order> implements Orde
 		Query query = getEntityManager().createNamedQuery("Order.getAllOrdersByUserIdAndProductId");
 		query.setParameter("userID", userID);
 		query.setParameter("productID", productID);
-		List<Order> results = query.getResultList();
-		
-		for (Order order : results) {
-			System.out.println(order);
-		}
-				
+		List<Order> results = query.getResultList();			
 		return results;
 	}
 

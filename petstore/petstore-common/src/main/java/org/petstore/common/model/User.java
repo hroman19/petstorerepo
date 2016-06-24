@@ -7,8 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+@NamedQueries({ 
+	 @NamedQuery(name = "User.getUserByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
+	})
 @Entity
 @Table(name="user_ps")
 public class User implements Serializable {

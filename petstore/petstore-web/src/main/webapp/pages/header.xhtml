@@ -22,12 +22,24 @@
 					</div>
 				</div>
 				<div class="item">
-					<h:commandButton class="ui green button" value="Sign in"/>
+					<h:commandButton class="ui green button" value="Sign in" />
 				</div>
 				<div class="item">
-					<h:commandButton class="ui blue button" value="Sign up" />
+					<h:commandButton class="ui blue button" onclick="showSignUpModal()"
+						value="Sign up" />
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<!--  sign up form  -->
+	<ui:include src="signup.xhtml" />
+	<!--  end sign up -->
+
+	<!--  end of header  -->
+	<script>
+		function showSignUpModal() {
+			$('.sign-up-modal').modal('show');
+		};
+	</script>
 </ui:composition>
