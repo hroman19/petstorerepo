@@ -7,10 +7,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="product_ps")
+@NamedQueries({ 
+	@NamedQuery(name = "Product.getProductWithMinPrice", query = "SELECT MIN(p.price) FROM Product p"),
+	@NamedQuery(name = "Product.getProductWithMaxPrice", query = "SELECT MAX(p.price) FROM Product p")
+})
 public class Product implements Serializable {
 	
 	@Id

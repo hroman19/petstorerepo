@@ -8,8 +8,6 @@ import org.petstore.common.model.Product;
 import org.petstore.ejb.dao.ProductDAO;
 import org.petstore.ejb.service.ProductService;
 
-
-
 @Stateless
 public class ProductServiceImpl extends GenericServiceImpl<Integer, Product> implements ProductService {
 	@EJB
@@ -27,6 +25,16 @@ public class ProductServiceImpl extends GenericServiceImpl<Integer, Product> imp
 	public void setProductDAO(ProductDAO productDAO) {
 		this.productDAO = productDAO;
 	}
-	
-	
+
+	public double getProductWithMinPrice() {
+		System.err.println("MIN PRICE : "+productDAO.getProductWithMinPrice());
+		return productDAO.getProductWithMinPrice();
+		
+	}
+
+	public double getProductWithMaxPrice() {
+		System.err.println("MAX PRICE : "+productDAO.getProductWithMaxPrice());
+		return productDAO.getProductWithMaxPrice();
+	}
+
 }

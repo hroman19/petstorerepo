@@ -9,10 +9,25 @@
 <h:head>
 	<title>Petstore</title>
 	<h:outputStylesheet library="css" name="style.css" />
+
 	<h:outputScript library="js" name="semantic.min.js" />
 	<h:outputStylesheet library="css" name="semantic.min.css" />
 	<h:outputStylesheet library="css" name="main.css" />
 </h:head>
+
+<style>
+.ui-slider-range {
+	background: #2185d0 !important;
+}
+
+.ui-slider .ui-slider-handle {
+	background: #ffffff !important;
+}
+
+.ui-slider {
+	background: #ffffff !important;
+}
+</style>
 
 <h:body>
 	<!--  header  -->
@@ -21,41 +36,41 @@
 	<div class="custom-body">
 		<div class="ui hidden divider"></div>
 		<div class="pusher">
+
+			
+<!-- 					SLIDER -->
+			<h:form>
+				<p:growl id="growl" showDetail="true" />
+				<h:outputText id="displayRange"
+					value="#{sliderView.minNumber} ₴ UAH to #{sliderView.maxNumber} ₴ UAH" styleClass="ui  circular blue label"/>
+				<p:slider for="txtMin,txtMax" display="displayRange"
+					style="width:400px; "
+					maxValue="#{sliderView.sliderDefaultMaxNumber}"
+					minValue="#{sliderView.sliderDefaultMinNumber}" range="true"
+					displayTemplate="{min} ₴ UAH to {max} ₴ UAH" />
+				 <h:inputHidden id="txtMin" value="#{sliderView.minNumber}" />
+   				 <h:inputHidden id="txtMax" value="#{sliderView.maxNumber}" />
+   				 
+   				 
+				<h:commandButton value="Submit" styleClass="ui black button"
+					action="#{sliderView.setSliderValues(sliderView.minNumber,sliderView.maxNumber)}" />
+			</h:form>
+			<!-- 	**************************************************				 -->
+
+
+
+
+
 			<div class="ui container">
 				<div class="ui basic segment">
-					<h1 class="ui header">Available Products</h1>
-
-					<div class="ui icon top left pointing dropdown button blue">
-						<i class="filter icon"></i> <span class="text">All Dates</span>
-						<div class="menu">
-							<div class="header">Available Days</div>
-							<div class="item">Jan 23 - Saturday</div>
-							<div class="item">Jan 24 - Sunday</div>
-							<div class="item">Jan 25 - Monday</div>
-							<div class="item">Jan 26 - Tuesday</div>
-						</div>
-					</div>
-
-					<div class="ui icon top left pointing dropdown button blue">
-						<i class="sort content descending icon"></i> <span class="text">Sort
-							Activities</span>
-						<div class="menu">
-							<div class="header">Sort By</div>
-							<div class="item">Date</div>
-							<div class="item">Categories</div>
-						</div>
-					</div>
-
-
-
 
 
 					<!-- PRODUCTS -->
 
 					<div class="ui divided items">
-						<h3 class="ui header">Saturday January 23</h3>
 
-						<ui:repeat value="#{productController.getProducts()}"
+						<ui:repeat
+							value="#{productController.getProducts(sliderView.minNumber,sliderView.maxNumber)}"
 							var="product">
 							
 							
@@ -83,6 +98,7 @@
 										</h:panelGroup>
 
 
+
 										<!-- If product is NOT added to bucket -->
 										<h:panelGroup
 											rendered="#{empty productController.getAllOrdersByUserIdAndProductId(2,product.id)}">
@@ -95,6 +111,8 @@
 													<i class="bitbucket icon" />
 												</h:commandLink>
 											</h:form>
+
+
 										</h:panelGroup>
 
 										<div class="ui teal tag label">#{product.type}</div>
