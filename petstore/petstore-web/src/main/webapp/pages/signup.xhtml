@@ -48,7 +48,6 @@
 										value="#{userController.user.email}">
 										<f:validator binding="#{emailValidator}" />
 									</h:inputText>
-
 								</div>
 								<h:message class="ui pointing red basic label"
 									for="signup-email" style="color:red" />
@@ -69,7 +68,9 @@
 
 							<h:commandButton value="Sign Up"
 								action="#{userController.signUp()}"
-								class="ui fluid large green submit button" />
+								class="ui fluid large green submit button">
+								<f:ajax event="sumbit" execute="@form" />
+							</h:commandButton>
 						</div>
 					</div>
 				</h:form>

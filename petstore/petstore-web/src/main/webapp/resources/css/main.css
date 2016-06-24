@@ -1,3 +1,11 @@
+.sign-up-modal{
+	bottom: auto;
+}
+
+.loginForm {
+	display: inherit;
+}
+
 .logo-wrap-div {
     height: 60px;
     position: relative;
