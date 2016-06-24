@@ -51,8 +51,7 @@
 					<div class="ui divided items">
 						<h3 class="ui header">Saturday January 23</h3>
 
-						<ui:repeat value="#{productController.products}" var="product"
-							varStatus="status">
+						<ui:repeat value="#{productController.products}" var="product">
 							<div class="item">
 								<div class="image">
 									<h:graphicImage
@@ -71,10 +70,12 @@
 											<h:commandButton rendered="#{product.isDeleted}"
 												action="#{productController.restoreProduct(product)}"
 												class="ui right floated red button" value="Restore">
+												<!-- <f:ajax execute="@this" render="@form"></f:ajax> -->
 											</h:commandButton>
 											<h:commandButton rendered="#{not product.isDeleted}"
 												action="#{productController.deleteProduct(product)}"
 												class="ui right floated yellow button" value="Delete">
+												<!-- <f:ajax execute="@this" render="@form"></f:ajax> -->
 											</h:commandButton>
 											<div class="ui label">#{product.type}</div>
 										</h:form>

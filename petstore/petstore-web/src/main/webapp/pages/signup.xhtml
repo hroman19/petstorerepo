@@ -48,7 +48,6 @@
 										value="#{userController.user.email}">
 										<f:validator binding="#{emailValidator}" />
 									</h:inputText>
-
 								</div>
 								<h:message class="ui pointing red basic label"
 									for="signup-email" style="color:red" />
@@ -69,7 +68,26 @@
 
 							<h:commandButton value="Sign Up"
 								action="#{userController.signUp()}"
-								class="ui fluid large green submit button" />
+								ajaxDisableRenderRegionsOnRequest="false"
+								class="ui fluid large green submit button">
+								<f:ajax execute="@form" render="@form closeModalPanelScriplet"
+									onevent="closeIfValid" />
+
+							</h:commandButton>
+
+							<h:panelGroup id="closeModalPanelScriplet">
+								<script type="text/javascript">
+								//<![CDATA[
+									function closeIfValid(data) {
+										var jsfValidation = '#{facesContext.maximumSeverity != null}';
+										var validationFailed = jsfValidation === 'true';
+										if (data.status == 'success' && !validationFailed) {
+											$('.sign-up-modal').modal('hide');
+										}
+									}
+									//]]>
+								</script>
+							</h:panelGroup>
 						</div>
 					</div>
 				</h:form>

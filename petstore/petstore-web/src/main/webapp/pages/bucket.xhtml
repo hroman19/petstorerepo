@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<title>Jumbotron</title>
+	<h:outputStylesheet library="css" name="style.css" />
+	<h:outputScript library="js" name="jquery.js" />
+	<h:outputScript library="js" name="semantic.min.js" />
+	<h:outputStylesheet library="css" name="semantic.min.css" />
+	<h:outputStylesheet library="css" name="main.css" />
+</h:head>
+
+<h:body>
+	<!--  header  -->
+	<ui:include src="header.xhtml" />
+	<!--  end of header  -->
+	<div class="custom-body">
+		<div class="ui hidden divider"></div>
+		<div class="pusher">
+			<div class="ui container">
+				<div class="ui basic segment">
+					<h1 class="ui header">Your Orders</h1>
+
+					<!-- ORDERS -->
+
+					<div class="ui divided items">
+						<ui:repeat value="#{bucketController.getOrders(2)}" var="order">
+
+
+
+
+							<div class="item">
+								<div class="image">
+									<h:graphicImage
+										value="http://icons.indats.com/sewlong/skiing.jpg" />
+								</div>
+								<div class="content">
+									<a class="header">#{order.product.name}</a>
+									<div class="meta">
+										<b>Price:</b> #{order.product.price} ₴ UAH
+									</div>
+
+									<div class="description">
+										<p>#{order.product.description}</p>
+									</div>
+
+									<div class="extra">
+										<!-- If order has status PENDING -->
+										<h:panelGroup rendered="#{order.status eq 'PENDING'}">
+											<h:form>
+												<h:commandButton
+													action="#{bucketController.removeOrder(order)}"
+													type="submit"
+													class="ui right floated negative button remove-button"
+													value="Remove">
+												</h:commandButton>
+											</h:form>
+											<h:form>
+												<h:commandButton
+													action="#{bucketController.buyOrder(order)}" type="submit"
+													class="ui right floated positive button add-button"
+													value="Buy">
+												</h:commandButton>
+											</h:form>
+										</h:panelGroup>
+
+										<!-- If order has status BOUGHT OR DELETED_BY_ADMIN -->
+										<h:panelGroup rendered="#{order.status != 'PENDING'}">
+											<h:form>
+												<h:commandButton
+													action="#{bucketController.removeOrder(order)}"
+													type="submit"
+													class="ui right floated negative button remove-button"
+													value="Remove">
+												</h:commandButton>
+											</h:form>
+										</h:panelGroup>
+
+										<div class="ui teal tag label">#{order.product.type}</div>
+									</div>
+								</div>
+								<div>
+									<h:panelGroup rendered="#{order.status == 'PENDING'}">
+										<span class="ui yellow label">#{order.status}</span>
+									</h:panelGroup>
+									<h:panelGroup rendered="#{order.status == 'BOUGHT'}">
+										<span class="ui green label">#{order.status}</span>
+									</h:panelGroup>
+									<h:panelGroup rendered="#{order.status == 'REMOVED_BY_ADMIN'}">
+										<span class="ui red label">#{order.status}</span>
+									</h:panelGroup>
+								</div>
+							</div>
+
+
+
+
+						</ui:repeat>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--  footer  -->
+	<ui:include src="footer.xhtml" />
+	<!--  end of footer  -->
+	<script>
+		
+	</script>
+</h:body>
+
+</html>

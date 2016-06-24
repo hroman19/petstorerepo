@@ -50,9 +50,13 @@ public class ProductController implements Serializable {
 		return orderService.getAllOrdersByUserIdAndProductId(userID, productID);
 	}
 
+
+	// Vitalii should fix
 	public Order addToBucket(Integer userID, Integer productID) {
 		Order order = new Order();
-		order.setProductId(productID);
+		Product product = new Product();
+		product.setId(productID);
+		order.setProduct(product);
 		order.setUserId(userID);
 		order.setStatus(OrderStatus.PENDING.toString());
 		order.setTimeOfPurchase(new Date(System.currentTimeMillis()));

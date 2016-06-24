@@ -42,4 +42,12 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
+
+	<!-- <filter>
+		<filter-name>AuthorizationFilter</filter-name>
+		<filter-class>org.petstore.web.filter/AuthorizationFilter></filter-class>
+		<description>This Filter authorizes user access to application.</description>
+	</filter> -->
+
+
 </web-app>

@@ -9,25 +9,37 @@
 				<h:graphicImage value="resources/images/logo.jpg" class="logo-img" />
 			</div>
 			<div class="right menu">
-				<div class="item">
-					<div class="ui left icon input">
-						<i class="mail outline icon"></i>
-						<h:inputText p:placeholder="Email" />
+				<h:form class="loginForm" rendered="#{empty user}">
+					<div class="item">
+						<div class="ui left icon input">
+							<i class="mail outline icon"></i>
+							<h:inputText p:placeholder="Email"
+								value="#{userController.user.email}" />
+						</div>
 					</div>
-				</div>
-				<div class="item">
-					<div class="ui left icon input">
-						<i class="lock icon"></i>
-						<h:inputSecret p:placeholder="Password" />
+					<div class="item">
+						<div class="ui left icon input">
+							<i class="lock icon"></i>
+							<h:inputSecret p:placeholder="Password"
+								value="#{userController.user.password}" />
+						</div>
 					</div>
-				</div>
+					<div class="item">
+						<h:commandButton class="ui green button" value="Sign in"
+							action="#{userController.signIn}" />
+					</div>
+				</h:form>
 				<div class="item">
-					<h:commandButton class="ui green button" value="Sign in" />
+					<h:commandButton class="ui blue button" value="Sign up"
+						rendered="#{empty user}" onclick="showSignUpModal()" />
 				</div>
-				<div class="item">
-					<h:commandButton class="ui blue button" onclick="showSignUpModal()"
-						value="Sign up" />
-				</div>
+
+				<h:form class="loginForm" rendered="#{not empty user}">
+					<div class="item">
+						<h:commandButton class="ui blue button" value="Log Out"
+							action="#{userController.logout}" />
+					</div>
+				</h:form>
 			</div>
 		</div>
 	</div>
@@ -37,4 +49,9 @@
 	<!--  end sign up -->
 
 	<!--  end of header  -->
+	<script>
+		function showSignUpModal() {
+			$('.sign-up-modal').modal('show');
+		};
+	</script>
 </ui:composition>

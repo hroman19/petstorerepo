@@ -10,8 +10,6 @@ import org.petstore.common.model.Order;
 import org.petstore.ejb.dao.OrderDAO;
 import org.petstore.ejb.service.OrderService;
 
-
-
 @Stateless
 public class OrderServiceImpl extends GenericServiceImpl<Integer, Order> implements OrderService{
 	@EJB
@@ -31,9 +29,13 @@ public class OrderServiceImpl extends GenericServiceImpl<Integer, Order> impleme
 	}
 
 	@Override
+	public List<Order> getByUserId(Integer userId) {
+		return orderDAO.getByUserId(userId);
+	}
+
+	@Override
 	public List<Order> getAllOrdersByUserIdAndProductId(Integer userID, Integer productID) {		
 		return orderDAO.getAllOrdersByUserIdAndProductId(userID, productID);
 	}
-	
 	
 }
