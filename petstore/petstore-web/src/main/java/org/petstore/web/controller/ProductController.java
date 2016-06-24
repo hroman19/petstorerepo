@@ -37,23 +37,18 @@ public class ProductController implements Serializable {
 		productService.update(product);
 	}
 
-	public List<Order> 	getAllOrdersByUserIdAndProductId(Integer userID, Integer productID) {
+	public List<Order> getAllOrdersByUserIdAndProductId(Integer userID, Integer productID) {
 		return orderService.getAllOrdersByUserIdAndProductId(userID, productID);
 	}
-	
+
 	public Order addToBucket(Integer userID, Integer productID) {
-		Order order=new Order();
+		Order order = new Order();
 		order.setProductId(productID);
 		order.setUserId(userID);
 		order.setStatus(OrderStatus.PENDING.toString());
 		order.setTimeOfPurchase(new Date(System.currentTimeMillis()));
 		orderService.add(order);
-		return  order;
+		return order;
 	}
-	
-
-	
-	
-	
 
 }

@@ -13,8 +13,6 @@ import javax.persistence.criteria.Root;
 
 import org.petstore.ejb.dao.GenericDAO;
 
-
-
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class GenericDAOImpl<PK, E extends Serializable> implements GenericDAO<PK, E>, Serializable {
 
@@ -27,16 +25,24 @@ public class GenericDAOImpl<PK, E extends Serializable> implements GenericDAO<PK
 
 	@Override
 	public E getById(PK id) {
-		return entityManager.find(entityClass, id);
+		entityManager.clear();
+		entityManager.getTransaction().begin();
+		E e = entityManager.find(entityClass, id);
+		entityManager.getTransaction().commit();
+		return e;
 	}
 
 	@Override
 	public List<E> getAll() {
+		entityManager.clear();
+		entityManager.getTransaction().begin();
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<E> criteria = cb.createQuery(entityClass);
 		Root<E> category = criteria.from(entityClass);
 		criteria.select(category);
-		return entityManager.createQuery(criteria).getResultList();
+		List<E> list = entityManager.createQuery(criteria).getResultList();
+		entityManager.getTransaction().commit();
+		return list;
 	}
 
 	@Override
@@ -45,24 +51,25 @@ public class GenericDAOImpl<PK, E extends Serializable> implements GenericDAO<PK
 		entityManager.persist(entity);
 		entityManager.getTransaction().commit();
 	}
-	
+
 	@Override
 	public E update(E entity) {
 		entityManager.getTransaction().begin();
-		E entities= entityManager.merge(entity);
+		E e = entityManager.merge(entity);
 		entityManager.getTransaction().commit();
-		return entities;
-		
+		return e;
+
 	}
 
 	@Override
 	public void delete(E entity) {
+		entityManager.getTransaction().begin();
 		entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
+		entityManager.getTransaction().commit();
 	}
 
 	public EntityManager getEntityManager() {
 		return entityManager;
 	}
 
-	
 }
