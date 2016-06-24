@@ -1,6 +1,7 @@
 package org.petstore.web.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,8 +24,16 @@ public class ProductController implements Serializable {
 	@EJB
 	private OrderService orderService;
 
-	public List<Product> getProducts() {
-		return productService.getAll();
+	public List<Product> getProducts(int priceFirst, int priceSecond) {
+		List<Product> products = productService.getAll();
+		List<Product> filteredProducts=new ArrayList<>();
+		for (int i = 0; i < products.size(); i++) {
+			if (products.get(i).getPrice() >= priceFirst && products.get(i).getPrice() <= priceSecond) {
+				filteredProducts.add(products.get(i));
+			}
+		}
+
+		return filteredProducts;
 	}
 
 	public void deleteProduct(Product product) {
@@ -37,23 +46,18 @@ public class ProductController implements Serializable {
 		productService.update(product);
 	}
 
-	public List<Order> 	getAllOrdersByUserIdAndProductId(Integer userID, Integer productID) {
+	public List<Order> getAllOrdersByUserIdAndProductId(Integer userID, Integer productID) {
 		return orderService.getAllOrdersByUserIdAndProductId(userID, productID);
 	}
-	
+
 	public Order addToBucket(Integer userID, Integer productID) {
-		Order order=new Order();
+		Order order = new Order();
 		order.setProductId(productID);
 		order.setUserId(userID);
 		order.setStatus(OrderStatus.PENDING.toString());
 		order.setTimeOfPurchase(new Date(System.currentTimeMillis()));
 		orderService.add(order);
-		return  order;
+		return order;
 	}
-	
-
-	
-	
-	
 
 }
