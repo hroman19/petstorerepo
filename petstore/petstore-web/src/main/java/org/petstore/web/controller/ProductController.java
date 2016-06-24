@@ -37,13 +37,13 @@ public class ProductController implements Serializable {
 		productService.update(product);
 	}
 
-	public List<Order> 	getAllOrdersByUserIdAndProductId(Integer userID, Integer productID) {
+	public List<Order> getAllOrdersByUserIdAndProductId(Integer userID, Integer productID) {
 		return orderService.getAllOrdersByUserIdAndProductId(userID, productID);
 	}
-	
-	//Vitalii should fix
+
+	// Vitalii should fix
 	public Order addToBucket(Integer userID, Integer productID) {
-		Order order=new Order();
+		Order order = new Order();
 		Product product = new Product();
 		product.setId(productID);
 		order.setProduct(product);
@@ -51,12 +51,7 @@ public class ProductController implements Serializable {
 		order.setStatus(OrderStatus.PENDING.toString());
 		order.setTimeOfPurchase(new Date(System.currentTimeMillis()));
 		orderService.add(order);
-		return  order;
+		return order;
 	}
-	
-
-	
-	
-	
 
 }

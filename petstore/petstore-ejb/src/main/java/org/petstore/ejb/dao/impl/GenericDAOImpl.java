@@ -25,6 +25,7 @@ public class GenericDAOImpl<PK, E extends Serializable> implements GenericDAO<PK
 
 	@Override
 	public E getById(PK id) {
+		entityManager.clear();
 		entityManager.getTransaction().begin();
 		E e = entityManager.find(entityClass, id);
 		entityManager.getTransaction().commit();
@@ -33,6 +34,7 @@ public class GenericDAOImpl<PK, E extends Serializable> implements GenericDAO<PK
 
 	@Override
 	public List<E> getAll() {
+		entityManager.clear();
 		entityManager.getTransaction().begin();
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<E> criteria = cb.createQuery(entityClass);
@@ -53,10 +55,9 @@ public class GenericDAOImpl<PK, E extends Serializable> implements GenericDAO<PK
 	@Override
 	public E update(E entity) {
 		entityManager.getTransaction().begin();
-		E entities = entityManager.merge(entity);
+		E e = entityManager.merge(entity);
 		entityManager.getTransaction().commit();
-		return entities;
-
+		return e;
 	}
 
 	@Override
