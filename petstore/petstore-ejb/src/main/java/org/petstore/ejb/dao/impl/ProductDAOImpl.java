@@ -32,7 +32,7 @@ public class ProductDAOImpl extends GenericDAOImpl<Integer, Product> implements 
 
 	public List<String> getProductTypes() {
 		entityManager.clear();
-		TypedQuery<String> query =  (TypedQuery<String>) getEntityManager().createNamedQuery("Product.getProductTypes");
+		TypedQuery<String> query =  (TypedQuery<String>) entityManager.createNamedQuery("Product.getProductTypes");
 		List<String> result = query.getResultList();
 		return result;
 	}
