@@ -27,15 +27,16 @@ public class EmailValidator implements Validator {
 
 	@Override
 	public void validate(FacesContext facesContext, UIComponent component, Object value) throws ValidatorException {
+		System.out.println("::::::::::::::: valid = " + valid);
 		String email = value.toString();
 		valid = false;
-		
+
 		if (!email.matches(EMAIL_PATTERN)) {
 			FacesMessage msg = new FacesMessage("Error", "Email is not valid.");
 			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(msg);
 		}
-		
+
 		if (!isFreeEmail(email)) {
 			FacesMessage msg = new FacesMessage("Error", "Email is used.");
 			msg.setSeverity(FacesMessage.SEVERITY_ERROR);

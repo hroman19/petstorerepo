@@ -46,21 +46,17 @@ public class UserController {
 		} else {
 			valid = user.getPassword().equals(dbUser.getPassword());
 		}
-		
+
 		if (valid) {
-			HttpSession session = SessionUtils.getSession(); 
+			HttpSession session = SessionUtils.getSession();
 			dbUser.setPassword(null);
 			session.setAttribute("user", dbUser);
 			user = new User();
-			FacesContext.getCurrentInstance().addMessage(
-					null, 
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Sign in", "Success"));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Sign in", "Success"));
 			return dbUser.getIsAdmin() ? "admin" : "index";
 		} else {
-			FacesContext.getCurrentInstance().addMessage(
-					null, 
-					new FacesMessage(FacesMessage.SEVERITY_WARN,
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
 					"Incorrect Username and Passowrd", "Please enter correct username and Password"));
 			return "index";
 		}
@@ -69,6 +65,6 @@ public class UserController {
 	public String logout() {
 		HttpSession session = SessionUtils.getSession();
 		session.invalidate();
-		return "index?faces-redirect=true";
+		return "index";
 	}
 }
