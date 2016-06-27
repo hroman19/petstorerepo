@@ -1,5 +1,7 @@
 package org.petstore.ejb.service.impl;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -27,14 +29,16 @@ public class ProductServiceImpl extends GenericServiceImpl<Integer, Product> imp
 	}
 
 	public double getProductWithMinPrice() {
-		System.err.println("MIN PRICE : "+productDAO.getProductWithMinPrice());
 		return productDAO.getProductWithMinPrice();
-		
+
 	}
 
 	public double getProductWithMaxPrice() {
-		System.err.println("MAX PRICE : "+productDAO.getProductWithMaxPrice());
 		return productDAO.getProductWithMaxPrice();
+	}
+
+	public List<String> getProductTypes() {
+		return productDAO.getProductTypes();
 	}
 
 }
