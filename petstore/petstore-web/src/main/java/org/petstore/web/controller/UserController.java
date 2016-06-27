@@ -9,7 +9,9 @@ import javax.servlet.http.HttpSession;
 
 import org.petstore.common.model.User;
 import org.petstore.ejb.service.UserService;
+import org.petstore.web.util.SecurityUtil;
 import org.petstore.web.util.SessionUtils;
+import org.primefaces.context.RequestContext;
 
 @ManagedBean(name = "userController")
 public class UserController {
@@ -34,8 +36,12 @@ public class UserController {
 	public void signUp() {
 		user.setIsAdmin(false);
 		user.setIsDeleted(false);
+		user.setPassword(SecurityUtil.hashPassword(user.getPassword()));
 		userService.add(user);
 		user = new User();
+		RequestContext.getCurrentInstance().execute("$('.sign-up-modal').modal('hide');");
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Sign Up", "You are registrated"));
 	}
 
 	public String signIn() {
@@ -44,7 +50,7 @@ public class UserController {
 		if (dbUser == null) {
 			valid = false;
 		} else {
-			valid = user.getPassword().equals(dbUser.getPassword());
+			valid = SecurityUtil.hashPassword(user.getPassword()).equals(dbUser.getPassword());
 		}
 
 		if (valid) {
