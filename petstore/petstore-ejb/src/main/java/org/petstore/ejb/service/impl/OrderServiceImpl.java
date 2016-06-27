@@ -37,5 +37,10 @@ public class OrderServiceImpl extends GenericServiceImpl<Integer, Order> impleme
 	public List<Order> getAllOrdersByUserIdAndProductId(Integer userID, Integer productID) {		
 		return orderDAO.getAllOrdersByUserIdAndProductId(userID, productID);
 	}
+
+	@Override
+	public List<Order> getByStatus(String status, Integer userId) {
+		return orderDAO.getByStatus(status, userId);
+	}
 	
 }

@@ -1,6 +1,7 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 	<div>
 		<div class="ui menu inverted navbar page grid"
@@ -29,17 +30,39 @@
 							action="#{userController.signIn}" />
 					</div>
 				</h:form>
-				<div class="item">
-					<h:commandButton class="ui blue button" value="Sign up"
-						rendered="#{empty user}" onclick="showSignUpModal()" />
-				</div>
-
-				<h:form class="loginForm" rendered="#{not empty user}">
+				<h:panelGroup rendered="#{empty user}">
 					<div class="item">
+						<h:commandButton class="ui blue button" value="Sign up"
+							rendered="#{empty user}" onclick="showSignUpModal()" />
+					</div>
+				</h:panelGroup>
+
+				<h:panelGroup rendered="#{not empty user}">
+					<div class="item">
+						<h:form rendered="#{not empty user}">
+							<h:commandLink action="#{navigationController.showPage}"
+								value="Products">
+								<f:param name="pageId" value="index" />
+							</h:commandLink>
+						</h:form>
+					</div>
+
+					<div class="item">
+						<h:form rendered="#{not empty user}">
+							<h:commandLink action="#{navigationController.showPage}"
+								value="Bucket">
+								<f:param name="pageId" value="bucket" />
+							</h:commandLink>
+						</h:form>
+					</div>
+				</h:panelGroup>
+
+				<div class="item">
+					<h:form class="loginForm" rendered="#{not empty user}">
 						<h:commandButton class="ui blue button" value="Log Out"
 							action="#{userController.logout}" />
-					</div>
-				</h:form>
+					</h:form>
+				</div>
 			</div>
 		</div>
 	</div>

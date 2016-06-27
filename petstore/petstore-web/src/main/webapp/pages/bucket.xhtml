@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
 	<title>Jumbotron</title>
 	<h:outputStylesheet library="css" name="style.css" />
-	<h:outputScript library="js" name="jquery.js" />
 	<h:outputScript library="js" name="semantic.min.js" />
 	<h:outputStylesheet library="css" name="semantic.min.css" />
 	<h:outputStylesheet library="css" name="main.css" />
@@ -22,17 +22,37 @@
 		<div class="pusher">
 			<div class="ui container">
 				<div class="ui basic segment">
+					<h1 class="ui center header">Bucket</h1>
+
+					<h:form>
+						<p:growl id="msgs" showDetail="true" />
+						<p:panel header="Select a status of order "
+							style="margin-bottom:10px;">
+							<h:panelGrid columns="2" cellpadding="5">
+								<p:outputLabel for="status" value="Status: " />
+								<p:selectOneMenu id="status" value="#{bucketController.status}"
+									style="width:150px">
+									<f:selectItem itemLabel="Select Status" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems value="#{bucketController.getAllStatuses()}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+
+							<p:separator />
+							<h:commandButton value="Submit" update="msgs" type="submit"
+								class="ui download primary button" icon="ui-icon-check" />
+						</p:panel>
+					</h:form>
+
 					<h1 class="ui header">Your Orders</h1>
 
 					<!-- ORDERS -->
 
-					<div class="ui divided items">
-						<ui:repeat value="#{bucketController.getOrders(2)}" var="order">
+					<div id="orders" class="ui divided items">
+						<ui:repeat value="#{bucketController.getOrdersByStatus(user.id)}"
+							var="order">
 
-
-
-
-							<div class="item">
+							<div class="ui item	segment ">
 								<div class="image">
 									<h:graphicImage
 										value="http://icons.indats.com/sewlong/skiing.jpg" />
@@ -41,6 +61,10 @@
 									<a class="header">#{order.product.name}</a>
 									<div class="meta">
 										<b>Price:</b> #{order.product.price} ₴ UAH
+									</div>
+
+									<div class="meta">
+										<b>Added date:</b> #{order.timeOfPurchase}
 									</div>
 
 									<div class="description">
@@ -84,19 +108,16 @@
 								</div>
 								<div>
 									<h:panelGroup rendered="#{order.status == 'PENDING'}">
-										<span class="ui yellow label">#{order.status}</span>
+										<span class="ui yellow right ribbon label">#{order.status}</span>
 									</h:panelGroup>
 									<h:panelGroup rendered="#{order.status == 'BOUGHT'}">
-										<span class="ui green label">#{order.status}</span>
+										<span class="ui green right ribbon label">#{order.status}</span>
 									</h:panelGroup>
 									<h:panelGroup rendered="#{order.status == 'REMOVED_BY_ADMIN'}">
-										<span class="ui red label">#{order.status}</span>
+										<span class="ui red right ribbon label">DELETED</span>
 									</h:panelGroup>
 								</div>
 							</div>
-
-
-
 
 						</ui:repeat>
 					</div>
@@ -109,7 +130,8 @@
 	<ui:include src="footer.xhtml" />
 	<!--  end of footer  -->
 	<script>
-		
+		$('.ui-selectonemenu-trigger.ui-state-default.ui-corner-right').css(
+				'width', '22px');
 	</script>
 </h:body>
 

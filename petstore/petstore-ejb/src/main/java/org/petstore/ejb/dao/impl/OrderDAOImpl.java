@@ -20,17 +20,26 @@ public class OrderDAOImpl extends GenericDAOImpl<Integer, Order> implements Orde
 	public List<Order> getByUserId(Integer userId) {
 		entityManager.clear();
 		Query query = entityManager.createNamedQuery("Order.getAllOrdersByUserId");
-		query.setParameter("userId", userId);
+		query.setParameter("userId", userId);	
 		return query.getResultList();
 	}
 	@Override
 	public List<Order> getAllOrdersByUserIdAndProductId(Integer userID, Integer productID) {
 		entityManager.clear();
-		Query query = getEntityManager().createNamedQuery("Order.getAllOrdersByUserIdAndProductId");
+		Query query = entityManager.createNamedQuery("Order.getAllOrdersByUserIdAndProductId");
 		query.setParameter("userID", userID);
 		query.setParameter("productID", productID);
-		List<Order> results = query.getResultList();			
+		List<Order> results = query.getResultList();
 		return results;
+	}
+
+	@Override
+	public List<Order> getByStatus(String status, Integer userId) {
+		entityManager.clear();
+		Query query = entityManager.createNamedQuery("Order.getAllOrdersByStatus");
+		query.setParameter("status", status);	
+		query.setParameter("userId", userId);	
+		return query.getResultList();
 	}
 
 }
