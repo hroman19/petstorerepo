@@ -49,11 +49,8 @@
 					<!-- ORDERS -->
 
 					<div id="orders" class="ui divided items">
-						<ui:repeat value="#{bucketController.getOrdersByStatus(2)}"
+						<ui:repeat value="#{bucketController.getOrdersByStatus(user.id)}"
 							var="order">
-
-
-
 
 							<div class="ui item	segment ">
 								<div class="image">
@@ -121,9 +118,6 @@
 									</h:panelGroup>
 								</div>
 							</div>
-
-
-
 
 						</ui:repeat>
 					</div>

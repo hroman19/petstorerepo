@@ -11,6 +11,7 @@ import javax.faces.bean.ManagedBean;
 import org.petstore.common.model.Order;
 import org.petstore.common.model.OrderStatus;
 import org.petstore.ejb.service.OrderService;
+import org.petstore.web.util.SessionUtils;
 
 @ManagedBean(name = "bucketController")
 @RequestScoped
@@ -24,7 +25,7 @@ public class BucketController implements Serializable {
 	public void removeOrder(Order order) {
 		orderService.delete(order);
 	}
-
+	
 	public void buyOrder(Order order) {
 		order.setStatus(OrderStatus.BOUGHT.toString());
 		orderService.update(order);
