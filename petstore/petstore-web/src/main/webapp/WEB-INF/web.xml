@@ -20,7 +20,7 @@
 
 	<context-param>
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
-		<param-value>Development</param-value>
+		<param-value>Production</param-value>
 	</context-param>
 
 	<!-- JSF mapping -->
@@ -51,5 +51,16 @@
 	<!-- <filter> <filter-name>AuthorizationFilter</filter-name> <filter-class>org.petstore.web.filter.AuthorizationFilter></filter-class> 
 		<description>This Filter authorizes user access to application.</description> 
 		</filter> -->
+
+	<filter>
+		<display-name>JsessionId Filter</display-name>
+		<filter-name>jsessionIdAvoiderFilter</filter-name>
+		<filter-class>org.petstore.web.filter.JsessionIdAvoiderFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>jsessionIdAvoiderFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
 
 </web-app>

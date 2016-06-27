@@ -37,21 +37,23 @@
 		<div class="ui hidden divider"></div>
 		<div class="pusher">
 
-			
-<!-- 					SLIDER -->
+
+			<!-- 					SLIDER -->
+
 			<h:form>
-				<p:growl id="growl" showDetail="true" />
+				<p:growl id="growl" showDetail="true" sticky="true" />  
 				<h:outputText id="displayRange"
-					value="#{sliderView.minNumber} ₴ UAH to #{sliderView.maxNumber} ₴ UAH" styleClass="ui  circular blue label"/>
+					value="#{sliderView.minNumber} ₴ UAH to #{sliderView.maxNumber} ₴ UAH"
+					styleClass="ui  circular blue label" />
 				<p:slider for="txtMin,txtMax" display="displayRange"
 					style="width:400px; "
 					maxValue="#{sliderView.sliderDefaultMaxNumber}"
 					minValue="#{sliderView.sliderDefaultMinNumber}" range="true"
 					displayTemplate="{min} ₴ UAH to {max} ₴ UAH" />
-				 <h:inputHidden id="txtMin" value="#{sliderView.minNumber}" />
-   				 <h:inputHidden id="txtMax" value="#{sliderView.maxNumber}" />
-   				 
-   				 
+				<h:inputHidden id="txtMin" value="#{sliderView.minNumber}" />
+				<h:inputHidden id="txtMax" value="#{sliderView.maxNumber}" />
+
+
 				<h:commandButton value="Submit" styleClass="ui black button"
 					action="#{sliderView.setSliderValues(sliderView.minNumber,sliderView.maxNumber)}" />
 			</h:form>
@@ -72,8 +74,8 @@
 						<ui:repeat
 							value="#{productController.getProducts(sliderView.minNumber,sliderView.maxNumber)}"
 							var="product">
-							
-							
+
+
 							<div class="item">
 								<div class="image">
 									<h:graphicImage
@@ -119,9 +121,9 @@
 									</div>
 								</div>
 							</div>
-							
-							
-							
+
+
+
 						</ui:repeat>
 					</div>
 				</div>
