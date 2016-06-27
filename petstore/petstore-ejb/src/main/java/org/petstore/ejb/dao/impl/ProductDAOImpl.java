@@ -18,14 +18,14 @@ public class ProductDAOImpl extends GenericDAOImpl<Integer, Product> implements 
 
 	public double getProductWithMinPrice() {
 		entityManager.clear();
-		TypedQuery<Double> query =  (TypedQuery<Double>) getEntityManager().createNamedQuery("Product.getProductWithMinPrice");
+		TypedQuery<Double> query =  (TypedQuery<Double>) entityManager.createNamedQuery("Product.getProductWithMinPrice");
 		double result = query.getSingleResult();			
 		return result;
 	}
 	
 	public double getProductWithMaxPrice() {
 		entityManager.clear();
-		TypedQuery<Double> query =  (TypedQuery<Double>) getEntityManager().createNamedQuery("Product.getProductWithMaxPrice");
+		TypedQuery<Double> query =  (TypedQuery<Double>) entityManager.createNamedQuery("Product.getProductWithMaxPrice");
 		double result = query.getSingleResult();			
 		return result;
 	}
