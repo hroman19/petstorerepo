@@ -32,7 +32,10 @@ public class UserController {
 	}
 
 	public void signUp() {
+		user.setIsAdmin(false);
+		user.setIsDeleted(false);
 		userService.add(user);
+		user = new User();
 	}
 
 	public String signIn() {
@@ -48,6 +51,11 @@ public class UserController {
 			HttpSession session = SessionUtils.getSession(); 
 			dbUser.setPassword(null);
 			session.setAttribute("user", dbUser);
+			user = new User();
+			FacesContext.getCurrentInstance().addMessage(
+					null, 
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Sign in", "Success"));
 			return dbUser.getIsAdmin() ? "admin" : "index";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(
@@ -61,6 +69,6 @@ public class UserController {
 	public String logout() {
 		HttpSession session = SessionUtils.getSession();
 		session.invalidate();
-		return "index";
+		return "index?faces-redirect=true";
 	}
 }
