@@ -4,9 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
 import org.petstore.common.model.Order;
 import org.petstore.common.model.OrderStatus;
@@ -14,7 +16,7 @@ import org.petstore.ejb.service.OrderService;
 import org.petstore.web.util.SessionUtils;
 
 @ManagedBean(name = "bucketController")
-@RequestScoped
+@ViewScoped
 public class BucketController implements Serializable {
 
 	@EJB
