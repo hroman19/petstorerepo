@@ -34,7 +34,7 @@
 						rendered="#{empty user}" onclick="showSignUpModal()" />
 				</div>
 
-				<h:form rendered="#{not empty user}">
+				<h:form class="loginForm" rendered="#{not empty user}">
 					<div class="item">
 						<h:commandButton class="ui blue button" value="Log Out"
 							action="#{userController.logout}" />

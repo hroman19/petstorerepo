@@ -68,21 +68,21 @@
 
 							<h:commandButton value="Sign Up"
 								action="#{userController.signUp()}"
+								ajaxDisableRenderRegionsOnRequest="false"
 								class="ui fluid large green submit button">
 								<f:ajax execute="@form" render="@form closeModalPanelScriplet"
-									onevent="closeIfNoValidationErrorOccured" />
+									onevent="closeIfValid" />
 
 							</h:commandButton>
 
 							<h:panelGroup id="closeModalPanelScriplet">
 								<script type="text/javascript">
-									//<![CDATA[
-									function closeIfNoValidationErrorOccured(
-											data) {
-										// custom validation (mostly check faces context)
-										
-										if (data.status == 'success') {
-											butter.modal.close('sign-up-modal');
+								//<![CDATA[
+									function closeIfValid(data) {
+										var jsfValidation = '#{facesContext.maximumSeverity != null}';
+										var validationFailed = jsfValidation === 'true';
+										if (data.status == 'success' && !validationFailed) {
+											$('.sign-up-modal').modal('hide');
 										}
 									}
 									//]]>

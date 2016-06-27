@@ -10,8 +10,13 @@
 
 	<!-- Welcome page -->
 	<welcome-file-list>
-		<welcome-file>faces/pages/bucket.xhtml</welcome-file>
+		<welcome-file>faces/pages/index.xhtml</welcome-file>
 	</welcome-file-list>
+
+	<error-page>
+		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+		<location>/WEB-INF/errorpages/expired.xhtml</location>
+	</error-page>
 
 	<context-param>
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
@@ -43,11 +48,8 @@
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
 
-	<!-- <filter>
-		<filter-name>AuthorizationFilter</filter-name>
-		<filter-class>org.petstore.web.filter/AuthorizationFilter></filter-class>
-		<description>This Filter authorizes user access to application.</description>
-	</filter> -->
-
+	<!-- <filter> <filter-name>AuthorizationFilter</filter-name> <filter-class>org.petstore.web.filter.AuthorizationFilter></filter-class> 
+		<description>This Filter authorizes user access to application.</description> 
+		</filter> -->
 
 </web-app>
