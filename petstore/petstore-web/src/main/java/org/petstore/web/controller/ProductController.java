@@ -21,20 +21,6 @@ public class ProductController implements Serializable {
 	@EJB
 	private OrderService orderService;
 
-	public List<Product> getProducts() {
-		return productService.getAll();
-	}
-
-	public void deleteProduct(Product product) {
-		product.setIsDeleted(true);
-		productService.update(product);
-	}
-
-	public void restoreProduct(Product product) {
-		product.setIsDeleted(false);
-		productService.update(product);
-	}
-
 	public List<Order> 	getAllOrdersByUserIdAndProductId(Integer userID, Integer productID) {
 		return orderService.getAllOrdersByUserIdAndProductId(userID, productID);
 	}

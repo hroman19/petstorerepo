@@ -1,5 +1,6 @@
 package org.petstore.web.util;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,7 +13,7 @@ import org.petstore.ejb.service.ProductService;
 
 @ManagedBean
 @SessionScoped
-public class CategoryDataSource {
+public class CategoryDataSource implements Serializable {
 	@EJB
 	private ProductService productService;
 
@@ -20,8 +21,8 @@ public class CategoryDataSource {
 
 	@PostConstruct
 	public void init() {
-		categories = productService.getAll().stream().map(x -> x.getType()).collect(Collectors.toList());
-		
+		categories = productService.getAll().stream().map(x -> x.getType()).distinct().collect(Collectors.toList());
+
 		System.out.println(categories);
 	}
 

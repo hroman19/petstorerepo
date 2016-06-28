@@ -2,12 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>Jumbotron</title>
+	<title>Admin</title>
 	<h:outputStylesheet library="css" name="style.css" />
-	<h:outputScript library="js" name="jquery.js" />
 	<h:outputScript library="js" name="semantic.min.js" />
 	<h:outputStylesheet library="css" name="semantic.min.css" />
 	<h:outputStylesheet library="css" name="main.css" />
@@ -23,35 +24,48 @@
 			<div class="ui container">
 				<div class="ui basic segment">
 					<h1 class="ui header">Available Products</h1>
+					
+					<div class="ui grid">
+  					 	<div class="row">
+    						<div class="five wide column">
 
-					<div class="ui icon top left pointing dropdown button blue">
-						<i class="filter icon"></i> <span class="text">All Dates</span>
-						<div class="menu">
-							<div class="header">Available Days</div>
-							<div class="item">Jan 23 - Saturday</div>
-							<div class="item">Jan 24 - Sunday</div>
-							<div class="item">Jan 25 - Monday</div>
-							<div class="item">Jan 26 - Tuesday</div>
-						</div>
+							<div class="ui icon top left pointing dropdown button blue">
+								<i class="filter icon"></i> <span class="text">All Dates</span>
+								<div class="menu">
+									<div class="header">Available Days</div>
+									<div class="item">Jan 23 - Saturday</div>
+									<div class="item">Jan 24 - Sunday</div>
+									<div class="item">Jan 25 - Monday</div>
+									<div class="item">Jan 26 - Tuesday</div>
+								</div>
+							</div>
+		
+							<div class="ui icon top left pointing dropdown button blue">
+								<i class="sort content descending icon"></i> <span class="text">Sort
+									Activities</span>
+								<div class="menu">
+									<div class="header">Sort By</div>
+									<div class="item">Date</div>
+									<div class="item">Categories</div>
+								</div>
+							</div>
+							</div>
+							
+							<div class="right floated three wide column">
+								<p:commandLink value="Add product"
+								styleClass="fluid ui grey button"
+								onclick="$('#newProductModal').modal('show');"
+								update=":productForm" immediate="true"/>
+							</div>
 					</div>
-
-					<div class="ui icon top left pointing dropdown button blue">
-						<i class="sort content descending icon"></i> <span class="text">Sort
-							Activities</span>
-						<div class="menu">
-							<div class="header">Sort By</div>
-							<div class="item">Date</div>
-							<div class="item">Categories</div>
-						</div>
-					</div>
-
+			</div>
 
 					<!-- PRODUCTS -->
 
-					<div class="ui divided items">
+					<h:panelGroup id="productsPanel" class="ui divided items">
 						<h3 class="ui header">Saturday January 23</h3>
 
-						<ui:repeat value="#{productController.products}" var="product"
+						<ui:repeat value="#{adminController.products}" var="product"
 							varStatus="status">
 							<div class="item">
 								<div class="image">
@@ -69,11 +83,11 @@
 									<div class="extra">
 										<h:form>
 											<h:commandButton rendered="#{product.isDeleted}"
-												action="#{productController.restoreProduct(product)}"
+												action="#{adminController.restoreProduct(product)}"
 												class="ui right floated red button" value="Restore">
 											</h:commandButton>
 											<h:commandButton rendered="#{not product.isDeleted}"
-												action="#{productController.deleteProduct(product)}"
+												action="#{adminController.deleteProduct(product)}"
 												class="ui right floated yellow button" value="Delete">
 											</h:commandButton>
 											<div class="ui label">#{product.type}</div>
@@ -82,16 +96,135 @@
 								</div>
 							</div>
 						</ui:repeat>
-					</div>
+						</h:panelGroup>
 				</div>
 			</div>
 		</div>
 
 	</div>
+	
+	<!-- New Product Modal -->
+	<div id="newProductModal" class="ui modal">
+			<i class="close icon"></i>
+			<div class="header">New product</div>
+
+			<div class="content">
+
+				<h:form id="productForm" styleClass="ui form"
+					enctype="multipart/form-data">
+					<div class="field">
+						<div class="ui small header">Name</div>
+						<h:inputText id="nameInput"
+						value="#{adminController.product.name}"
+						validatorMessage="Name error length"
+						required="true"
+                		requiredMessage="Name is required">
+							<f:validateLength minimum="1" maximum="10" />
+						</h:inputText>
+						<h:message for="nameInput" style="color:red" styleClass="ui pointing label" />
+					</div>
+
+					<div class="field">
+						<div class="ui small header">Price</div>
+						<p:inputNumber
+							id="priceInput"
+							required="true"
+							requiredMessage="Price is required"
+							validatorMessage="Price max value is 1000000"
+							value="#{adminController.product.price}" symbol="$"
+							symbolPosition="s" emptyValue="sign" minValue="0"
+							maxValue="1000000">
+						</p:inputNumber>
+						<h:message for="priceInput" style="color:red" styleClass="ui pointing label" />
+					</div>
+
+					<div class="field">
+					
+						<div class="row">
+						<div class="ui small header" style="padding-bottom:5px">Category</div>
+						</div>
+						<div class="row">
+						<p:autoComplete
+							id="categoryInput"
+							value="#{adminController.product.type}"
+							required="true"
+							requiredMessage="Category is required"
+							validatorMessage="Max length - 100 characters"
+							maxlength="100"
+							completeMethod="#{autoComplete.complete}" var="category"
+							itemLabel="#{category}" itemValue="#{category}"
+							converter="categoryConverter" minQueryLength="0" size="30"
+							queryDelay="0" scrollHeight="400" />
+						</div>
+						<div class="row">
+						<h:message for="categoryInput" style="color:red" styleClass="ui pointing label" />
+						</div>
+					</div>
+
+					<div class="field">
+						<div class="ui small header">Description</div>
+						<p:inputTextarea
+							id="descriptionInput"
+							required="false"
+							validatorMessage="Max length - 255 characters"
+							value="#{adminController.product.description}"
+							rows="5" cols="30" counter="display" maxlength="255"
+							counterTemplate="{0} characters remaining" autoResize="false" />
+							<h:message for="descriptionInput" style="color:red" />
+						<h:outputText id="display" />
+					</div>
+
+
+					<div class="field">
+						<div class="ui small header">Select image</div>
+							<p:fileUpload id="imageInput"
+							multiple="false"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
+							value="#{adminController.file}"
+							required="true"
+							sizeLimit="#{uploadFileUtil.fileSize}"
+							fileLimit="1"
+							requiredMessage="Image is required"
+							invalidSizeMessage="Invalid Size"
+							invalidFileMessage="Invalid File Type"
+							fileLimitMessage="Invalid File Limit"
+							mode="simple"
+							skinSimple="true"
+							/>
+							<p:message for="imageInput" style="color:red" />
+						
+					</div>
+					
+					<div class="two column row">
+    					<div class="right floated column">
+    					
+    					<h:commandButton value="Add"
+							action="#{adminController.addProduct}"
+							styleClass="ui primary button">
+							<f:ajax execute="@form" render="@form :productsPanel"/>
+						</h:commandButton>
+						</div>
+					</div>
+					
+
+				</h:form>
+			</div>
+		</div>
+	
+	
 	<!--  footer  -->
 	<ui:include src="footer.xhtml" />
 	<!--  end of footer  -->
 	<script>
+	
+		$('.ui.modal').modal();
+		$('#newProductModal').modal({
+			onHide: function(){
+				$("#productForm").trigger('reset')
+	
+	        },
+		});
+	
 		$('.ui.dropdown').dropdown();
 
 		$('.add-button,.agenda-item').click(function() {

@@ -4,12 +4,7 @@
 
 	<url-mapping id="admin">
 		<pattern value="/admin" />
-		<view-id value="/faces/pages/admin.xhtml" />
-	</url-mapping>
-	
-	<url-mapping id="test">
-		<pattern value="/test" />
-		<view-id value="/faces/pages/test.xhtml" />
+		<view-id value="/faces/pages/admin-products.xhtml" />
 	</url-mapping>
 
 </pretty-config>
