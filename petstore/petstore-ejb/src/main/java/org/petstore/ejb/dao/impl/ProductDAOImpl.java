@@ -1,8 +1,10 @@
 package org.petstore.ejb.dao.impl;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.TypedQuery;
 
 import org.petstore.common.model.Product;
 import org.petstore.ejb.dao.ProductDAO;
@@ -13,5 +15,28 @@ public class ProductDAOImpl extends GenericDAOImpl<Integer, Product> implements 
 	public ProductDAOImpl() {
 		super(Product.class);
 	}
+
+	public double getProductWithMinPrice() {
+		entityManager.clear();
+		TypedQuery<Double> query =  (TypedQuery<Double>) entityManager.createNamedQuery("Product.getProductWithMinPrice");
+		double result = query.getSingleResult();			
+		return result;
+	}
+	
+	public double getProductWithMaxPrice() {
+		entityManager.clear();
+		TypedQuery<Double> query =  (TypedQuery<Double>) entityManager.createNamedQuery("Product.getProductWithMaxPrice");
+		double result = query.getSingleResult();			
+		return result;
+	}
+
+	public List<String> getProductTypes() {
+		entityManager.clear();
+		TypedQuery<String> query =  (TypedQuery<String>) entityManager.createNamedQuery("Product.getProductTypes");
+		List<String> result = query.getResultList();
+		return result;
+	}
+	
+	
 
 }

@@ -1,6 +1,7 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 	<div>
 		<div class="ui menu inverted navbar page grid"
@@ -9,24 +10,58 @@
 				<h:graphicImage value="resources/images/logo.jpg" class="logo-img" />
 			</div>
 			<div class="right menu">
-				<div class="item">
-					<div class="ui left icon input">
-						<i class="mail outline icon"></i>
-						<h:inputText p:placeholder="Email" />
+				<h:form class="loginForm" rendered="#{empty user}">
+					<div class="item">
+						<div class="ui left icon input">
+							<i class="mail outline icon"></i>
+							<h:inputText p:placeholder="Email"
+								value="#{userController.user.email}" />
+						</div>
 					</div>
-				</div>
-				<div class="item">
-					<div class="ui left icon input">
-						<i class="lock icon"></i>
-						<h:inputSecret p:placeholder="Password" />
+					<div class="item">
+						<div class="ui left icon input">
+							<i class="lock icon"></i>
+							<h:inputSecret p:placeholder="Password"
+								value="#{userController.user.password}" />
+						</div>
 					</div>
-				</div>
+					<div class="item">
+						<h:commandButton class="ui green button" value="Sign in"
+							action="#{userController.signIn}" />
+					</div>
+				</h:form>
+				<h:panelGroup rendered="#{empty user}">
+					<div class="item">
+						<h:commandButton class="ui blue button" value="Sign up"
+							rendered="#{empty user}" onclick="showSignUpModal()" />
+					</div>
+				</h:panelGroup>
+
+				<h:panelGroup rendered="#{not empty user}">
+					<div class="item">
+						<h:form rendered="#{not empty user}">
+							<h:commandLink action="#{navigationController.showPage}"
+								value="Products">
+								<f:param name="pageId" value="index" />
+							</h:commandLink>
+						</h:form>
+					</div>
+
+					<div class="item">
+						<h:form rendered="#{not empty user}">
+							<h:commandLink action="#{navigationController.showPage}"
+								value="Bucket">
+								<f:param name="pageId" value="bucket" />
+							</h:commandLink>
+						</h:form>
+					</div>
+				</h:panelGroup>
+
 				<div class="item">
-					<h:commandButton class="ui green button" value="Sign in" />
-				</div>
-				<div class="item">
-					<h:commandButton class="ui blue button" onclick="showSignUpModal()"
-						value="Sign up" />
+					<h:form class="loginForm" rendered="#{not empty user}">
+						<h:commandButton class="ui blue button" value="Log Out"
+							action="#{userController.logout}" />
+					</h:form>
 				</div>
 			</div>
 		</div>
@@ -37,4 +72,9 @@
 	<!--  end sign up -->
 
 	<!--  end of header  -->
+	<script>
+		function showSignUpModal() {
+			$('.sign-up-modal').modal('show');
+		};
+	</script>
 </ui:composition>

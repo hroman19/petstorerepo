@@ -22,8 +22,8 @@ public class UserDAOImpl extends GenericDAOImpl<Integer, User> implements UserDA
 	@Override
 	public User getByEmail(String email) {
 		try{
+			entityManager.clear();
 			Query query = entityManager.createNamedQuery("User.getUserByEmail");
-			
 			query.setParameter("email", email);
 			return (User) query.getSingleResult();
 		}catch(NoResultException e){

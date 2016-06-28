@@ -8,12 +8,22 @@
 
 <h:head>
 	<title>Petstore</title>
-	<h:outputStylesheet library="css" name="style.css" />
-	<h:outputScript library="js" name="jquery.js" />
-	<h:outputScript library="js" name="semantic.min.js" />
-	<h:outputStylesheet library="css" name="semantic.min.css" />
-	<h:outputStylesheet library="css" name="main.css" />
+	<ui:include src="imports.xhtml" />
 </h:head>
+
+<style>
+.ui-slider-range {
+	background: #2185d0 !important;
+}
+
+.ui-slider .ui-slider-handle {
+	background: #ffffff !important;
+}
+
+.ui-slider {
+	background: #ffffff !important;
+}
+</style>
 
 <h:body>
 	<!--  header  -->
@@ -22,86 +32,115 @@
 	<div class="custom-body">
 		<div class="ui hidden divider"></div>
 		<div class="pusher">
+
 			<div class="ui container">
-				<div class="ui basic segment">
-					<h1 class="ui header">Available Products</h1>
-
-					<div class="ui icon top left pointing dropdown button blue">
-						<i class="filter icon"></i> <span class="text">All Dates</span>
-						<div class="menu">
-							<div class="header">Available Days</div>
-							<div class="item">Jan 23 - Saturday</div>
-							<div class="item">Jan 24 - Sunday</div>
-							<div class="item">Jan 25 - Monday</div>
-							<div class="item">Jan 26 - Tuesday</div>
-						</div>
-					</div>
-
-					<div class="ui icon top left pointing dropdown button blue">
-						<i class="sort content descending icon"></i> <span class="text">Sort
-							Activities</span>
-						<div class="menu">
-							<div class="header">Sort By</div>
-							<div class="item">Date</div>
-							<div class="item">Categories</div>
-						</div>
-					</div>
-
-
-
-
-
-					<!-- PRODUCTS -->
-
-					<div class="ui divided items">
-						<h3 class="ui header">Saturday January 23</h3>
-
-						<ui:repeat value="#{productController.getProducts()}"
-							var="product">
-							<div class="item">
-								<div class="image">
-									<h:graphicImage
-										value="http://icons.indats.com/sewlong/skiing.jpg" />
+				<div class="ui segments">
+					<div class="ui blue segment">
+						<!-- products filter -->
+						<h:form styleClass="ui form">
+							<div class="three fields">
+								<!-- price filter -->
+								<div class="field">
+									<p:growl id="growl" showDetail="true" />
+									<h:outputText id="displayRange"
+										value="#{productController.filter.minPrice} ₴ UAH to #{productController.filter.maxPrice} ₴ UAH"
+										styleClass="ui circular blue label" />
+									<p:slider for="txtMin,txtMax" display="displayRange"
+										minValue="#{productController.filter.defaultMinPrice}"
+										maxValue="#{productController.filter.defaultMaxPrice}"
+										range="true" displayTemplate="{min} ₴ UAH to {max} ₴ UAH" />
+									<h:inputHidden id="txtMin"
+										value="#{productController.filter.minPrice}" />
+									<h:inputHidden id="txtMax"
+										value="#{productController.filter.maxPrice}" />
 								</div>
-								<div class="content">
-									<a class="header">#{product.name}</a>
-									<div class="meta">
-										<b>Price:</b> #{product.price}
-									</div>
-
-									<div class="description">
-										<p>#{product.description}</p>
-									</div>
-
-									<div class="extra">
-
-										<!-- If product is added to bucket -->
-										<h:panelGroup
-											rendered="#{not empty productController.getAllOrdersByUserIdAndProductId(2,product.id)}">
-											<div class="ui right floated positive button add-button">
-												Added <i class="right checkmark icon"></i>
-											</div>
-										</h:panelGroup>
-										<!-- If product is NOT added to bucket -->
-										<h:panelGroup
-											rendered="#{empty productController.getAllOrdersByUserIdAndProductId(2,product.id)}">
-											<div class="ui right floated  orange button add-button">
-												Add to bucket <i class="right bitbucket  icon"></i>
-											</div>
-										</h:panelGroup>
-
-
-										<div class="ui label">#{product.type}</div>
+								<!-- type filter -->
+								<div class="field">
+									<h:selectOneMenu value="#{productController.filter.type}"
+										styleClass="ui selection dropdown">
+										<f:selectItem itemLabel="Select type" itemValue="" />
+										<f:selectItem itemLabel="[select none]" itemValue="none" />
+										<f:selectItems value="#{productController.productTypes}" />
+									</h:selectOneMenu>
+								</div>
+								<!-- search -->
+								<div class="field">
+									<div class="ui icon input">
+										<h:inputText value="#{productController.filter.search}"
+											pt:placeholder="Search ..." />
 									</div>
 								</div>
 							</div>
-						</ui:repeat>
+							
+							<h:commandButton value="Filter" styleClass="ui blue button">
+								<f:ajax execute="@form" render="products-list"></f:ajax>
+							</h:commandButton>
+						</h:form>
+						<!--  -->
+					</div>
+					<div class="ui basic segment">
+
+						<!-- products list -->
+						<h:panelGroup id="products-list" styleClass="ui divided items">
+							<ui:repeat value="#{productController.getProducts()}"
+								var="product">
+
+								<div class="item">
+									<div class="image">
+										<h:graphicImage
+											value="http://icons.indats.com/sewlong/skiing.jpg" />
+									</div>
+									<div class="content">
+										<a class="header">#{product.name}</a>
+										<div class="meta">
+											<b>Price:</b> #{product.price} ₴ UAH
+										</div>
+
+										<div class="description">
+											<p>#{product.description}</p>
+										</div>
+
+										<div class="extra">
+
+											<!-- If user is signed in -->
+											<h:panelGroup rendered="#{not empty user}">
+
+												<!-- If product is added to bucket -->
+												<h:panelGroup
+													rendered="#{not empty productController.getAllOrdersByUserIdAndProductId(user.id, product.id)}">
+													<a class="ui blue tag label right floated">Added</a>
+												</h:panelGroup>
+
+												<!-- If product is not added to bucket -->
+												<h:panelGroup
+													rendered="#{empty productController.getAllOrdersByUserIdAndProductId(user.id, product.id)}">
+													<h:form id="product-add-to-bucket-form">
+														<h:commandLink
+															styleClass="ui right floated positive button add-button"
+															action="#{productController.addToBucket(user.id, product.id)}">
+													Add to Bucket <h:outputText value="&#160;" />
+															<h:outputText value="&#160;" />
+															<i class="bitbucket icon" />
+															<f:ajax
+																render="@form :products-list :product-add-to-bucket-form" />
+														</h:commandLink>
+													</h:form>
+												</h:panelGroup>
+
+											</h:panelGroup>
+
+											<div class="ui teal tag label">#{product.type}</div>
+
+										</div>
+									</div>
+								</div>
+							</ui:repeat>
+						</h:panelGroup>
+						<!--  -->
 					</div>
 				</div>
 			</div>
 		</div>
-
-
 
 
 
@@ -120,10 +159,6 @@
 	<ui:include src="footer.xhtml" />
 	<!--  end of footer  -->
 	<script>
-		function showSignUpModal() {
-			$('.sign-up-modal').modal('show');
-		}
-
 		$('.ui.dropdown').dropdown();
 
 		$('.add-button,.agenda-item').click(function() {

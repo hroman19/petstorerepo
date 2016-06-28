@@ -1,7 +1,8 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
 
 	<div class="ui modal sign-up-modal">
@@ -12,13 +13,14 @@
 						style="width: 30%;" />
 				</h1>
 				<h:form class="ui form">
+					<p:growl id="growl" showDetail="true" sticky="true" globalOnly="true"/>  
 					<div class="ui stacked segment">
 						<div class="grid">
 
 							<div class="field">
 								<div class="ui left icon input">
 									<i class="user outline icon"></i>
-									<h:inputText p:placeholder="First name" id="firstNameInput"
+									<h:inputText ph:placeholder="First name" id="firstNameInput"
 										value="#{userController.user.firstName}"
 										validatorMessage="Error. First name must be more than 3 and less than 50 characters">
 										<f:validateLength minimum="3" maximum="50" />
@@ -31,7 +33,7 @@
 							<div class="field">
 								<div class="ui left icon input">
 									<i class="user outline icon"></i>
-									<h:inputText p:placeholder="Last name" id="lastNameInput"
+									<h:inputText ph:placeholder="Last name" id="lastNameInput"
 										value="#{userController.user.lastName}"
 										validatorMessage="Error. Last name must be more than 3 and less than 50 characters">
 										<f:validateLength minimum="3" maximum="50" />
@@ -44,11 +46,10 @@
 							<div class="field">
 								<div class="ui left icon input">
 									<i class="mail outline icon"></i>
-									<h:inputText id="signup-email" p:placeholder="Email"
+									<h:inputText id="signup-email" ph:placeholder="Email"
 										value="#{userController.user.email}">
 										<f:validator binding="#{emailValidator}" />
 									</h:inputText>
-
 								</div>
 								<h:message class="ui pointing red basic label"
 									for="signup-email" style="color:red" />
@@ -57,7 +58,7 @@
 							<div class="field">
 								<div class="ui left icon input">
 									<i class="lock icon"></i>
-									<h:inputSecret p:placeholder="Password" id="signup-password"
+									<h:inputSecret ph:placeholder="Password" id="signup-password"
 										value="#{userController.user.password}"
 										validatorMessage="Error. Password must be more than 8 and less than 50 characters and include ">
 										<f:validateLength minimum="8" maximum="50" />
@@ -69,7 +70,12 @@
 
 							<h:commandButton value="Sign Up"
 								action="#{userController.signUp()}"
-								class="ui fluid large green submit button" />
+								ajaxDisableRenderRegionsOnRequest="false"
+								class="ui fluid large green submit button">
+								<f:ajax execute="@form" render="@form" />
+
+							</h:commandButton>
+							
 						</div>
 					</div>
 				</h:form>
