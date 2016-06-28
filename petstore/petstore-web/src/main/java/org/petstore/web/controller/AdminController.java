@@ -6,18 +6,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -40,6 +35,7 @@ public class AdminController implements Serializable {
 	private List<Product> products;
 
 	private Product product = new Product();
+	private Product productForEdit = new Product();
 
 	private UploadedFile file;
 
@@ -69,7 +65,37 @@ public class AdminController implements Serializable {
 			}
 		}
 
-		complete();
+		closeModal("newProductModal");
+	}
+	
+	public void deleteProduct(Product product) {
+		product.setIsDeleted(true);
+		productService.update(product);
+	}
+
+	public void restoreProduct(Product product) {
+		product.setIsDeleted(false);
+		productService.update(product);
+	}
+	
+	public void editProduct(){
+
+		if (file.getSize() != 0) {
+
+			createFolder(FOLDER_NAME);
+			try {
+				String fileName = saveImage();
+
+				// update product
+				productForEdit.setImgUrl(fileName);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		productService.update(productForEdit);
+
+		closeModal("editProductModal");
 	}
 
 	/*public void validateFile(FacesContext ctx, UIComponent comp, Object value) {
@@ -110,16 +136,30 @@ public class AdminController implements Serializable {
 	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
-
-	public void deleteProduct(Product product) {
-		product.setIsDeleted(true);
-		productService.update(product);
+	
+	public Product getProductForEdit() {
+		return productForEdit;
+	}
+	
+	public void setProductForEdit(Product productForEdit) {
+		this.productForEdit = productForEdit;
+	}
+	
+	public void setForEdit(){
+		
+		System.out.println("...");
 	}
 
-	public void restoreProduct(Product product) {
-		product.setIsDeleted(false);
-		productService.update(product);
+	public ProductFilter getFilter() {
+		return filter;
 	}
+
+	public void setFilter(ProductFilter filter) {
+		this.filter = filter;
+	}
+	
+	
+	
 
 	private void createFolder(String name) {
 		File theDir = new File(name);
@@ -146,17 +186,10 @@ public class AdminController implements Serializable {
 
 		return fileName;
 	}
-	
-	public ProductFilter getFilter() {
-		return filter;
-	}
 
-	public void setFilter(ProductFilter filter) {
-		this.filter = filter;
-	}
-
-	private void complete() {
+	private void closeModal(String modalName) {
+		filter.refresh();
 		product = new Product();
-		RequestContext.getCurrentInstance().execute("$('#newProductModal').modal('hide')");
+		RequestContext.getCurrentInstance().execute("$('#"+modalName+"').modal('hide')");
 	}
 }

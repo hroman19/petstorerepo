@@ -7,7 +7,7 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 						<!-- products filter -->
 			<div class="ui segment">
-						<h:form styleClass="ui form">
+						<h:form styleClass="ui form" id="productFilterForm">
 							
 							<div class="ui grid">
   									<div class="row" style="padding-left:15px">
@@ -34,7 +34,6 @@
 								<div class="field">
 									<h:selectOneMenu value="#{productFilter.type}"
 										styleClass="ui selection dropdown">
-										<f:selectItem itemLabel="Select type" itemValue="" />
 										<f:selectItem itemLabel="all" itemValue="none" />
 										<f:selectItems value="#{productController.productTypes}" />
 									</h:selectOneMenu>

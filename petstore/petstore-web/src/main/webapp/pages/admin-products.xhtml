@@ -10,6 +10,21 @@
 <h:head>
 	<title>Admin</title>
 	<ui:include src="imports.xhtml" />
+	
+<style>
+	.ui-slider-range {
+		background: #2185d0 !important;
+	}
+	
+	.ui-slider .ui-slider-handle {
+		background: #ffffff !important;
+	}
+	
+	.ui-slider {
+		background: #ffffff !important;
+	}
+</style>
+	
 </h:head>
 
 <h:body>
@@ -61,18 +76,43 @@
 										<p>#{product.description}</p>
 									</div>
 									<div class="extra">
-										<h:form>
-											<h:commandButton rendered="#{product.isDeleted}"
-												action="#{adminController.restoreProduct(product)}"
-												class="ui right floated red button" value="Restore">
-											</h:commandButton>
-											<h:commandButton rendered="#{not product.isDeleted}"
-												action="#{adminController.deleteProduct(product)}"
-												class="ui right floated yellow button" value="Delete">
-											</h:commandButton>
-											<div class="ui label">#{product.type}</div>
-										</h:form>
-										
+										<div class="ui grid">
+										<div class="row">
+		    								<div class="left floated column">
+		    								<div class="ui label">#{product.type}</div>
+		    								</div>
+		    								<div class="right floated column">
+												<h:form id="setProductForEditForm">
+												<p:commandLink
+													value="Edit"
+													ajax="true"
+													actionListener="#{adminController.setProductForEdit(product)}"
+													styleClass="ui right floated button"
+													onclick="$('#editProductModal').modal('show');"
+													update=":editProductForm" immediate="true">
+													</p:commandLink>
+												</h:form>
+											</div>
+		    								<div class="right floated column" style="margin-left:50px">
+												<h:form>
+												<h:commandButton
+													rendered="#{product.isDeleted}"
+													action="#{adminController.restoreProduct(product)}"
+													class="ui right floated yellow button"
+													value="Restore">
+													<f:ajax execute="@form" render="productsPanel"></f:ajax>
+												</h:commandButton>
+												<h:commandButton
+													rendered="#{not product.isDeleted}"
+													action="#{adminController.deleteProduct(product)}"
+													class="ui right floated red button"
+													value="Remove">
+													<f:ajax execute="@form" render="productsPanel"></f:ajax>
+												</h:commandButton>
+												</h:form>
+												</div>
+										</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -163,7 +203,118 @@
 							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
 							value="#{adminController.file}"
 							required="true"
-							sizeLimit="#{uploadFileUtil.fileSize}"
+							sizeLimit="#{5*1024*1024}"
+							fileLimit="1"
+							requiredMessage="Image is required"
+							invalidSizeMessage="Invalid Size"
+							invalidFileMessage="Invalid File Type"
+							fileLimitMessage="Invalid File Limit"
+							mode="simple"
+							skinSimple="true"
+							/>
+							<p:message for="imageInput" style="color:red" />
+						
+					</div>
+					
+					<div class="ui grid">
+					<div class="row">
+    					<div class="right floated column">
+    					
+    					<h:commandButton value="Add"
+							action="#{adminController.addProduct}"
+							styleClass="ui right floated primary button">
+							<f:ajax execute="@form" render="@form :productsPanel :productFilterForm"/>
+						</h:commandButton>
+						</div>
+					</div>
+					</div>
+					
+
+				</h:form>
+			</div>
+		</div>
+		
+		
+		<!-- Edit Product Modal -->
+	<div id="editProductModal" class="ui modal" style="overflow-y: scroll;">
+			<i class="close icon"></i>
+			<div class="header">Edit product</div>
+
+			<div class="content">
+
+				<h:form id="editProductForm" styleClass="ui form"
+					enctype="multipart/form-data">
+					<div class="field">
+						<div class="ui small header">Name</div>
+						<h:inputText id="nameInput"
+						value="#{adminController.productForEdit.name}"
+						validatorMessage="Name error length"
+						required="true"
+                		requiredMessage="Name is required">
+							<f:validateLength minimum="1" maximum="10" />
+						</h:inputText>
+						<h:message for="nameInput" style="color:red" styleClass="ui pointing label" />
+					</div>
+
+					<div class="field">
+						<div class="ui small header">Price</div>
+						<p:inputNumber
+							id="priceInput"
+							required="true"
+							requiredMessage="Price is required"
+							validatorMessage="Price max value is 1000000"
+							value="#{adminController.productForEdit.price}" symbol="$"
+							symbolPosition="s" emptyValue="sign" minValue="0"
+							maxValue="1000000">
+						</p:inputNumber>
+						<h:message for="priceInput" style="color:red" styleClass="ui pointing label" />
+					</div>
+
+					<div class="field">
+					
+						<div class="row">
+						<div class="ui small header" style="padding-bottom:5px">Category</div>
+						</div>
+						<div class="row">
+						<p:autoComplete
+							id="categoryInput"
+							value="#{adminController.productForEdit.type}"
+							required="true"
+							requiredMessage="Category is required"
+							validatorMessage="Max length - 100 characters"
+							maxlength="100"
+							completeMethod="#{autoComplete.complete}" var="category"
+							itemLabel="#{category}" itemValue="#{category}"
+							converter="categoryConverter" minQueryLength="0" size="30"
+							queryDelay="0" scrollHeight="400" />
+						</div>
+						<div class="row">
+						<h:message for="categoryInput" style="color:red" styleClass="ui pointing label" />
+						</div>
+					</div>
+
+					<div class="field">
+						<div class="ui small header">Description</div>
+						<p:inputTextarea
+							id="descriptionInput"
+							required="false"
+							validatorMessage="Max length - 255 characters"
+							value="#{adminController.productForEdit.description}"
+							rows="5" cols="30" counter="display" maxlength="255"
+							counterTemplate="{0} characters remaining" autoResize="false" />
+							<h:message for="descriptionInput" style="color:red" />
+						<h:outputText id="display" />
+					</div>
+
+
+					<div class="field">
+						<div class="ui small header">Select image</div>
+							<p:fileUpload id="imageInput"
+							multiple="false"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
+							value="#{adminController.file}"
+							required="true"
+							sizeLimit="#{5*1024*1024}"
 							fileLimit="1"
 							requiredMessage="Image is required"
 							invalidSizeMessage="Invalid Size"
@@ -179,10 +330,10 @@
 					<div class="two column row">
     					<div class="right floated column">
     					
-    					<h:commandButton value="Add"
-							action="#{adminController.addProduct}"
-							styleClass="ui primary button">
-							<f:ajax execute="@form" render="@form :productsPanel"/>
+    					<h:commandButton value="Edit"
+							action="#{adminController.editProduct}"
+							styleClass="ui right floated primary button">
+							<f:ajax execute="@form" render="@form :productsPanel :productFilterForm"/>
 						</h:commandButton>
 						</div>
 					</div>

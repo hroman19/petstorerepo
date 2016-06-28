@@ -57,6 +57,16 @@ public class ProductFilter implements Serializable {
 			return valid;
 		}).collect(Collectors.toList());
 	}
+	
+	public void refresh(){
+		int defaultMinPrice = (int)productService.getProductWithMinPrice();
+		int defaultMaxPrice = (int)productService.getProductWithMaxPrice();
+		
+		this.defaultMinPrice = defaultMinPrice;
+		this.defaultMaxPrice = defaultMaxPrice;
+		minPrice = defaultMinPrice;
+		maxPrice = defaultMaxPrice;
+	}
 
 	public int getDefaultMinPrice() {
 		return defaultMinPrice;
