@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -29,11 +30,14 @@ import org.primefaces.model.UploadedFile;
 @ViewScoped
 public class AdminController implements Serializable {
 	private static final String FOLDER_NAME = "D:\\petstore\\images";
-
-	private List<Product> products;
-
+	
+	@ManagedProperty("#{productFilter}")
+	private ProductFilter filter;
+	
 	@EJB
 	private ProductService productService;
+
+	private List<Product> products;
 
 	private Product product = new Product();
 
@@ -68,7 +72,7 @@ public class AdminController implements Serializable {
 		complete();
 	}
 
-	public void validateFile(FacesContext ctx, UIComponent comp, Object value) {
+	/*public void validateFile(FacesContext ctx, UIComponent comp, Object value) {
 		List<FacesMessage> msgs = new ArrayList<FacesMessage>();
 		UploadedFile file = (UploadedFile) value;
 		int fileByte = file.getContents().length;
@@ -81,7 +85,7 @@ public class AdminController implements Serializable {
 		if (!msgs.isEmpty()) {
 			throw new ValidatorException(msgs);
 		}
-	}
+	}*/
 	
 	public Product getProduct() {
 		return product;
@@ -100,7 +104,7 @@ public class AdminController implements Serializable {
 	}
 
 	public List<Product> getProducts() {
-		return products;
+		return filter.filter(products);
 	}
 
 	public void setProducts(List<Product> products) {
@@ -142,10 +146,17 @@ public class AdminController implements Serializable {
 
 		return fileName;
 	}
+	
+	public ProductFilter getFilter() {
+		return filter;
+	}
+
+	public void setFilter(ProductFilter filter) {
+		this.filter = filter;
+	}
 
 	private void complete() {
 		product = new Product();
 		RequestContext.getCurrentInstance().execute("$('#newProductModal').modal('hide')");
 	}
-
 }

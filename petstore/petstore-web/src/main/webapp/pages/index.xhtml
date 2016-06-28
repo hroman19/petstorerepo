@@ -34,50 +34,11 @@
 		<div class="pusher">
 
 			<div class="ui container">
-				<div class="ui segments">
-					<div class="ui blue segment">
-						<!-- products filter -->
-						<h:form styleClass="ui form">
-							<div class="three fields">
-								<!-- price filter -->
-								<div class="field">
-									<p:growl id="growl" showDetail="true" />
-									<h:outputText id="displayRange"
-										value="#{productController.filter.minPrice} ₴ UAH to #{productController.filter.maxPrice} ₴ UAH"
-										styleClass="ui circular blue label" />
-									<p:slider for="txtMin,txtMax" display="displayRange"
-										minValue="#{productController.filter.defaultMinPrice}"
-										maxValue="#{productController.filter.defaultMaxPrice}"
-										range="true" displayTemplate="{min} ₴ UAH to {max} ₴ UAH" />
-									<h:inputHidden id="txtMin"
-										value="#{productController.filter.minPrice}" />
-									<h:inputHidden id="txtMax"
-										value="#{productController.filter.maxPrice}" />
-								</div>
-								<!-- type filter -->
-								<div class="field">
-									<h:selectOneMenu value="#{productController.filter.type}"
-										styleClass="ui selection dropdown">
-										<f:selectItem itemLabel="Select type" itemValue="" />
-										<f:selectItem itemLabel="[select none]" itemValue="none" />
-										<f:selectItems value="#{productController.productTypes}" />
-									</h:selectOneMenu>
-								</div>
-								<!-- search -->
-								<div class="field">
-									<div class="ui icon input">
-										<h:inputText value="#{productController.filter.search}"
-											pt:placeholder="Search ..." />
-									</div>
-								</div>
-							</div>
-							
-							<h:commandButton value="Filter" styleClass="ui blue button">
-								<f:ajax execute="@form" render="products-list"></f:ajax>
-							</h:commandButton>
-						</h:form>
-						<!--  -->
-					</div>
+					
+					<ui:include src="filter.xhtml" >
+						<ui:param name="elementForRendering" value="products-list" />
+					</ui:include>
+					
 					<div class="ui basic segment">
 
 						<!-- products list -->
@@ -87,8 +48,7 @@
 
 								<div class="item">
 									<div class="image">
-										<h:graphicImage
-											value="http://icons.indats.com/sewlong/skiing.jpg" />
+										<img src="/images/#{product.imgUrl}" />
 									</div>
 									<div class="content">
 										<a class="header">#{product.name}</a>
@@ -136,8 +96,6 @@
 								</div>
 							</ui:repeat>
 						</h:panelGroup>
-						<!--  -->
-					</div>
 				</div>
 			</div>
 		</div>

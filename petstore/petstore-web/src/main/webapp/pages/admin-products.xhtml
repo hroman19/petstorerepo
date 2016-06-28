@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html
+	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 <h:head>
 	<title>Admin</title>
-	<h:outputStylesheet library="css" name="style.css" />
-	<h:outputScript library="js" name="semantic.min.js" />
-	<h:outputStylesheet library="css" name="semantic.min.css" />
-	<h:outputStylesheet library="css" name="main.css" />
+	<ui:include src="imports.xhtml" />
 </h:head>
 
 <h:body>
@@ -22,55 +20,37 @@
 		<div class="ui hidden divider"></div>
 		<div class="pusher">
 			<div class="ui container">
+				
+				<!-- Product Filter -->
+				<ui:include src="filter.xhtml">
+					<ui:param name="elementForRendering" value="productsPanel" />
+				</ui:include>
+				
 				<div class="ui basic segment">
-					<h1 class="ui header">Available Products</h1>
-					
+				
 					<div class="ui grid">
-  					 	<div class="row">
-    						<div class="five wide column">
-
-							<div class="ui icon top left pointing dropdown button blue">
-								<i class="filter icon"></i> <span class="text">All Dates</span>
-								<div class="menu">
-									<div class="header">Available Days</div>
-									<div class="item">Jan 23 - Saturday</div>
-									<div class="item">Jan 24 - Sunday</div>
-									<div class="item">Jan 25 - Monday</div>
-									<div class="item">Jan 26 - Tuesday</div>
-								</div>
-							</div>
-		
-							<div class="ui icon top left pointing dropdown button blue">
-								<i class="sort content descending icon"></i> <span class="text">Sort
-									Activities</span>
-								<div class="menu">
-									<div class="header">Sort By</div>
-									<div class="item">Date</div>
-									<div class="item">Categories</div>
-								</div>
-							</div>
-							</div>
-							
-							<div class="right floated three wide column">
-								<p:commandLink value="Add product"
-								styleClass="fluid ui grey button"
-								onclick="$('#newProductModal').modal('show');"
-								update=":productForm" immediate="true"/>
-							</div>
+					<div class="row" style="padding-left:15px; padding-bottom: 50px;">		
+						<div class="six wide column">
+						<h1 class="ui header">Available Products</h1>
+						</div>	
+						<div class="right floated three wide column">
+							<p:commandLink value="Add product"
+							styleClass="fluid ui grey button"
+							onclick="$('#newProductModal').modal('show');"
+							update=":productForm" immediate="true"/>
+						</div>
 					</div>
-			</div>
+					</div>
 
 					<!-- PRODUCTS -->
 
 					<h:panelGroup id="productsPanel" class="ui divided items">
-						<h3 class="ui header">Saturday January 23</h3>
 
 						<ui:repeat value="#{adminController.products}" var="product"
 							varStatus="status">
 							<div class="item">
 								<div class="image">
-									<h:graphicImage
-										value="http://icons.indats.com/sewlong/skiing.jpg" />
+									<img src="/images/#{product.imgUrl}" />
 								</div>
 								<div class="content">
 									<a class="header">#{product.name}</a>
@@ -92,6 +72,7 @@
 											</h:commandButton>
 											<div class="ui label">#{product.type}</div>
 										</h:form>
+										
 									</div>
 								</div>
 							</div>
@@ -104,7 +85,7 @@
 	</div>
 	
 	<!-- New Product Modal -->
-	<div id="newProductModal" class="ui modal">
+	<div id="newProductModal" class="ui modal" style="overflow-y: scroll;">
 			<i class="close icon"></i>
 			<div class="header">New product</div>
 
