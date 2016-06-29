@@ -40,19 +40,13 @@
 				<h:panelGroup rendered="#{(not empty user) and !user.isAdmin}">
 					<div class="item">
 						<h:form rendered="#{!user.isAdmin}">
-							<h:commandLink action="#{navigationController.showPage}"
-								value="Products">
-								<f:param name="pageId" value="index" />
-							</h:commandLink>
+							<h:commandLink action="/index" value="Products"/>
 						</h:form>
 					</div>
 
 					<div class="item">
 						<h:form rendered="#{!user.isAdmin}">
-							<h:commandLink action="#{navigationController.showPage}"
-								value="Bucket">
-								<f:param name="pageId" value="bucket" />
-							</h:commandLink>
+							<h:commandLink action="/bucket" value="Bucket" />
 						</h:form>
 					</div>
 
@@ -61,10 +55,7 @@
 				<h:panelGroup rendered="#{user.isAdmin}">
 					<div class="item">
 						<h:form>
-							<h:commandLink action="#{navigationController.showPage}"
-								value="Admin tools">
-								<f:param name="pageId" value="bucket" />
-							</h:commandLink>
+							<h:commandLink action="/admin" value="Admin tools"/>
 						</h:form>
 					</div>
 				</h:panelGroup>

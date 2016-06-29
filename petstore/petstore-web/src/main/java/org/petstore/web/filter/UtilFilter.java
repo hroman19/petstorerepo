@@ -39,23 +39,22 @@ public class UtilFilter implements Filter {
 			if (reqURI.endsWith(".xhtml")) {
 				((HttpServletResponse) response).sendRedirect("/index");
 			}
-			if (reqURI.indexOf("/index") >= 0 || reqURI.contains("javax.faces.resource")) {
+			if (reqURI.indexOf("/index") >= 0 || reqURI.contains("javax.faces.resource") ||
+					reqURI.endsWith(".css") || reqURI.endsWith(".js")) {
 				chain.doFilter(request, response);
+				return;
 			}
 			if (ses != null && ses.getAttribute("user") != null) {
 				User user = (User) ses.getAttribute("user");
 				if ((reqURI.contains("/admin") && user.getIsAdmin())
 						|| (reqURI.contains("/bucket") && !user.getIsAdmin())) {
 					chain.doFilter(request, response);
-					return;
+					return;	
 				}
-
 			}
 			resp.sendRedirect(reqt.getContextPath() + "/index");
-		} catch (
-
-		Exception e) {
-			System.out.println(e.getMessage());
+		} catch (Exception e) {
+			// unnecessary			
 		}
 	}
 
