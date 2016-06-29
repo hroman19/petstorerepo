@@ -63,7 +63,7 @@ public class UserController {
 			return dbUser.getIsAdmin() ? "admin" : "index";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-					"Incorrect Username and Passowrd", "Please enter correct username and Password"));
+					"Incorrect Username and Passowrd", "Please enter correct email and password"));
 			return "index";
 		}
 	}
