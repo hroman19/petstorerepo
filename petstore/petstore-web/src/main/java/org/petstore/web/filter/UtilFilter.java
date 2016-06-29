@@ -8,11 +8,9 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.ws.WebFault;
 
 import org.petstore.common.model.User;
 
@@ -35,12 +33,14 @@ public class UtilFilter implements Filter {
 
 			reqt.setCharacterEncoding("UTF-8");
 			String reqURI = reqt.getRequestURI().substring(reqt.getContextPath().length());
-			
+
 			if (reqURI.endsWith(".xhtml")) {
 				((HttpServletResponse) response).sendRedirect("/index");
 			}
-			if (reqURI.indexOf("/index") >= 0 || reqURI.contains("javax.faces.resource") ||
-					reqURI.endsWith(".css") || reqURI.endsWith(".js")) {
+			if (reqURI.indexOf("/index") >= 0 || reqURI.contains("javax.faces.resource") 
+					|| reqURI.endsWith(".css") || reqURI.endsWith(".js") 
+					|| reqURI.endsWith(".jpg") || reqURI.endsWith(".jpeg")
+					|| reqURI.endsWith(".bmp")) {
 				chain.doFilter(request, response);
 				return;
 			}
@@ -49,12 +49,12 @@ public class UtilFilter implements Filter {
 				if ((reqURI.contains("/admin") && user.getIsAdmin())
 						|| (reqURI.contains("/bucket") && !user.getIsAdmin())) {
 					chain.doFilter(request, response);
-					return;	
+					return;
 				}
 			}
 			resp.sendRedirect(reqt.getContextPath() + "/index");
 		} catch (Exception e) {
-			// unnecessary			
+			// unnecessary
 		}
 	}
 
