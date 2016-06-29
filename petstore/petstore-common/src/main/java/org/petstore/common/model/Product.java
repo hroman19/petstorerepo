@@ -95,7 +95,7 @@ public class Product implements Serializable {
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", type=" + type + ", description=" + description + ", price="
-				+ price + ", isDeleted=" + isDeleted + "]";
+				+ price + ", isDeleted=" + isDeleted + "img=" + imgUrl + "]";
 	}
 
 	public String getImgUrl() {

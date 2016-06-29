@@ -79,12 +79,16 @@ public class AdminController implements Serializable {
 	}
 	
 	public void editProduct(){
+		
+		System.out.println("EDIT file size: "+file.getSize());
 
 		if (file.getSize() != 0) {
 
 			createFolder(FOLDER_NAME);
 			try {
 				String fileName = saveImage();
+				
+				System.out.println("EDIT filename: "+fileName);
 
 				// update product
 				productForEdit.setImgUrl(fileName);
@@ -92,6 +96,8 @@ public class AdminController implements Serializable {
 				e.printStackTrace();
 			}
 		}
+		
+		System.out.println("EDIT product: "+productForEdit);
 		
 		productService.update(productForEdit);
 
@@ -172,7 +178,7 @@ public class AdminController implements Serializable {
 
 	private String saveImage() throws IOException {
 		String extension = FilenameUtils.getExtension(file.getFileName());
-		String fileName = product.getId() + "." + extension;
+		String fileName = productForEdit.getId() + "." + extension;
 
 		InputStream input = file.getInputstream();
 		OutputStream output = new FileOutputStream(new File(FOLDER_NAME, fileName));
