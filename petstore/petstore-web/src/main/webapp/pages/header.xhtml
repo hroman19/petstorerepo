@@ -40,13 +40,13 @@
 				<h:panelGroup rendered="#{(not empty user) and !user.isAdmin}">
 					<div class="item">
 						<h:form rendered="#{!user.isAdmin}">
-							<h:commandLink action="/index" value="Products"/>
+							<h:commandLink action="index" value="Products"/>
 						</h:form>
 					</div>
 
 					<div class="item">
 						<h:form rendered="#{!user.isAdmin}">
-							<h:commandLink action="/bucket" value="Bucket" />
+							<h:commandLink action="bucket" value="Bucket" />
 						</h:form>
 					</div>
 
@@ -55,7 +55,7 @@
 				<h:panelGroup rendered="#{user.isAdmin}">
 					<div class="item">
 						<h:form>
-							<h:commandLink action="/admin" value="Admin tools"/>
+							<h:commandLink action="admin" value="Admin tools"/>
 						</h:form>
 					</div>
 				</h:panelGroup>
