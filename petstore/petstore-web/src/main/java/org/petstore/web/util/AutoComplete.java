@@ -1,14 +1,15 @@
 package org.petstore.web.util;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 @ManagedBean
-@SessionScoped
-public class AutoComplete {
+@ViewScoped
+public class AutoComplete implements Serializable {
 	@ManagedProperty("#{categoryDataSource}")
 	private CategoryDataSource ds;
 

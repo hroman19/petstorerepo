@@ -1,4 +1,4 @@
-package com.petstore.web.primefaces;
+package org.petstore.web.primefaces;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;

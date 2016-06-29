@@ -12,37 +12,33 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="product_ps")
-@NamedQueries({ 
-	@NamedQuery(name = "Product.getProductWithMinPrice", query = "SELECT MIN(p.price) FROM Product p"),
-	@NamedQuery(name = "Product.getProductWithMaxPrice", query = "SELECT MAX(p.price) FROM Product p")
-})
+@Table(name = "product_ps")
+@NamedQueries({ @NamedQuery(name = "Product.getProductWithMinPrice", query = "SELECT MIN(p.price) FROM Product p"),
+		@NamedQuery(name = "Product.getProductWithMaxPrice", query = "SELECT MAX(p.price) FROM Product p"),
+		@NamedQuery(name = "Product.getProductTypes", query = "SELECT distinct(p.type) FROM Product p") })
 public class Product implements Serializable {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	
-	@Column(name="name")
+
+	@Column(name = "name")
 	private String name;
-	
-	@Column(name="type")
+
+	@Column(name = "type")
 	private String type;
-	
-	@Column(name="description")
+
+	@Column(name = "description")
 	private String description;
-	
-	@Column(name="price")
+
+	@Column(name = "price")
 	private Double price;
-	
-	@Column(name="is_deleted")
+
+	@Column(name = "is_deleted")
 	private Boolean isDeleted;
 
-	@Column(name="img_url")
+	@Column(name = "img_url")
 	private String imgUrl;
-	
-	
-	
 
 	public Product() {
 		super();

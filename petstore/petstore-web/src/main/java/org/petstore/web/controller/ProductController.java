@@ -1,13 +1,14 @@
 package org.petstore.web.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 
 import org.petstore.common.model.Order;
 import org.petstore.common.model.OrderStatus;
@@ -16,24 +17,30 @@ import org.petstore.ejb.service.OrderService;
 import org.petstore.ejb.service.ProductService;
 
 @ManagedBean(name = "productController")
-@SessionScoped
+@ViewScoped
 public class ProductController implements Serializable {
-
+	@ManagedProperty("#{productFilter}")
+	private ProductFilter filter;
 	@EJB
 	private ProductService productService;
 	@EJB
 	private OrderService orderService;
 
-	public List<Product> getProducts(int priceFirst, int priceSecond) {
-		List<Product> products = productService.getAll();
-		List<Product> filteredProducts=new ArrayList<>();
-		for (int i = 0; i < products.size(); i++) {
-			if (products.get(i).getPrice() >= priceFirst && products.get(i).getPrice() <= priceSecond) {
-				filteredProducts.add(products.get(i));
-			}
-		}
+	private List<Product> products;
+	private List<String> productTypes;
 
-		return filteredProducts;
+	@PostConstruct
+	public void initFilter() {
+		products = productService.getAll();
+		productTypes = productService.getProductTypes();
+	}
+
+	public List<String> getProductTypes() {
+		return productTypes;
+	}
+
+	public List<Product> getProducts() {
+		return filter.filter(products);
 	}
 
 	public void deleteProduct(Product product) {
@@ -50,8 +57,6 @@ public class ProductController implements Serializable {
 		return orderService.getAllOrdersByUserIdAndProductId(userID, productID);
 	}
 
-
-	// Vitalii should fix
 	public Order addToBucket(Integer userID, Integer productID) {
 		Order order = new Order();
 		Product product = new Product();
@@ -64,4 +69,11 @@ public class ProductController implements Serializable {
 		return order;
 	}
 
+	public ProductFilter getFilter() {
+		return filter;
+	}
+
+	public void setFilter(ProductFilter filter) {
+		this.filter = filter;
+	}
 }

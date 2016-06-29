@@ -1,0 +1,63 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+						<!-- products filter -->
+			<div class="ui segment">
+						<h:form styleClass="ui form" id="productFilterForm">
+							
+							<div class="ui grid">
+  									<div class="row" style="padding-left:15px">
+  									<div class="four wide column">
+  
+								<!-- price filter -->
+								<div class="field">
+									<p:growl id="growl" showDetail="true" />
+									<h:outputText id="displayRange"
+										value="#{productFilter.minPrice} ₴ UAH to #{productFilter.maxPrice} ₴ UAH"
+										 />
+									<p:slider for="txtMin,txtMax" display="displayRange"
+										minValue="#{productFilter.defaultMinPrice}"
+										maxValue="#{productFilter.defaultMaxPrice}"
+										range="true" displayTemplate="{min} ₴ UAH to {max} ₴ UAH" />
+									<h:inputHidden id="txtMin"
+										value="#{productFilter.minPrice}" />
+									<h:inputHidden id="txtMax"
+										value="#{productFilter.maxPrice}" />
+								</div>
+								</div>
+								<div class="four wide column">
+								<!-- type filter -->
+								<div class="field">
+									<h:selectOneMenu value="#{productFilter.type}"
+										styleClass="ui selection dropdown">
+										<f:selectItem itemLabel="all" itemValue="none" />
+										<f:selectItems value="#{productController.productTypes}" />
+									</h:selectOneMenu>
+								</div>
+								</div>
+								
+								<div class="four wide column">
+								<!-- search -->
+								<div class="field">
+									<div class="ui icon input">
+										<h:inputText value="#{productFilter.search}"
+											pt:placeholder="Search by name ..." />
+									</div>
+								</div>
+								</div>
+							
+								<div class="right floated two wide column">
+								<h:commandButton value="Filter" styleClass="fluid ui blue button">
+									<f:ajax execute="@form" render="#{elementForRendering}"></f:ajax>
+								</h:commandButton>
+								</div>
+							</div>
+							</div>
+						</h:form>
+						<!--  -->
+					</div>
+		</ui:composition>

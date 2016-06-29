@@ -11,6 +11,7 @@
 	<h:outputScript library="js" name="semantic.min.js" />
 	<h:outputStylesheet library="css" name="semantic.min.css" />
 	<h:outputStylesheet library="css" name="main.css" />
+	<h:outputScript library="js" name="jsf-ajax-fix.js" />
 </h:head>
 
 <h:body>
@@ -39,87 +40,101 @@
 							</h:panelGrid>
 
 							<p:separator />
-							<h:commandButton value="Submit" update="msgs" type="submit"
-								class="ui download primary button" icon="ui-icon-check" />
+
+							<h:commandButton value="Submit"
+								styleClass="ui download primary button" icon="ui-icon-check">
+								<f:ajax execute="@form" render="orders"></f:ajax>
+							</h:commandButton>
 						</p:panel>
 					</h:form>
 
-					<h1 class="ui header">Your Orders</h1>
 
 					<!-- ORDERS -->
 
-					<div id="orders" class="ui divided items">
-						<ui:repeat value="#{bucketController.getOrdersByStatus(user.id)}"
-							var="order">
+					<div>
+						<h:panelGroup id="orders" class="ui divided items">
+							<h:panelGroup
+								rendered="#{not empty bucketController.getOrdersByStatus(user.id)}">
+							<h1 class="ui header">Your Orders</h1>
+							</h:panelGroup>
+							<h:panelGroup
+								rendered="#{empty bucketController.getOrdersByStatus(user.id)}">
+							<h1 class="ui header" style="color:red;">You dont have any orders!</h1>
+							</h:panelGroup>
+							<ui:repeat value="#{bucketController.getOrdersByStatus(user.id)}"
+								var="order">
 
-							<div class="ui item	segment ">
-								<div class="image">
-									<h:graphicImage
-										value="http://icons.indats.com/sewlong/skiing.jpg" />
-								</div>
-								<div class="content">
-									<a class="header">#{order.product.name}</a>
-									<div class="meta">
-										<b>Price:</b> #{order.product.price} ₴ UAH
+								<div class="ui item	segment ">
+									<div class="image">
+										<img src="/images/#{order.product.imgUrl}" />
 									</div>
+									<div class="content">
+										<a class="header">#{order.product.name}</a>
+										<div class="meta">
+											<b>Price:</b> #{order.product.price} ₴ UAH
+										</div>
 
-									<div class="meta">
-										<b>Added date:</b> #{order.timeOfPurchase}
+										<div class="meta">
+											<b>Added date:</b> #{order.timeOfPurchase}
+										</div>
+
+										<div class="description">
+											<p>#{order.product.description}</p>
+										</div>
+
+										<div class="extra">
+											<!-- If order has status PENDING -->
+											<h:panelGroup rendered="#{order.status eq 'PENDING'}">
+												<h:form>
+
+													<h:commandButton
+														action="#{bucketController.removeOrder(order)}"
+														class="ui right floated negative button remove-button"
+														value="Remove">
+														<f:ajax execute="@form" render="orders"></f:ajax>
+													</h:commandButton>
+												</h:form>
+												<h:form>
+													<h:commandButton
+														action="#{bucketController.buyOrder(order)}"
+														class="ui right floated positive button add-button"
+														value="Buy">
+														<f:ajax execute="@form" render="orders"></f:ajax>
+													</h:commandButton>
+												</h:form>
+											</h:panelGroup>
+
+											<!-- If order has status BOUGHT OR DELETED_BY_ADMIN -->
+											<h:panelGroup rendered="#{order.status != 'PENDING'}">
+												<h:form>
+													<h:commandButton
+														action="#{bucketController.removeOrder(order)}"
+														type="submit"
+														class="ui right floated negative button remove-button"
+														value="Remove">
+														<f:ajax execute="@form" render="orders"></f:ajax>
+													</h:commandButton>
+												</h:form>
+											</h:panelGroup>
+
+											<div class="ui teal tag label">#{order.product.type}</div>
+										</div>
 									</div>
-
-									<div class="description">
-										<p>#{order.product.description}</p>
-									</div>
-
-									<div class="extra">
-										<!-- If order has status PENDING -->
-										<h:panelGroup rendered="#{order.status eq 'PENDING'}">
-											<h:form>
-												<h:commandButton
-													action="#{bucketController.removeOrder(order)}"
-													type="submit"
-													class="ui right floated negative button remove-button"
-													value="Remove">
-												</h:commandButton>
-											</h:form>
-											<h:form>
-												<h:commandButton
-													action="#{bucketController.buyOrder(order)}" type="submit"
-													class="ui right floated positive button add-button"
-													value="Buy">
-												</h:commandButton>
-											</h:form>
+									<div>
+										<h:panelGroup rendered="#{order.status == 'PENDING'}">
+											<span class="ui yellow right ribbon label">#{order.status}</span>
 										</h:panelGroup>
-
-										<!-- If order has status BOUGHT OR DELETED_BY_ADMIN -->
-										<h:panelGroup rendered="#{order.status != 'PENDING'}">
-											<h:form>
-												<h:commandButton
-													action="#{bucketController.removeOrder(order)}"
-													type="submit"
-													class="ui right floated negative button remove-button"
-													value="Remove">
-												</h:commandButton>
-											</h:form>
+										<h:panelGroup rendered="#{order.status == 'BOUGHT'}">
+											<span class="ui green right ribbon label">#{order.status}</span>
 										</h:panelGroup>
-
-										<div class="ui teal tag label">#{order.product.type}</div>
+										<h:panelGroup rendered="#{order.status == 'REMOVED_BY_ADMIN'}">
+											<span class="ui red right ribbon label">DELETED</span>
+										</h:panelGroup>
 									</div>
 								</div>
-								<div>
-									<h:panelGroup rendered="#{order.status == 'PENDING'}">
-										<span class="ui yellow right ribbon label">#{order.status}</span>
-									</h:panelGroup>
-									<h:panelGroup rendered="#{order.status == 'BOUGHT'}">
-										<span class="ui green right ribbon label">#{order.status}</span>
-									</h:panelGroup>
-									<h:panelGroup rendered="#{order.status == 'REMOVED_BY_ADMIN'}">
-										<span class="ui red right ribbon label">DELETED</span>
-									</h:panelGroup>
-								</div>
-							</div>
 
-						</ui:repeat>
+							</ui:repeat>
+						</h:panelGroup>
 					</div>
 
 				</div>

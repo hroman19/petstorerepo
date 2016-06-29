@@ -21,12 +21,7 @@ public class CategoryConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		for (String s : ds.getCategories()) {
-			if (s.equals(value)) {
-				return s;
-			}
-		}
-		return null;
+		return value;
 	}
 
 	@Override

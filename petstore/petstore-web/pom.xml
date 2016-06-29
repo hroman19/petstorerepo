@@ -22,6 +22,7 @@
 
 	<dependencies>
 
+
 		<dependency>
 			<groupId>com.petstore</groupId>
 			<artifactId>petstore-common</artifactId>
@@ -34,13 +35,13 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
-		<!-- Servlet -->
+		<!-- Servlet-api -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
-			<scope>provided</scope>
+			<version>3.1.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
@@ -131,6 +132,12 @@
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
 			<version>6.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>11.0.2</version>
 		</dependency>
 
 	</dependencies>

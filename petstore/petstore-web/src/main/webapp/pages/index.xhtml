@@ -8,11 +8,7 @@
 
 <h:head>
 	<title>Petstore</title>
-	<h:outputStylesheet library="css" name="style.css" />
-
-	<h:outputScript library="js" name="semantic.min.js" />
-	<h:outputStylesheet library="css" name="semantic.min.css" />
-	<h:outputStylesheet library="css" name="main.css" />
+	<ui:include src="imports.xhtml" />
 </h:head>
 
 <style>
@@ -37,93 +33,69 @@
 		<div class="ui hidden divider"></div>
 		<div class="pusher">
 
-			
-<!-- 					SLIDER -->
-			<h:form>
-				<p:growl id="growl" showDetail="true" />
-				<h:outputText id="displayRange"
-					value="#{sliderView.minNumber} ₴ UAH to #{sliderView.maxNumber} ₴ UAH" styleClass="ui  circular blue label"/>
-				<p:slider for="txtMin,txtMax" display="displayRange"
-					style="width:400px; "
-					maxValue="#{sliderView.sliderDefaultMaxNumber}"
-					minValue="#{sliderView.sliderDefaultMinNumber}" range="true"
-					displayTemplate="{min} ₴ UAH to {max} ₴ UAH" />
-				 <h:inputHidden id="txtMin" value="#{sliderView.minNumber}" />
-   				 <h:inputHidden id="txtMax" value="#{sliderView.maxNumber}" />
-   				 
-   				 
-				<h:commandButton value="Submit" styleClass="ui black button"
-					action="#{sliderView.setSliderValues(sliderView.minNumber,sliderView.maxNumber)}" />
-			</h:form>
-			<!-- 	**************************************************				 -->
-
-
-
-
-
 			<div class="ui container">
-				<div class="ui basic segment">
+					
+					<ui:include src="filter.xhtml" >
+						<ui:param name="elementForRendering" value="products-list" />
+					</ui:include>
+					
+					<div class="ui basic segment">
 
+						<!-- products list -->
+						<h:panelGroup id="products-list" styleClass="ui divided items">
+							<ui:repeat value="#{productController.getProducts()}"
+								var="product">
 
-					<!-- PRODUCTS -->
+								<div class="item">
+									<div class="image">
+										<img src="/images/#{product.imgUrl}" />
+									</div>
+									<div class="content">
+										<a class="header">#{product.name}</a>
+										<div class="meta">
+											<b>Price:</b> #{product.price} ₴ UAH
+										</div>
 
-					<div class="ui divided items">
+										<div class="description">
+											<p>#{product.description}</p>
+										</div>
 
-						<ui:repeat
-							value="#{productController.getProducts(sliderView.minNumber,sliderView.maxNumber)}"
-							var="product">
-							
-							
-							<div class="item">
-								<div class="image">
-									<h:graphicImage
-										value="http://icons.indats.com/sewlong/skiing.jpg" />
+										<div class="extra">
+
+											<!-- If user is signed in -->
+											<h:panelGroup rendered="#{not empty user}">
+
+												<!-- If product is added to bucket -->
+												<h:panelGroup
+													rendered="#{not empty productController.getAllOrdersByUserIdAndProductId(user.id, product.id)}">
+													<a class="ui blue tag label right floated">Added</a>
+												</h:panelGroup>
+
+												<!-- If product is not added to bucket -->
+												<h:panelGroup
+													rendered="#{empty productController.getAllOrdersByUserIdAndProductId(user.id, product.id)}">
+													<h:form id="product-add-to-bucket-form">
+														<h:commandLink
+															styleClass="ui right floated positive button add-button"
+															action="#{productController.addToBucket(user.id, product.id)}">
+													Add to Bucket <h:outputText value="&#160;" />
+															<h:outputText value="&#160;" />
+															<i class="bitbucket icon" />
+															<f:ajax
+																render="@form :products-list :product-add-to-bucket-form" />
+														</h:commandLink>
+													</h:form>
+												</h:panelGroup>
+
+											</h:panelGroup>
+
+											<div class="ui teal tag label">#{product.type}</div>
+
+										</div>
+									</div>
 								</div>
-								<div class="content">
-									<a class="header">#{product.name}</a>
-									<div class="meta">
-										<b>Price:</b> #{product.price} ₴ UAH
-									</div>
-
-									<div class="description">
-										<p>#{product.description}</p>
-									</div>
-
-									<div class="extra">
-
-										<!-- If product is added to bucket -->
-										<h:panelGroup
-											rendered="#{not empty productController.getAllOrdersByUserIdAndProductId(2,product.id)}">
-											<a class="ui blue tag label right floated">Added</a>
-										</h:panelGroup>
-
-
-
-										<!-- If product is NOT added to bucket -->
-										<h:panelGroup
-											rendered="#{empty productController.getAllOrdersByUserIdAndProductId(2,product.id)}">
-											<h:form>
-												<h:commandLink
-													class="ui right floated positive button add-button"
-													action="#{productController.addToBucket(2,product.id)}">
-													Add to Bucket  <h:outputText value="&#160;" />
-													<h:outputText value="&#160;" />
-													<i class="bitbucket icon" />
-												</h:commandLink>
-											</h:form>
-
-
-										</h:panelGroup>
-
-										<div class="ui teal tag label">#{product.type}</div>
-									</div>
-								</div>
-							</div>
-							
-							
-							
-						</ui:repeat>
-					</div>
+							</ui:repeat>
+						</h:panelGroup>
 				</div>
 			</div>
 		</div>
