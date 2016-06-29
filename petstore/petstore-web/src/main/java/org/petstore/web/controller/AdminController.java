@@ -24,7 +24,7 @@ import org.primefaces.model.UploadedFile;
 @ManagedBean
 @ViewScoped
 public class AdminController implements Serializable {
-	private static final String FOLDER_NAME = "D:\\petstore\\images";
+	private static final String FOLDER_NAME = "\\\\EPUALVIW1475\\resources\\images";
 	
 	@ManagedProperty("#{productFilter}")
 	private ProductFilter filter;
