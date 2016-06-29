@@ -63,7 +63,7 @@
 										<div class="extra">
 
 											<!-- If user is signed in -->
-											<h:panelGroup rendered="#{not empty user}">
+											<h:panelGroup rendered="#{(not empty user) and (not user.isAdmin)}">
 
 												<!-- If product is added to bucket -->
 												<h:panelGroup
