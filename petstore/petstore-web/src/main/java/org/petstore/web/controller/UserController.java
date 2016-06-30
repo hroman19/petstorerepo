@@ -36,6 +36,7 @@ public class UserController {
 	public void signUp() {
 		user.setIsAdmin(false);
 		user.setIsDeleted(false);
+		user.setEmail(user.getEmail().toLowerCase());
 		user.setPassword(SecurityUtil.hashPassword(user.getPassword()));
 		userService.add(user);
 		user = new User();
@@ -46,7 +47,7 @@ public class UserController {
 
 	public String signIn() {
 		boolean valid;
-		User dbUser = userService.getByEmail(user.getEmail());
+		User dbUser = userService.getByEmail(user.getEmail().toLowerCase());
 		if (dbUser == null) {
 			valid = false;
 		} else {

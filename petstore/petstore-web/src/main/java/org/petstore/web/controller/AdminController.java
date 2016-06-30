@@ -44,6 +44,10 @@ public class AdminController implements Serializable {
 		products = productService.getAll();
 	}
 
+	public void createAdmin(){
+		
+	}
+	
 	public void addProduct() {
 		product.setIsDeleted(false);
 		if (file.getSize() == 0)

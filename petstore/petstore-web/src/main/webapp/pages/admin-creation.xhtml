@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<h:head>
+	<title>Admin-Creation</title>
+	<ui:include src="imports.xhtml" />
+
+	<style>
+
+table tfoot {
+	display: table-header-group;
+}
+
+table thead {
+	display: table-row-group;
+}
+
+#backToAdminButton {
+	margin: 20px;
+	max-width: 200px;
+}
+
+#footerOnAdmin {
+	margin-top: 100px;
+
+}
+
+#example{min-height: 600px !important;}
+
+</style>
+
+</h:head>
+
+<h:body>
+	<!--  header  -->
+	<ui:include src="header.xhtml" />
+	<!--  end of header  -->
+
+	<div id="backToAdminButton">
+		<a class="fluid ui grey button" href="/petstore/admin"><i
+			class="home icon"></i>HOME</a>
+	</div>
+
+	<!-- DATATABLE -->
+	<table id="example" class="display "  cellspacing="0" width="100%">
+	
+		<thead>
+			<tr>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>E-mail address</th>
+				<th>Is-Admin</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>E-mail address</th>
+				<th></th>
+			</tr>
+		</tfoot>
+
+		
+		<tbody>
+			<ui:repeat value="#{createAdminController.filteredUser}" var="user">
+				<tr>
+					<td>#{user.firstName}</td>
+					<td>#{user.lastName}</td>
+					<td>#{user.email}</td>
+
+					<td><h:form>
+							<p:growl id="msg" />
+							<h:panelGrid columns="2" style="margin-bottom:10px"
+								cellpadding="5">
+								<p:selectBooleanCheckbox value="#{user.isAdmin}">
+									<p:ajax update="msg"
+										listener="#{createAdminController.createDeleteAdmin(user)}" />
+								</p:selectBooleanCheckbox>
+							</h:panelGrid>
+						</h:form></td>
+				</tr>
+			</ui:repeat>
+		</tbody>
+	</table>
+
+
+
+	<div id="footerOnAdmin">
+		<!--  footer  -->
+		<ui:include src="footer.xhtml" />
+		<!--  end of footer  -->
+	</div>
+	<script>
+		//DataTable
+
+		$(document)
+				.ready(
+						function() {
+
+							// Setup - add a text input to each footer cell
+							$('#example tfoot th')
+									.each(
+											function() {
+												var title = $(this).text();
+												
+												if(title!=""){
+												
+												$(this)
+														.html(
+																
+														'<div class="ui icon input"><input style="width: 400px;" type="text" placeholder="Search '+title+'"/><i class="search icon"></i></div>'		
+														
+														);}
+											});
+
+							var table = $('#example').DataTable({
+								"scrollY" : "600px",
+								"scrollCollapse" : true,
+								"paging" : false,
+								"aoColumnDefs" : [ {
+									'bSortable' : false,
+									'aTargets' : [ 3 ]
+								}, {
+									className : "dt-body-center",
+									"targets" : [ 3 ]
+								} ],
+								"info" : false,
+							});
+							
+							//set constant height of datatable
+							$('.dataTables_scrollBody').css('height', '700px');
+							
+							$("example_filter").addClass("ui icon input");
+							
+							// Apply the search
+							table
+									.columns()
+									.every(
+											function() {
+												var that = this;
+
+												$('input', this.footer())
+														.on(
+																'keyup change',
+																function() {
+																	if (that
+																			.search() !== this.value) {
+																		that
+																				.search(
+																						this.value)
+																				.draw();
+																	}
+																});
+											});
+							
+							
+							
+
+						});
+	</script>
+</h:body>
+</html>
