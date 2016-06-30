@@ -60,11 +60,11 @@ public class UserController {
 			user = new User();
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Sign in", "Success"));
-			return dbUser.getIsAdmin() ? "admin" : "index";
+			return dbUser.getIsAdmin() ? "admin?faces-redirect=true" : "index?faces-redirect=true";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
 					"Incorrect Username and Passowrd", "Please enter correct email and password"));
-			return "index";
+			return "index?faces-redirect=true";
 		}
 	}
 
