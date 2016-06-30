@@ -38,7 +38,13 @@ public class OrderDAOImpl extends GenericDAOImpl<Integer, Order> implements Orde
 	public List<Order> getByStatusAndName(String status, String productName, Integer userId) {
 		entityManager.clear();
 		Query query = entityManager.createNamedQuery("Order.getAllOrdersByStatusAndName");
-		query.setParameter("status", "%" + status + "%");
+		if(!status.equals("DELETED")) {
+			query = entityManager.createNamedQuery("Order.getAllOrdersByStatusAndName");
+			query.setParameter("status", "%" + status + "%");
+		}
+		else {
+			query = entityManager.createNamedQuery("Order.getOrdersByStatusDeletedByAdminAndName");
+		}
 		query.setParameter("userId", userId);
 		query.setParameter("productName", "%" + productName + "%");
 		return query.getResultList();

@@ -50,9 +50,10 @@
 								<div class="two wide column">
 									<h:commandButton value="Filter"
 										styleClass="ui download primary button" icon="ui-icon-check">
-										<f:ajax execute="@form" render="orders"></f:ajax>
+										<f:ajax execute="@form" render=":orders :orderCount"></f:ajax>
 									</h:commandButton>
 								</div>
+
 							</div>
 						</div>
 					</h:form>
@@ -66,6 +67,10 @@
 						<h:panelGroup
 							rendered="#{not empty bucketController.getOrders(user.id)}">
 							<h1 class="ui header">Your Orders</h1>
+							<h:panelGroup id="orderCount">
+								<div style="float: right;">
+									Number of orders: #{bucketController.getOrders(user.id).size()}</div>
+							</h:panelGroup>
 						</h:panelGroup>
 						<h:panelGroup
 							rendered="#{empty bucketController.getOrders(user.id)}">
@@ -81,6 +86,10 @@
 								</div>
 								<div class="content">
 									<a class="header">#{order.product.name}</a>
+									<h:panelGroup
+										rendered="#{(order.product.isDeleted) and (order.status != 'BOUGHT')}">
+										<span style="color: red;">deleted</span>
+									</h:panelGroup>
 									<div class="meta">
 										<b>Price:</b> #{order.product.price} ₴ UAH
 									</div>
@@ -105,7 +114,7 @@
 													<f:ajax execute="@form" render="orders"></f:ajax>
 												</h:commandButton>
 											</h:form>
-											<h:form>
+											<h:form rendered="#{!order.product.isDeleted}">
 												<h:commandButton
 													action="#{bucketController.buyOrder(order)}"
 													class="ui right floated positive button add-button"

@@ -47,7 +47,6 @@ public class BucketController implements Serializable {
 		search = search == null ? "" : search;
 		
 		status = (status == null || status.equals("none")) ? "" : status.toUpperCase();
-		status = status.equals("DELETED") ? OrderStatus.REMOVED_BY_ADMIN.toString() : status;
 		
 		return orderService.getByStatusAndName(status, search, userId);
 	}

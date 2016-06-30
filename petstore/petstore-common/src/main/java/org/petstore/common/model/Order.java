@@ -20,7 +20,9 @@ import javax.persistence.Table;
 		@NamedQuery(name = "Order.getAllOrdersByUserId", query = "SELECT o FROM Order o WHERE o.userId = :userId"),
 		@NamedQuery(name = "Order.getAllOrdersByUserIdAndProductId", query = "SELECT o FROM Order o WHERE o.userId = :userID AND o.product.id = :productID"),
 		@NamedQuery(name = "Order.getAllOrdersByStatusAndName", 
-			query = "SELECT o FROM Order o WHERE o.status like :status AND o.userId = :userId AND o.product.name like :productName"), })
+			query = "SELECT o FROM Order o WHERE o.status like :status AND o.userId = :userId AND o.product.name like :productName"),
+		@NamedQuery(name = "Order.getOrdersByStatusDeletedByAdminAndName",
+			query = "SELECT o FROM Order o WHERE o.product.isDeleted = true AND o.status != 'BOUGHT' AND o.userId = :userId AND o.product.name like :productName"), })
 public class Order implements Serializable {
 
 	@Id
