@@ -24,10 +24,12 @@ public class BucketController implements Serializable {
 
 	private String status;
 
+	private String search;
+
 	public void removeOrder(Order order) {
 		orderService.delete(order);
 	}
-	
+
 	public void buyOrder(Order order) {
 		order.setStatus(OrderStatus.BOUGHT.toString());
 		orderService.update(order);
@@ -35,24 +37,18 @@ public class BucketController implements Serializable {
 
 	public List<String> getAllStatuses() {
 		List<String> list = new ArrayList<>();
-		list.add(OrderStatus.BOUGHT.toString());
-		list.add(OrderStatus.PENDING.toString());
-		list.add("DELETED");
+		list.add(OrderStatus.BOUGHT.toString().toLowerCase());
+		list.add(OrderStatus.PENDING.toString().toLowerCase());
+		list.add("deleted");
 		return list;
 	}
 
-	public List<Order> getOrdersByStatus(Integer userId) {
-		List<Order> list;
-		if (status != null) {
-			status = status.equals("DELETED") ? OrderStatus.REMOVED_BY_ADMIN.toString() : status;
-			list = orderService.getByStatus(status, userId);
-			for (Order order : list) {
-				System.out.println(order.getProduct().getName());
-			}
-		} else {
-			list = orderService.getByUserId(userId);
-		}
-		return list;
+	public List<Order> getOrders(Integer userId) {
+		search = search == null ? "" : search;
+		
+		status = (status == null || status.equals("none")) ? "" : status.toUpperCase();
+		
+		return orderService.getByStatusAndName(status, search, userId);
 	}
 
 	public String getStatus() {
@@ -61,6 +57,14 @@ public class BucketController implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
 	}
 
 }

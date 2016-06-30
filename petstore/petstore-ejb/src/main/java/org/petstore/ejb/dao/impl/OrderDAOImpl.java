@@ -20,9 +20,10 @@ public class OrderDAOImpl extends GenericDAOImpl<Integer, Order> implements Orde
 	public List<Order> getByUserId(Integer userId) {
 		entityManager.clear();
 		Query query = entityManager.createNamedQuery("Order.getAllOrdersByUserId");
-		query.setParameter("userId", userId);	
+		query.setParameter("userId", userId);
 		return query.getResultList();
 	}
+
 	@Override
 	public List<Order> getAllOrdersByUserIdAndProductId(Integer userID, Integer productID) {
 		entityManager.clear();
@@ -34,11 +35,18 @@ public class OrderDAOImpl extends GenericDAOImpl<Integer, Order> implements Orde
 	}
 
 	@Override
-	public List<Order> getByStatus(String status, Integer userId) {
+	public List<Order> getByStatusAndName(String status, String productName, Integer userId) {
 		entityManager.clear();
-		Query query = entityManager.createNamedQuery("Order.getAllOrdersByStatus");
-		query.setParameter("status", status);	
-		query.setParameter("userId", userId);	
+		Query query = entityManager.createNamedQuery("Order.getAllOrdersByStatusAndName");
+		if(!status.equals("DELETED")) {
+			query = entityManager.createNamedQuery("Order.getAllOrdersByStatusAndName");
+			query.setParameter("status", "%" + status + "%");
+		}
+		else {
+			query = entityManager.createNamedQuery("Order.getOrdersByStatusDeletedByAdminAndName");
+		}
+		query.setParameter("userId", userId);
+		query.setParameter("productName", "%" + productName + "%");
 		return query.getResultList();
 	}
 

@@ -3,15 +3,12 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 <h:head>
-	<title>Jumbotron</title>
-	<h:outputStylesheet library="css" name="style.css" />
-	<h:outputScript library="js" name="semantic.min.js" />
-	<h:outputStylesheet library="css" name="semantic.min.css" />
-	<h:outputStylesheet library="css" name="main.css" />
-	<h:outputScript library="js" name="jsf-ajax-fix.js" />
+	<title>Bucket</title>
+	<ui:include src="imports.xhtml" />
 </h:head>
 
 <h:body>
@@ -22,122 +19,144 @@
 		<div class="ui hidden divider"></div>
 		<div class="pusher">
 			<div class="ui container">
-				<div class="ui basic segment">
-					<h1 class="ui center header">Bucket</h1>
 
-					<h:form>
-						<p:growl id="msgs" showDetail="true" />
-						<p:panel header="Select a status of order "
-							style="margin-bottom:10px;">
-							<h:panelGrid columns="2" cellpadding="5">
-								<p:outputLabel for="status" value="Status: " />
-								<p:selectOneMenu id="status" value="#{bucketController.status}"
-									style="width:150px">
-									<f:selectItem itemLabel="Select Status" itemValue=""
-										noSelectionOption="true" />
-									<f:selectItems value="#{bucketController.getAllStatuses()}" />
-								</p:selectOneMenu>
-							</h:panelGrid>
-
-							<p:separator />
-
-							<h:commandButton value="Submit"
-								styleClass="ui download primary button" icon="ui-icon-check">
-								<f:ajax execute="@form" render="orders"></f:ajax>
-							</h:commandButton>
-						</p:panel>
-					</h:form>
-
-
-					<!-- ORDERS -->
-
-					<div>
-						<h:panelGroup id="orders" class="ui divided items">
-							<h:panelGroup
-								rendered="#{not empty bucketController.getOrdersByStatus(user.id)}">
-							<h1 class="ui header">Your Orders</h1>
-							</h:panelGroup>
-							<h:panelGroup
-								rendered="#{empty bucketController.getOrdersByStatus(user.id)}">
-							<h1 class="ui header" style="color:red;">You dont have any orders!</h1>
-							</h:panelGroup>
-							<ui:repeat value="#{bucketController.getOrdersByStatus(user.id)}"
-								var="order">
-
-								<div class="ui item	segment ">
-									<div class="image">
-										<img src="/images/#{order.product.imgUrl}" />
-									</div>
-									<div class="content">
-										<a class="header">#{order.product.name}</a>
-										<div class="meta">
-											<b>Price:</b> #{order.product.price} ₴ UAH
-										</div>
-
-										<div class="meta">
-											<b>Added date:</b> #{order.timeOfPurchase}
-										</div>
-
-										<div class="description">
-											<p>#{order.product.description}</p>
-										</div>
-
-										<div class="extra">
-											<!-- If order has status PENDING -->
-											<h:panelGroup rendered="#{order.status eq 'PENDING'}">
-												<h:form>
-
-													<h:commandButton
-														action="#{bucketController.removeOrder(order)}"
-														class="ui right floated negative button remove-button"
-														value="Remove">
-														<f:ajax execute="@form" render="orders"></f:ajax>
-													</h:commandButton>
-												</h:form>
-												<h:form>
-													<h:commandButton
-														action="#{bucketController.buyOrder(order)}"
-														class="ui right floated positive button add-button"
-														value="Buy">
-														<f:ajax execute="@form" render="orders"></f:ajax>
-													</h:commandButton>
-												</h:form>
-											</h:panelGroup>
-
-											<!-- If order has status BOUGHT OR DELETED_BY_ADMIN -->
-											<h:panelGroup rendered="#{order.status != 'PENDING'}">
-												<h:form>
-													<h:commandButton
-														action="#{bucketController.removeOrder(order)}"
-														type="submit"
-														class="ui right floated negative button remove-button"
-														value="Remove">
-														<f:ajax execute="@form" render="orders"></f:ajax>
-													</h:commandButton>
-												</h:form>
-											</h:panelGroup>
-
-											<div class="ui teal tag label">#{order.product.type}</div>
-										</div>
-									</div>
-									<div>
-										<h:panelGroup rendered="#{order.status == 'PENDING'}">
-											<span class="ui yellow right ribbon label">#{order.status}</span>
-										</h:panelGroup>
-										<h:panelGroup rendered="#{order.status == 'BOUGHT'}">
-											<span class="ui green right ribbon label">#{order.status}</span>
-										</h:panelGroup>
-										<h:panelGroup rendered="#{order.status == 'REMOVED_BY_ADMIN'}">
-											<span class="ui red right ribbon label">DELETED</span>
-										</h:panelGroup>
+				<h1 class="ui center header">Bucket</h1>
+				<div class="ui segment">
+					<h:form styleClass="ui form">
+						<div class="ui grid">
+							<div class="row" style="padding-left: 15px">
+								<!-- type filter -->
+								<div class="four wide column">
+									<div class="field">
+										<h:selectOneMenu id="status"
+											styleClass="ui selection dropdown"
+											value="#{bucketController.status}">
+											<f:selectItem itemLabel="All" itemValue="none"
+												noSelectionOption="false" />
+											<f:selectItems value="#{bucketController.getAllStatuses()}" />
+										</h:selectOneMenu>
 									</div>
 								</div>
+								<!-- search filter -->
+								<div class="four wide column">
+									<div class="field">
+										<div class="ui icon input">
+											<h:inputText value="#{bucketController.search}"
+												pt:placeholder="Search by name ..." />
+										</div>
+									</div>
+								</div>
+								<!-- filter submit button -->
+								<div class="two wide column">
+									<h:commandButton value="Filter"
+										styleClass="ui download primary button" icon="ui-icon-check">
+										<f:ajax execute="@form" render=":orders :orderCount"></f:ajax>
+									</h:commandButton>
+								</div>
 
-							</ui:repeat>
-						</h:panelGroup>
-					</div>
-
+							</div>
+						</div>
+					</h:form>
 				</div>
+
+
+				<!-- ORDERS -->
+
+				<div>
+					<h:panelGroup id="orders" class="ui divided items">
+						<h:panelGroup
+							rendered="#{not empty bucketController.getOrders(user.id)}">
+							<h1 class="ui header">Your Orders</h1>
+							<h:panelGroup id="orderCount">
+								<div style="float: right;">
+									Number of orders: #{bucketController.getOrders(user.id).size()}</div>
+							</h:panelGroup>
+						</h:panelGroup>
+						<h:panelGroup
+							rendered="#{empty bucketController.getOrders(user.id)}">
+							<h1 class="ui header" style="color: red;">You dont have any
+								orders!</h1>
+						</h:panelGroup>
+						<ui:repeat value="#{bucketController.getOrders(user.id)}"
+							var="order">
+
+							<div class="ui item	segment ">
+								<div class="image">
+									<img src="/images/#{order.product.imgUrl}" />
+								</div>
+								<div class="content">
+									<a class="header">#{order.product.name}</a>
+									<h:panelGroup
+										rendered="#{(order.product.isDeleted) and (order.status != 'BOUGHT')}">
+										<span style="color: red;">deleted</span>
+									</h:panelGroup>
+									<div class="meta">
+										<b>Price:</b> #{order.product.price} ₴ UAH
+									</div>
+
+									<div class="meta">
+										<b>Added date:</b> #{order.timeOfPurchase}
+									</div>
+
+									<div class="description">
+										<p>#{order.product.description}</p>
+									</div>
+
+									<div class="extra">
+										<!-- If order has status PENDING -->
+										<h:panelGroup rendered="#{order.status eq 'PENDING'}">
+											<h:form>
+
+												<h:commandButton
+													action="#{bucketController.removeOrder(order)}"
+													class="ui right floated negative button remove-button"
+													value="Remove">
+													<f:ajax execute="@form" render="orders"></f:ajax>
+												</h:commandButton>
+											</h:form>
+											<h:form rendered="#{!order.product.isDeleted}">
+												<h:commandButton
+													action="#{bucketController.buyOrder(order)}"
+													class="ui right floated positive button add-button"
+													value="Buy">
+													<f:ajax execute="@form" render="orders"></f:ajax>
+												</h:commandButton>
+											</h:form>
+										</h:panelGroup>
+
+										<!-- If order has status BOUGHT OR DELETED_BY_ADMIN -->
+										<h:panelGroup rendered="#{order.status != 'PENDING'}">
+											<h:form>
+												<h:commandButton
+													action="#{bucketController.removeOrder(order)}"
+													type="submit"
+													class="ui right floated negative button remove-button"
+													value="Remove">
+													<f:ajax execute="@form" render="orders"></f:ajax>
+												</h:commandButton>
+											</h:form>
+										</h:panelGroup>
+
+										<div class="ui teal tag label">#{order.product.type}</div>
+									</div>
+								</div>
+								<div>
+									<h:panelGroup rendered="#{order.status == 'PENDING'}">
+										<span class="ui yellow right ribbon label">#{order.status}</span>
+									</h:panelGroup>
+									<h:panelGroup rendered="#{order.status == 'BOUGHT'}">
+										<span class="ui green right ribbon label">#{order.status}</span>
+									</h:panelGroup>
+									<h:panelGroup rendered="#{order.status == 'REMOVED_BY_ADMIN'}">
+										<span class="ui red right ribbon label">DELETED</span>
+									</h:panelGroup>
+								</div>
+							</div>
+
+						</ui:repeat>
+					</h:panelGroup>
+				</div>
+
 			</div>
 		</div>
 	</div>
@@ -147,6 +166,7 @@
 	<script>
 		$('.ui-selectonemenu-trigger.ui-state-default.ui-corner-right').css(
 				'width', '22px');
+		$('.ui.dropdown').dropdown();
 	</script>
 </h:body>
 
