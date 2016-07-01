@@ -37,8 +37,12 @@ public class User implements Serializable {
 	@Column(name="is_deleted")
 	private Boolean isDeleted;
 	
+
 	@Column(name="is_admin")
 	private Boolean isAdmin;
+	
+	@Column(name="access_level")
+	private Integer accessLevel;
 	
 	public User() {
 		super();
@@ -86,11 +90,21 @@ public class User implements Serializable {
 	public void setIsAdmin(Boolean isAdmin) {
 		this.isAdmin = isAdmin;
 	}
+	public Integer getAccessLevel() {
+		return accessLevel;
+	}
+
+	public void setAccessLevel(Integer accessLevel) {
+		this.accessLevel = accessLevel;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", password=" + password + ", isDeleted=" + isDeleted + ", isAdmin=" + isAdmin + "]";
+				+ ", password=" + password + ", isDeleted=" + isDeleted + ", isAdmin=" + isAdmin + ", accessLevel="
+				+ accessLevel + "]";
 	}
+	
 
 	
 	

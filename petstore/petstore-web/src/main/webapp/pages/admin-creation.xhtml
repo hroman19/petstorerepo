@@ -4,14 +4,14 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <h:head>
 	<title>Admin-Creation</title>
 	<ui:include src="imports.xhtml" />
 
 	<style>
-
 table tfoot {
 	display: table-header-group;
 }
@@ -27,11 +27,11 @@ table thead {
 
 #footerOnAdmin {
 	margin-top: 100px;
-
 }
 
-#example{min-height: 600px !important;}
-
+#example {
+	min-height: 600px !important;
+}
 </style>
 
 </h:head>
@@ -47,8 +47,8 @@ table thead {
 	</div>
 
 	<!-- DATATABLE -->
-	<table id="example" class="display "  cellspacing="0" width="100%">
-	
+	<table id="example" class="display " cellspacing="0" width="100%">
+
 		<thead>
 			<tr>
 				<th>First Name</th>
@@ -66,25 +66,50 @@ table thead {
 			</tr>
 		</tfoot>
 
-		
+
 		<tbody>
-			<ui:repeat value="#{createAdminController.filteredUser}" var="user">
+			<ui:repeat value="#{createAdminController.filteredUser}"
+				var="currentUser1">
+				
+				<h:panelGroup rendered="#{currentUser1.id != user.id}">
+				
+			
 				<tr>
-					<td>#{user.firstName}</td>
-					<td>#{user.lastName}</td>
-					<td>#{user.email}</td>
+					<td>#{currentUser1.firstName}</td>
+					<td>#{currentUser1.lastName}</td>
+					<td>#{currentUser1.email}</td>
 
 					<td><h:form>
 							<p:growl id="msg" />
+							<p:growl id="growl" showDetail="true" sticky="true"
+								globalOnly="true" />
 							<h:panelGrid columns="2" style="margin-bottom:10px"
 								cellpadding="5">
-								<p:selectBooleanCheckbox value="#{user.isAdmin}">
-									<p:ajax update="msg"
-										listener="#{createAdminController.createDeleteAdmin(user)}" />
-								</p:selectBooleanCheckbox>
+
+						
+
+								<ui:fragment
+									rendered="#{currentUser1.accessLevel gt user.accessLevel}">
+									<p:selectBooleanCheckbox value="#{currentUser1.isAdmin}">
+										<p:ajax update="msg"
+											listener="#{createAdminController.createDeleteAdmin(currentUser1,user.id)}" />
+									</p:selectBooleanCheckbox>
+								</ui:fragment>
+
+								<ui:fragment
+									rendered="#{currentUser1.accessLevel le user.accessLevel}">
+									<p:selectBooleanCheckbox value="#{currentUser1.isAdmin}" disabled="true">
+										<p:ajax update="msg"
+											listener="#{createAdminController.createDeleteAdmin(currentUser1,user.id)}" />
+									</p:selectBooleanCheckbox>
+								</ui:fragment>
+
+
+
 							</h:panelGrid>
 						</h:form></td>
 				</tr>
+					</h:panelGroup>
 			</ui:repeat>
 		</tbody>
 	</table>
@@ -108,15 +133,16 @@ table thead {
 									.each(
 											function() {
 												var title = $(this).text();
-												
-												if(title!=""){
-												
-												$(this)
-														.html(
-																
-														'<div class="ui icon input"><input style="width: 400px;" type="text" placeholder="Search '+title+'"/><i class="search icon"></i></div>'		
-														
-														);}
+
+												if (title != "") {
+
+													$(this)
+															.html(
+
+																	'<div class="ui icon input"><input style="width: 400px;" type="text" placeholder="Search '+title+'"/><i class="search icon"></i></div>'
+
+															);
+												}
 											});
 
 							var table = $('#example').DataTable({
@@ -132,12 +158,12 @@ table thead {
 								} ],
 								"info" : false,
 							});
-							
+
 							//set constant height of datatable
 							$('.dataTables_scrollBody').css('height', '700px');
-							
+
 							$("example_filter").addClass("ui icon input");
-							
+
 							// Apply the search
 							table
 									.columns()
@@ -158,9 +184,6 @@ table thead {
 																	}
 																});
 											});
-							
-							
-							
 
 						});
 	</script>
