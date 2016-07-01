@@ -97,8 +97,6 @@ public class AdminController implements Serializable {
 	}
 
 	public void editProduct() {
-		
-		System.out.println("EDIT PRODUCT currentFile: "+currentFile);
 
 		if (currentFile != null) {
 			
@@ -195,8 +193,6 @@ public class AdminController implements Serializable {
 	private String renameCurrentImage(Integer productId) throws IOException {
 		String extension = FilenameUtils.getExtension(currentFile.getName());
 		String fileName = productId + "." + extension;
-		
-		System.out.println("renameCurrentImage fileName: "+fileName);
 		
 		File newFile = new File(FOLDER_NAME + "\\"+fileName);
 		newFile.delete();
