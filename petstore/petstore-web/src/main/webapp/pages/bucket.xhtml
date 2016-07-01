@@ -80,12 +80,9 @@
 						<ui:repeat value="#{bucketController.getOrders(user.id)}"
 							var="order">
 
-								<div class="ui item	segment ">
-									<div class="image">
-										<p:graphicImage value="/images/#{product.imgUrl}" cache="false" />
 							<div class="ui item	segment ">
 								<div class="image">
-									<img src="/images/#{order.product.imgUrl}" />
+									<img src="petstore/images/#{order.product.imgUrl}" />
 								</div>
 								<div class="content">
 									<a class="header">#{order.product.name}</a>
@@ -143,6 +140,18 @@
 										<div class="ui teal tag label">#{order.product.type}</div>
 									</div>
 								</div>
+								<div>
+									<h:panelGroup rendered="#{order.status == 'PENDING'}">
+										<span class="ui yellow right ribbon label">#{order.status}</span>
+									</h:panelGroup>
+									<h:panelGroup rendered="#{order.status == 'BOUGHT'}">
+										<span class="ui green right ribbon label">#{order.status}</span>
+									</h:panelGroup>
+									<h:panelGroup rendered="#{order.status == 'REMOVED_BY_ADMIN'}">
+										<span class="ui red right ribbon label">DELETED</span>
+									</h:panelGroup>
+								</div>
+							</div>
 
 						</ui:repeat>
 					</h:panelGroup>
