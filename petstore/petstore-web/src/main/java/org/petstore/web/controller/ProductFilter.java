@@ -33,8 +33,7 @@ public class ProductFilter implements Serializable {
 	@PostConstruct
 	public void init() {
 		int defaultMinPrice = (int)productService.getProductWithMinPrice();
-		int defaultMaxPrice = (int)productService.getProductWithMaxPrice();
-		
+		int defaultMaxPrice = (int)productService.getProductWithMaxPrice();	
 		this.defaultMinPrice = defaultMinPrice;
 		this.defaultMaxPrice = defaultMaxPrice;
 		minPrice = defaultMinPrice;

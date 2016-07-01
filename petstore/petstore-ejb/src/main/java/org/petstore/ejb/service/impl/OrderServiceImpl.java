@@ -39,8 +39,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Integer, Order> impleme
 	}
 
 	@Override
-	public List<Order> getByStatus(String status, Integer userId) {
-		return orderDAO.getByStatus(status, userId);
+	public List<Order> getByStatusAndName(String status, String productName, Integer userId) {
+		return orderDAO.getByStatusAndName(status, productName, userId);
 	}
 	
 }

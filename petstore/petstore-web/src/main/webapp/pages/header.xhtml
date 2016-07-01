@@ -37,23 +37,20 @@
 					</div>
 				</h:panelGroup>
 
-				<h:panelGroup rendered="#{not empty user}">
+				<h:panelGroup rendered="#{(not empty user) and !user.isAdmin}">
 					<div class="item">
-						<h:form rendered="#{not empty user}">
-							<h:commandLink action="#{navigationController.showPage}"
-								value="Products">
-								<f:param name="pageId" value="index" />
-							</h:commandLink>
-						</h:form>
+						<a href="/petstore/index">Products</a>
 					</div>
 
 					<div class="item">
-						<h:form rendered="#{not empty user}">
-							<h:commandLink action="#{navigationController.showPage}"
-								value="Bucket">
-								<f:param name="pageId" value="bucket" />
-							</h:commandLink>
-						</h:form>
+						<a href="/petstore/bucket">Bucket</a>
+					</div>
+
+				</h:panelGroup>
+
+				<h:panelGroup rendered="#{user.isAdmin}">
+					<div class="item">
+						<a href="/petstore/admin">Admin tools</a>
 					</div>
 				</h:panelGroup>
 

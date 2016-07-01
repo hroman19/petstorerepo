@@ -57,6 +57,10 @@ public class AdminController implements Serializable {
 		fileManager.destroy();
 	}
 
+	public void createAdmin(){
+		
+	}
+	
 	public void addProduct() {
 		product.setIsDeleted(false);
 		if (currentFile == null)

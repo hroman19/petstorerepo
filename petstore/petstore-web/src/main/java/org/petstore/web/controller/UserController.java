@@ -36,6 +36,7 @@ public class UserController {
 	public void signUp() {
 		user.setIsAdmin(false);
 		user.setIsDeleted(false);
+		user.setEmail(user.getEmail().toLowerCase());
 		user.setPassword(SecurityUtil.hashPassword(user.getPassword()));
 		userService.add(user);
 		user = new User();
@@ -46,7 +47,7 @@ public class UserController {
 
 	public String signIn() {
 		boolean valid;
-		User dbUser = userService.getByEmail(user.getEmail());
+		User dbUser = userService.getByEmail(user.getEmail().toLowerCase());
 		if (dbUser == null) {
 			valid = false;
 		} else {
@@ -60,11 +61,11 @@ public class UserController {
 			user = new User();
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Sign in", "Success"));
-			return dbUser.getIsAdmin() ? "admin" : "index";
+			return dbUser.getIsAdmin() ? "admin?faces-redirect=true" : "index?faces-redirect=true";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-					"Incorrect Username and Passowrd", "Please enter correct username and Password"));
-			return "index";
+					"Incorrect Username and Passowrd", "Please enter correct email and password"));
+			return "index?faces-redirect=true";
 		}
 	}
 
