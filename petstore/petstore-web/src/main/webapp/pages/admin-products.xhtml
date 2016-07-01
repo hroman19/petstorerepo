@@ -131,8 +131,7 @@
 
 			<div class="content">
 
-				<h:form id="productForm" styleClass="ui form"
-					enctype="multipart/form-data">
+				<h:form id="productForm" styleClass="ui form" enctype="multipart/form-data">
 					<div class="field">
 						<div class="ui small header">Name</div>
 						<h:inputText id="nameInput"
@@ -159,7 +158,7 @@
 						<h:message for="priceInput" style="color:red" styleClass="ui pointing label" />
 					</div>
 
-					<div class="field">
+					<div class="field" style="padding-left: 15px">
 					
 						<div class="row">
 						<div class="ui small header" style="padding-bottom:5px">Category</div>
@@ -181,7 +180,6 @@
 						<h:message for="categoryInput" style="color:red" styleClass="ui pointing label" />
 						</div>
 					</div>
-
 					<div class="field">
 						<div class="ui small header">Description</div>
 						<p:inputTextarea
@@ -199,9 +197,9 @@
 					<div class="field">
 						<div class="ui small header">Select image</div>
 							<p:fileUpload id="imageInput"
+							fileUploadListener="#{adminController.handleFileUpload}"
 							multiple="false"
 							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
-							value="#{adminController.file}"
 							required="true"
 							sizeLimit="#{5*1024*1024}"
 							fileLimit="1"
@@ -209,8 +207,9 @@
 							invalidSizeMessage="Invalid Size"
 							invalidFileMessage="Invalid File Type"
 							fileLimitMessage="Invalid File Limit"
-							mode="simple"
+							mode="advanced"
 							skinSimple="true"
+							showButtons="true"
 							/>
 							<p:message for="imageInput" style="color:red" />
 						
@@ -219,11 +218,12 @@
 					<div class="ui grid">
 					<div class="row">
     					<div class="right floated column">
-    					
-    					<h:commandButton value="Add"
-							action="#{adminController.addProduct}"
-							styleClass="ui right floated primary button">
-							<f:ajax execute="@form" render="@form :productsPanel :productFilterForm"/>
+    					<h:commandButton
+    							id="okNewProductForm"
+    							value="Add"
+								action="#{adminController.addProduct}"
+								class="ui right floated primary button">
+								<f:ajax execute="@form" render="@form productsPanel productFilterForm" />
 						</h:commandButton>
 						</div>
 					</div>
@@ -270,7 +270,7 @@
 						<h:message for="priceInput" style="color:red" styleClass="ui pointing label" />
 					</div>
 
-					<div class="field">
+					<div class="field" style="padding-left: 15px">
 					
 						<div class="row">
 						<div class="ui small header" style="padding-bottom:5px">Category</div>
@@ -309,21 +309,22 @@
 
 					<div class="field">
 						<div class="ui small header">Select image</div>
-							<p:fileUpload id="imageInput"
+							<p:fileUpload id="imageEditInput"
+							fileUploadListener="#{adminController.handleFileUpload}"
 							multiple="false"
 							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
-							value="#{adminController.file}"
 							required="true"
-							sizeLimit="#{5242880}"
+							sizeLimit="#{5*1024*1024}"
 							fileLimit="1"
 							requiredMessage="Image is required"
 							invalidSizeMessage="Invalid Size"
 							invalidFileMessage="Invalid File Type"
 							fileLimitMessage="Invalid File Limit"
-							mode="simple"
+							mode="advanced"
 							skinSimple="true"
+							showButtons="true"
 							/>
-							<p:message for="imageInput" style="color:red" />
+							<p:message for="imageEditInput" style="color:red" />
 						
 					</div>
 					
