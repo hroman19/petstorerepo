@@ -36,6 +36,14 @@ public class ProductServiceImpl extends GenericServiceImpl<Integer, Product> imp
 	public double getProductWithMaxPrice() {
 		return productDAO.getProductWithMaxPrice();
 	}
+	
+	public double getProductWithMinPriceWithType(String type) {
+		return productDAO.getProductWithMinPriceWithType(type);
+	}
+
+	public double getProductWithMaxPriceWithType(String type) {
+		return productDAO.getProductWithMaxPriceWithType(type);
+	}
 
 	public List<String> getProductTypes() {
 		return productDAO.getProductTypes();

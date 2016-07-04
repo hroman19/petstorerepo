@@ -15,6 +15,8 @@ import javax.persistence.Table;
 @Table(name = "product_ps")
 @NamedQueries({ @NamedQuery(name = "Product.getProductWithMinPrice", query = "SELECT MIN(p.price) FROM Product p"),
 		@NamedQuery(name = "Product.getProductWithMaxPrice", query = "SELECT MAX(p.price) FROM Product p"),
+		@NamedQuery(name = "Product.getProductWithMinPriceWithType", query = "SELECT MIN(p.price) FROM Product p WHERE p.type like :type"),
+		@NamedQuery(name = "Product.getProductWithMaxPriceWithType", query = "SELECT MAX(p.price) FROM Product p WHERE p.type like :type"),
 		@NamedQuery(name = "Product.getProductTypes", query = "SELECT distinct(p.type) FROM Product p") })
 public class Product implements Serializable {
 

@@ -16,12 +16,15 @@ import com.google.common.base.Strings;
 
 @ViewScoped
 @ManagedBean
-public class ProductFilter implements Serializable {
+public class ProductFilterController implements Serializable {
 	@EJB
 	private ProductService productService;
-	
+
 	public int defaultMinPrice;
 	public int defaultMaxPrice;
+
+	public int minPriceLimit;
+	public int maxPriceLimit;
 
 	public int minPrice;
 	public int maxPrice;
@@ -32,15 +35,17 @@ public class ProductFilter implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		int defaultMinPrice = (int)productService.getProductWithMinPrice();
-		int defaultMaxPrice = (int)productService.getProductWithMaxPrice();	
-		this.defaultMinPrice = defaultMinPrice;
-		this.defaultMaxPrice = defaultMaxPrice;
+		defaultMinPrice = (int) productService.getProductWithMinPrice();
+		defaultMaxPrice = (int) productService.getProductWithMaxPrice();
+
+		minPriceLimit = defaultMinPrice;
+		maxPriceLimit = defaultMaxPrice;
+
 		minPrice = defaultMinPrice;
 		maxPrice = defaultMaxPrice;
 	}
-	
-	public List<Product> filter(List<Product> products){
+
+	public List<Product> filter(List<Product> products) {
 		return products.stream().filter(x -> {
 			boolean valid = true;
 			if (!(x.getPrice() >= minPrice && x.getPrice() <= maxPrice)) {
@@ -49,20 +54,36 @@ public class ProductFilter implements Serializable {
 			if (!Strings.isNullOrEmpty(type) && !"none".equals(type) && !x.getType().equals(type)) {
 				valid = false;
 			}
-			if (!Strings.isNullOrEmpty(search)
-					&& !x.getName().toLowerCase().contains(search.trim().toLowerCase())) {
+			if (!Strings.isNullOrEmpty(search) && !x.getName().toLowerCase().contains(search.trim().toLowerCase())) {
 				valid = false;
 			}
 			return valid;
 		}).collect(Collectors.toList());
 	}
-	
-	public void refresh(){
-		int defaultMinPrice = (int)productService.getProductWithMinPrice();
-		int defaultMaxPrice = (int)productService.getProductWithMaxPrice();
-		
-		this.defaultMinPrice = defaultMinPrice;
-		this.defaultMaxPrice = defaultMaxPrice;
+
+	private void restorePriceLimits() {
+		minPriceLimit = defaultMinPrice;
+		maxPriceLimit = defaultMaxPrice;
+	}
+
+	private void setPriceLimitsForType(String type) {
+		minPriceLimit = (int) productService.getProductWithMinPriceWithType(type);
+		maxPriceLimit = (int) productService.getProductWithMaxPriceWithType(type);
+		if(minPrice < minPriceLimit){
+			minPrice = minPriceLimit;
+		}
+		if(maxPrice > maxPriceLimit){
+			maxPrice = maxPriceLimit;
+		}
+	}
+
+	public void refresh() {
+		defaultMinPrice = (int) productService.getProductWithMinPrice();
+		defaultMaxPrice = (int) productService.getProductWithMaxPrice();
+
+		minPriceLimit = defaultMinPrice;
+		maxPriceLimit = defaultMaxPrice;
+
 		minPrice = defaultMinPrice;
 		maxPrice = defaultMaxPrice;
 	}
@@ -81,6 +102,22 @@ public class ProductFilter implements Serializable {
 
 	public void setDefaultMaxPrice(int defaultMaxPrice) {
 		this.defaultMaxPrice = defaultMaxPrice;
+	}
+
+	public int getMinPriceLimit() {
+		return minPriceLimit;
+	}
+
+	public void setMinPriceLimit(int minPriceLimit) {
+		this.minPriceLimit = minPriceLimit;
+	}
+
+	public int getMaxPriceLimit() {
+		return maxPriceLimit;
+	}
+
+	public void setMaxPriceLimit(int maxPriceLimit) {
+		this.maxPriceLimit = maxPriceLimit;
 	}
 
 	public int getMinPrice() {
@@ -105,6 +142,11 @@ public class ProductFilter implements Serializable {
 
 	public void setType(String type) {
 		this.type = type;
+		if(!Strings.isNullOrEmpty(type) && !"none".equals(type)){
+			setPriceLimitsForType(type);
+		}else {
+			restorePriceLimits();
+		}
 	}
 
 	public String getSearch() {

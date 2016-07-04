@@ -19,8 +19,8 @@ import org.petstore.ejb.service.ProductService;
 @ManagedBean(name = "productController")
 @ViewScoped
 public class ProductController implements Serializable {
-	@ManagedProperty("#{productFilter}")
-	private ProductFilter filter;
+	@ManagedProperty("#{productFilterController}")
+	private ProductFilterController filter;
 	@EJB
 	private ProductService productService;
 	@EJB
@@ -69,11 +69,11 @@ public class ProductController implements Serializable {
 		return order;
 	}
 
-	public ProductFilter getFilter() {
+	public ProductFilterController getFilter() {
 		return filter;
 	}
 
-	public void setFilter(ProductFilter filter) {
+	public void setFilter(ProductFilterController filter) {
 		this.filter = filter;
 	}
 }

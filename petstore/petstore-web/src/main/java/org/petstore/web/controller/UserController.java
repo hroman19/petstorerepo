@@ -65,7 +65,7 @@ public class UserController {
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
 					"Incorrect Username and Passowrd", "Please enter correct email and password"));
-			return "index?faces-redirect=true";
+			return "index";
 		}
 	}
 

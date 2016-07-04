@@ -10,28 +10,28 @@
 						<h:form styleClass="ui form" id="productFilterForm">
 							
 							<div class="ui grid">
-  									<div class="row" style="padding-left:15px">
+  								<div class="row" style="padding-left:15px">
   									<div class="four wide column">
   
-								<!-- price filter -->
-								<div class="field">
-									<h:outputText id="displayRange"
-										value="#{productFilter.minPrice} ₴ UAH to #{productFilter.maxPrice} ₴ UAH"
-										 />
-									<p:slider for="txtMin,txtMax" display="displayRange"
-										minValue="#{productFilter.defaultMinPrice}"
-										maxValue="#{productFilter.defaultMaxPrice}"
-										range="true" displayTemplate="{min} ₴ UAH to {max} ₴ UAH" />
-									<h:inputHidden id="txtMin"
-										value="#{productFilter.minPrice}" />
-									<h:inputHidden id="txtMax"
-										value="#{productFilter.maxPrice}" />
-								</div>
-								</div>
+										<!-- price filter -->
+										<div class="field">
+											<h:outputText id="displayRange"
+												value="#{productFilterController.minPrice} ₴ UAH to #{productFilterController.maxPrice} ₴ UAH"
+												 />
+											<p:slider for="txtMin,txtMax" display="displayRange"
+												minValue="#{productFilterController.minPriceLimit}"
+												maxValue="#{productFilterController.maxPriceLimit}"
+												range="true" displayTemplate="{min} ₴ UAH to {max} ₴ UAH" />
+											<h:inputHidden id="txtMin"
+												value="#{productFilterController.minPrice}" />
+											<h:inputHidden id="txtMax"
+												value="#{productFilterController.maxPrice}" />
+										</div>
+									</div>
 								<div class="four wide column">
 								<!-- type filter -->
 								<div class="field">
-									<h:selectOneMenu value="#{productFilter.type}"
+									<h:selectOneMenu value="#{productFilterController.type}"
 										styleClass="ui selection dropdown">
 										<f:selectItem itemLabel="all" itemValue="none" />
 										<f:selectItems value="#{productController.productTypes}" />
@@ -43,15 +43,14 @@
 								<!-- search -->
 								<div class="field">
 									<div class="ui icon input">
-										<h:inputText value="#{productFilter.search}"
+										<h:inputText value="#{productFilterController.search}"
 											pt:placeholder="Search by name ..." />
 									</div>
 								</div>
 								</div>
-							
 								<div class="right floated two wide column">
 								<h:commandButton value="Filter" styleClass="fluid ui blue button">
-									<f:ajax execute="@form" render="#{elementForRendering}"></f:ajax>
+									<f:ajax execute="@form" render="@form #{elementForRendering}"></f:ajax>
 								</h:commandButton>
 								</div>
 							</div>

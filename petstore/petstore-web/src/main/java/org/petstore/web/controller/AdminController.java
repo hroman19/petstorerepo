@@ -31,8 +31,8 @@ import org.primefaces.model.UploadedFile;
 public class AdminController implements Serializable {
 	private static final String FOLDER_NAME = "\\\\EPUALVIW1475\\resources\\images";
 
-	@ManagedProperty("#{productFilter}")
-	private ProductFilter filter;
+	@ManagedProperty("#{productFilterController}")
+	private ProductFilterController filter;
 	
 	private FileManager fileManager;
 
@@ -174,11 +174,11 @@ public class AdminController implements Serializable {
 		this.productForEdit = productForEdit;
 	}
 
-	public ProductFilter getFilter() {
+	public ProductFilterController getFilter() {
 		return filter;
 	}
 
-	public void setFilter(ProductFilter filter) {
+	public void setFilter(ProductFilterController filter) {
 		this.filter = filter;
 	}
 
